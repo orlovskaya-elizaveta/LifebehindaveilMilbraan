@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifebehindaveilMilbraan", "LifebehindaveilMilbraan.csproj", "{26C41F78-B5E2-4A0E-F5F2-C459A4CDCBDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26C41F78-B5E2-4A0E-F5F2-C459A4CDCBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26C41F78-B5E2-4A0E-F5F2-C459A4CDCBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26C41F78-B5E2-4A0E-F5F2-C459A4CDCBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26C41F78-B5E2-4A0E-F5F2-C459A4CDCBDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
