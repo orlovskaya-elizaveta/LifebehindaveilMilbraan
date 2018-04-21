@@ -19,7 +19,30 @@ public class PlayerScript : MonoBehaviour {
     public float currentHealth = 50.0F;     //текущее количество жизней
     public float maxEnergy = 100.0F;        //Максимальное количество ЭНЕРГИИ
     public float currentEnergy = 50.0F;    //текущее количество ЭНЕРГИИ
+    public int currentGold;     //Текущее бабло
+    public int currentWeight;   //Насколько тяжела ноша
+    public int maxWeight;       //А сколько сможешь поднять ты!?
+    //Характеристики
+    //Основные параметры
+    public int strength; // Сила ГГ
+    public int agility; //Ловкость
+    public int endurance; //Выносливость
+    public int intellect; //Интеллект 
+    //Дополнительные параметры
+    public int defense;      //Защита
+    public int magicdefense; //Магическая Защита
+    public int armor;        //Броня
+    public int magicarmor;   //Магическая броня
+    //Сопротивляемость
+    public int resistanceToPoisons; //сопротивляемость к ядам
+    public int resistanceToStunning; // сопротивляемость к оглушению
+    public int resistanceToBleeding; //сопротивляемость к кровотечению 
+    public int resistanceToMagic; //сопротивляемость к магии
 
+    public float attackSpeed; //скорость атаки
+    public float physicalDamage; // физический урон 
+    public float criticalDamage; // критический урон 
+    public float chanceCriticalDamage; //шанс критический урон 
 
     private GGState State //Установка и получение состояния ГГ (анимации)
     {
@@ -39,6 +62,7 @@ public class PlayerScript : MonoBehaviour {
         animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         HPbar.fillAmount = currentHealth / maxHealth;
+        ENERGYbar.fillAmount = currentEnergy / maxEnergy;
     }
     
     void Update () {
