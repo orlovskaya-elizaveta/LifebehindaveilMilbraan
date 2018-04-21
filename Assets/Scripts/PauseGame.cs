@@ -105,7 +105,7 @@ public class PauseGame : MonoBehaviour {
             thisHPBar.enabled = false;
             isTabMenu = true;
         }
-        // Нажимаем на Esc чтобы убрать меню
+        // Нажимаем на TAB чтобы убрать organaizer
         else if (Input.GetKeyDown(KeyCode.Tab) && isTabMenu == true)
         {
             Organaizer.SetActive(false);
