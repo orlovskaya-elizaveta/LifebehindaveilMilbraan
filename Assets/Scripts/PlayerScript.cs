@@ -22,6 +22,7 @@ public class PlayerScript : MonoBehaviour {
     public int currentGold;     //Текущее бабло
     public int currentWeight;   //Насколько тяжела ноша
     public int maxWeight;       //А сколько сможешь поднять ты!?
+    public int Level;
     //Характеристики
     //Основные параметры
     public int strength; // Сила ГГ
@@ -63,7 +64,34 @@ public class PlayerScript : MonoBehaviour {
         sprite = GetComponentInChildren<SpriteRenderer>();
         HPbar.fillAmount = currentHealth / maxHealth;
         ENERGYbar.fillAmount = currentEnergy / maxEnergy;
-    }
+
+        //Обнуление всех параметров, характеристик и тп у ГГ
+         currentGold = 0;     //Текущее бабло
+         currentWeight = 0;   //Насколько тяжела ноша
+         maxWeight = 0;       //А сколько сможешь поднять ты!?
+         Level = 0;
+        //Характеристики
+        //Основные параметры
+         strength = 0; // Сила ГГ
+         agility = 0; //Ловкость
+         endurance = 0; //Выносливость
+         intellect = 0; //Интеллект 
+        //Дополнительные параметры
+         defense = 0;      //Защита
+         magicdefense = 0; //Магическая Защита
+         armor = 0;        //Броня
+         magicarmor = 0;   //Магическая броня
+        //Сопротивляемость
+         resistanceToPoisons = 0; //сопротивляемость к ядам
+         resistanceToStunning = 0; // сопротивляемость к оглушению
+         resistanceToBleeding = 0; //сопротивляемость к кровотечению 
+         resistanceToMagic = 0; //сопротивляемость к магии
+
+        attackSpeed = 0.0f; //скорость атаки
+        physicalDamage = 0.0f; // физический урон 
+        criticalDamage = 0.0f; // критический урон 
+        chanceCriticalDamage = 0.0f; //шанс критический урон 
+}
     
     void Update () {
         //Если нажаты две кнопки - происходит движение по диагонали и отображается анимация ходьбы в сторону.

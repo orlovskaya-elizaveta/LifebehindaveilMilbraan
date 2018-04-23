@@ -35,9 +35,36 @@ public class PauseGame : MonoBehaviour {
         public float x;
         public float y;
         public float z;
-        //жизнь
-        public float CHP;
-        public float MaxHP;
+        //Все основные параметры нашего персонажа
+        public float maxHealth;        //Максимальное количество жизней
+        public float currentHealth;     //текущее количество жизней
+        public float maxEnergy;        //Максимальное количество ЭНЕРГИИ
+        public float currentEnergy;    //текущее количество ЭНЕРГИИ
+        public int currentGold;     //Текущее бабло
+        public int currentWeight;   //Насколько тяжела ноша
+        public int maxWeight;       //А сколько сможешь поднять ты!?
+        public int Level;
+        //Характеристики
+        //Основные параметры
+        public int strength; // Сила ГГ
+        public int agility; //Ловкость
+        public int endurance; //Выносливость
+        public int intellect; //Интеллект 
+                              //Дополнительные параметры
+        public int defense;      //Защита
+        public int magicdefense; //Магическая Защита
+        public int armor;        //Броня
+        public int magicarmor;   //Магическая броня
+                                 //Сопротивляемость
+        public int resistanceToPoisons; //сопротивляемость к ядам
+        public int resistanceToStunning; // сопротивляемость к оглушению
+        public int resistanceToBleeding; //сопротивляемость к кровотечению 
+        public int resistanceToMagic; //сопротивляемость к магии
+
+        public float attackSpeed; //скорость атаки
+        public float physicalDamage; // физический урон 
+        public float criticalDamage; // критический урон 
+        public float chanceCriticalDamage; //шанс критический урон 
     }
 
 	// Use this for initialization
@@ -134,8 +161,36 @@ public class PauseGame : MonoBehaviour {
         positionSave.x = player.transform.position.x;
         positionSave.y = player.transform.position.y;
         positionSave.z = player.transform.position.z;
-        positionSave.CHP = player.currentHealth;
-        positionSave.MaxHP = player.maxHealth;
+        positionSave.currentHealth = player.currentHealth;
+        positionSave.maxHealth = player.maxHealth;
+
+        positionSave.maxEnergy = player.maxEnergy;        //Максимальное количество ЭНЕРГИИ
+        positionSave.currentEnergy = player.currentEnergy;    //текущее количество ЭНЕРГИИ
+        positionSave.currentGold = player.currentGold;     //Текущее бабло
+        positionSave.currentWeight = player.currentWeight;   //Насколько тяжела ноша
+        positionSave.maxWeight = player.maxWeight;       //А сколько сможешь поднять ты!?
+        positionSave.Level = player.Level;
+        //Характеристики
+        //Основные параметры
+        positionSave.strength = player.strength; // Сила ГГ
+        positionSave.agility = player.agility; //Ловкость
+        positionSave.endurance = player.endurance; //Выносливость
+        positionSave.intellect = player.intellect; //Интеллект 
+                                //Дополнительные параметры
+        positionSave.defense = player.defense;      //Защита
+        positionSave.magicdefense = player.magicdefense; //Магическая Защита
+        positionSave.armor = player.armor;        //Броня
+        positionSave.magicarmor = player.magicarmor;   //Магическая броня
+                                           //Сопротивляемость
+        positionSave.resistanceToPoisons = player.resistanceToPoisons; //сопротивляемость к ядам
+        positionSave.resistanceToStunning = player.resistanceToStunning; // сопротивляемость к оглушению
+        positionSave.resistanceToBleeding = player.resistanceToBleeding; //сопротивляемость к кровотечению 
+        positionSave.resistanceToMagic = player.resistanceToMagic; //сопротивляемость к магии
+
+        positionSave.attackSpeed = player.attackSpeed; //скорость атаки
+        positionSave.physicalDamage = player.physicalDamage; // физический урон 
+        positionSave.criticalDamage = player.criticalDamage; // критический урон 
+        positionSave.chanceCriticalDamage = player.chanceCriticalDamage;
 
         //Если папки для сохранения нет, то создаем новую папку
         if (!Directory.Exists(Application.dataPath + "/saves")) Directory.CreateDirectory(Application.dataPath + "/saves");
@@ -160,9 +215,37 @@ public class PauseGame : MonoBehaviour {
             {
                 PlayerSave positionPlayer = (PlayerSave)bformatter.Deserialize(fs);
                 player.transform.position = new Vector3(positionPlayer.x, positionPlayer.y, positionPlayer.z);
-                player.currentHealth = positionPlayer.CHP;
-                player.maxHealth = positionPlayer.MaxHP;
+                player.currentHealth = positionPlayer.currentHealth;
+                player.maxHealth = positionPlayer.maxHealth;
                 player.HPbar.fillAmount = player.currentHealth / player.maxHealth;
+
+                player.maxEnergy = positionPlayer.maxEnergy;        //Максимальное количество ЭНЕРГИИ
+                player.currentEnergy = positionPlayer.currentEnergy;    //текущее количество ЭНЕРГИИ
+                player.currentGold = positionPlayer.currentGold;     //Текущее бабло
+                player.currentWeight = positionPlayer.currentWeight;   //Насколько тяжела ноша
+                player.maxWeight = positionPlayer.maxWeight;       //А сколько сможешь поднять ты!?
+                player.Level = positionPlayer.Level;
+                //Характеристики
+                //Основные параметры
+                player.strength = positionPlayer.strength; // Сила ГГ
+                player.agility = positionPlayer.agility; //Ловкость
+                player.endurance = positionPlayer.endurance; //Выносливость
+                player.intellect = positionPlayer.intellect; //Интеллект 
+                                                           //Дополнительные параметры
+                player.defense = positionPlayer.defense;      //Защита
+                player.magicdefense = positionPlayer.magicdefense; //Магическая Защита
+                player.armor = positionPlayer.armor;        //Броня
+                player.magicarmor = positionPlayer.magicarmor;   //Магическая броня
+                                                               //Сопротивляемость
+                player.resistanceToPoisons = positionPlayer.resistanceToPoisons; //сопротивляемость к ядам
+                player.resistanceToStunning = positionPlayer.resistanceToStunning; // сопротивляемость к оглушению
+                player.resistanceToBleeding = positionPlayer.resistanceToBleeding; //сопротивляемость к кровотечению 
+                player.resistanceToMagic = positionPlayer.resistanceToMagic; //сопротивляемость к магии
+
+                player.attackSpeed = positionPlayer.attackSpeed; //скорость атаки
+                player.physicalDamage = positionPlayer.physicalDamage; // физический урон 
+                player.criticalDamage = positionPlayer.criticalDamage; // критический урон 
+                player.chanceCriticalDamage = positionPlayer.chanceCriticalDamage;
             }
             catch(System.Exception e)
             {
