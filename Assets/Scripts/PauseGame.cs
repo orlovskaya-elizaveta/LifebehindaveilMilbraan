@@ -80,12 +80,14 @@ public class PauseGame : MonoBehaviour {
         isinventory = false;
         isTabMenu = false; 
 
+        /*
         //Установке картинке размера во весь экран
         imagePause.rectTransform.sizeDelta = new Vector2(thisHPBar.GetComponent<RectTransform>().rect.width, thisHPBar.GetComponent<RectTransform>().rect.height);
         //Установке картинке размера во весь экран
         TabMenuImage.rectTransform.sizeDelta = new Vector2(thisHPBar.GetComponent<RectTransform>().rect.width, thisHPBar.GetComponent<RectTransform>().rect.height);
         //Установке картинке размера во весь экран
         imageInventory.rectTransform.sizeDelta = new Vector2(thisHPBar.GetComponent<RectTransform>().rect.width, thisHPBar.GetComponent<RectTransform>().rect.height);
+        */
     }
 	
 	// Update is called once per frame
