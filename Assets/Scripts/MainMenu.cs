@@ -10,15 +10,15 @@ public class MainMenu : MonoBehaviour {
     public GameObject LoadButton;
     public GameObject NewButton;
     public GameObject NewButton2;
-    public Image img1;
-    public Image img2;
-    public Image img3;
+    //public Image img1;
+    //public Image img2;
+    //public Image img3;
 
     public void Start()
     {
-        img1.rectTransform.sizeDelta = new Vector2(thisMenu.GetComponent<RectTransform>().rect.width, thisMenu.GetComponent<RectTransform>().rect.height);
-        img2.rectTransform.sizeDelta = new Vector2(thisMenu.GetComponent<RectTransform>().rect.width, thisMenu.GetComponent<RectTransform>().rect.height);
-        img3.rectTransform.sizeDelta = new Vector2(thisMenu.GetComponent<RectTransform>().rect.width, thisMenu.GetComponent<RectTransform>().rect.height);
+        //img1.rectTransform.sizeDelta = new Vector2(thisMenu.GetComponent<RectTransform>().rect.width, thisMenu.GetComponent<RectTransform>().rect.height);
+        //img2.rectTransform.sizeDelta = new Vector2(thisMenu.GetComponent<RectTransform>().rect.width, thisMenu.GetComponent<RectTransform>().rect.height);
+        //img3.rectTransform.sizeDelta = new Vector2(thisMenu.GetComponent<RectTransform>().rect.width, thisMenu.GetComponent<RectTransform>().rect.height);
         if (File.Exists(Application.dataPath + "/saves/save1.sv"))
         {
             ResumeButton.SetActive(true);
