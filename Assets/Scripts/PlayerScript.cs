@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {  
     [SerializeField]
-    private Vector2 speed = new Vector2(50, 50); //Скорость персонажа.
+    private Vector2 speed = new Vector2(2, 2); //Скорость персонажа.
 
     //private Rigidbody2D rb; //На данный момент нет надобности
     private Animator animator; //работа с анимацией
@@ -16,13 +16,17 @@ public class PlayerScript : MonoBehaviour {
 
     //Все основные параметры нашего персонажа
     public float maxHealth = 100.0F;        //Максимальное количество жизней
+    public float restoringHealth;
     public float currentHealth = 50.0F;     //текущее количество жизней
     public float maxEnergy = 100.0F;        //Максимальное количество ЭНЕРГИИ
+    public float restoringEnergy;
     public float currentEnergy = 50.0F;    //текущее количество ЭНЕРГИИ
     public int currentGold;     //Текущее бабло
     public int currentWeight;   //Насколько тяжела ноша
     public int maxWeight;       //А сколько сможешь поднять ты!?
-    public int Level;
+    public int Level; //текущий левел
+    public int CurrentExperience; //сколько опыта есть
+    public int NexttExperience; //сколько опыта до следующего
     //Характеристики
     //Основные параметры
     public int strength; // Сила ГГ
@@ -40,6 +44,7 @@ public class PlayerScript : MonoBehaviour {
     public int resistanceToBleeding; //сопротивляемость к кровотечению 
     public int resistanceToMagic; //сопротивляемость к магии
 
+    public float travelspeed; //скорость передвижения
     public float attackSpeed; //скорость атаки
     public float physicalDamage; // физический урон 
     public float criticalDamage; // критический урон 
@@ -65,11 +70,16 @@ public class PlayerScript : MonoBehaviour {
         HPbar.fillAmount = currentHealth / maxHealth;
         ENERGYbar.fillAmount = currentEnergy / maxEnergy;
 
+
+        restoringHealth = 10;
+        restoringEnergy = 1;
         //Обнуление всех параметров, характеристик и тп у ГГ
          currentGold = 0;     //Текущее бабло
          currentWeight = 0;   //Насколько тяжела ноша
          maxWeight = 0;       //А сколько сможешь поднять ты!?
          Level = 0;
+        CurrentExperience = 0;
+        NexttExperience = 100;
         //Характеристики
         //Основные параметры
          strength = 0; // Сила ГГ
@@ -87,6 +97,7 @@ public class PlayerScript : MonoBehaviour {
          resistanceToBleeding = 0; //сопротивляемость к кровотечению 
          resistanceToMagic = 0; //сопротивляемость к магии
 
+        travelspeed = 2.0f;
         attackSpeed = 0.0f; //скорость атаки
         physicalDamage = 0.0f; // физический урон 
         criticalDamage = 0.0f; // критический урон 
