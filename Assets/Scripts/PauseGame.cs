@@ -13,7 +13,7 @@ public class PauseGame : MonoBehaviour {
 
     //Для меню Паузы во время игры
     public GameObject PauseMenu; //Панель меню с кнопками
-    public Canvas thisHPBar; //Для того, чтобы картинка во время паузы принимала полный размер экрана.
+    public GameObject thisHPBar; //Для того, чтобы картинка во время паузы принимала полный размер экрана.
     //public Image imagePause; //Темный фон во время паузы
 
     //Для меню Органайзера во время игры
@@ -97,7 +97,7 @@ public class PauseGame : MonoBehaviour {
         {
             Time.timeScale = 0.0F;
             PauseMenu.SetActive(true);
-            thisHPBar.enabled = false;
+            thisHPBar.SetActive(false);
             ispaused = true;
         }
         // Нажимаем на Esc чтобы убрать меню
@@ -106,11 +106,11 @@ public class PauseGame : MonoBehaviour {
             ResumeButton();
         }
         // Нажимаем на I для появления инвентаря
-        if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false)
+        else if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false)
         {
             Time.timeScale = 0.0F;
             InventoryCanvas.SetActive(true);
-            thisHPBar.enabled = false;
+            thisHPBar.SetActive(false);
             isinventory = true;
         }
         // Нажимаем на I чтобы убрать инвентарь
@@ -118,15 +118,15 @@ public class PauseGame : MonoBehaviour {
         {
             InventoryCanvas.SetActive(false);
             Time.timeScale = 1.0F;
-            thisHPBar.enabled = true;
+            thisHPBar.SetActive(true);
             isinventory = false;
         }
         // Нажимаем на TAB для появления organaizer
-        if (Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false)
+        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false)
         {
             Time.timeScale = 0.0F;
             Organaizer.SetActive(true);
-            thisHPBar.enabled = false;
+            thisHPBar.SetActive(false);
             isTabMenu = true;
         }
         // Нажимаем на TAB чтобы убрать organaizer
@@ -134,38 +134,55 @@ public class PauseGame : MonoBehaviour {
         {
             Organaizer.SetActive(false);
             Time.timeScale = 1.0F;
-            thisHPBar.enabled = true;
+            thisHPBar.SetActive(true);
             isTabMenu = false;
         }
-		
-		//Нажимаем на кнопки, когда находимся в одном окне, а хотим вызвать другой.
-		//Из органайзера вызываем Инвентарь по кнопке I
-		if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == true){
+
+        //Нажимаем на кнопки, когда находимся в одном окне, а хотим вызвать другой.
+        //Из органайзера вызываем Инвентарь по кнопке I
+        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == true){
 			InventoryButton();
 		}
-		
-		//Из инвентаря вызываем Органайзер
-		if (Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false){
+
+        //Из инвентаря вызываем Органайзер
+        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false){
 			isTabMenu = true;
 			isinventory = false;
 			Organaizer.SetActive(true);
 			InventoryCanvas.SetActive(false);
 		}
-		
-		//Все дороги ведут к Esc
-		if (Input.GetKeyDown(KeyCode.Escape) && isinventory == true && ispaused == false && isTabMenu == false){
+
+        //Все дороги ведут к Esc
+        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == true && ispaused == false && isTabMenu == false){
 			ispaused = true;
 			isinventory = false;
 			PauseMenu.SetActive(true);
 			InventoryCanvas.SetActive(false);
 		}
-		
-		if (Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == true){
+
+        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == true){
 			ispaused = true;
 			isTabMenu = false;
 			PauseMenu.SetActive(true);
 			Organaizer.SetActive(false);
 		}
+
+        //Из esc во все тяжкие
+        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == true && isTabMenu == false)
+        {
+            ispaused = false;
+            isinventory = true;
+            PauseMenu.SetActive(false);
+            InventoryCanvas.SetActive(true);
+        }
+
+        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == true && isTabMenu == false)
+        {
+            ispaused = false;
+            isTabMenu = true;
+            PauseMenu.SetActive(false);
+            Organaizer.SetActive(true);
+        }
     }
 
     //Кнопка возвратиться к игре, находиться на Панеле паузы
@@ -173,7 +190,7 @@ public class PauseGame : MonoBehaviour {
     {
         //Убираем Меню паузы
         PauseMenu.SetActive(false);
-		thisHPBar.enabled = true;
+		thisHPBar.SetActive(true);
         //Возвращаем игру в движение
         Time.timeScale = 1.0F;
         //Меню паузы не вызвано, т.е. false

@@ -84,11 +84,11 @@ public class CharacteristicsScript : MonoBehaviour {
 	
 	public void GoToCharacteristics(){
 		Inventory.SetActive(false);
-		Characteristics.SetActive(true);
+        Characteristics.SetActive(true);
 	}
 	
 	public void GoToInventory(){
-		Inventory.SetActive(true);
-		Characteristics.SetActive(false);
+        Characteristics.SetActive(false);
+        Inventory.SetActive(true);
 	}
 }
