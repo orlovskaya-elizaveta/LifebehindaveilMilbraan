@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,16 +14,15 @@ public class PauseGame : MonoBehaviour {
     //Для меню Паузы во время игры
     public GameObject PauseMenu; //Панель меню с кнопками
     public Canvas thisHPBar; //Для того, чтобы картинка во время паузы принимала полный размер экрана.
-    public Image imagePause; //Темный фон во время паузы
+    //public Image imagePause; //Темный фон во время паузы
 
     //Для меню Органайзера во время игры
     public GameObject Organaizer; //Канвас органайзера
-    public Image TabMenuImage; //фон для кнопок органайзера
+    //public Image TabMenuImage; //фон для кнопок органайзера
 
     //Способ вызвать инвентарь
     public GameObject InventoryCanvas; // Фоновая картинка для инвентаря
-    public Image imageInventory;
-    //public Camera MainCamera; //Положение камеры, для того, чтобы ее отдалить и влезла картинка инвентаря
+    //public Image imageInventory;
 
     //Для сохранения и загрузки данных
     public PlayerScript player; //Объект ГГ для сохранения и загрузки данных
@@ -92,6 +91,7 @@ public class PauseGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//На эти кнопки нажимаем, когда находимся в игре.
         // Нажимаем на Esc для появления меню
         if (Input.GetKeyDown(KeyCode.Escape) && ispaused == false && isinventory == false && isTabMenu == false)
         {
@@ -103,15 +103,11 @@ public class PauseGame : MonoBehaviour {
         // Нажимаем на Esc чтобы убрать меню
         else if (Input.GetKeyDown(KeyCode.Escape) && ispaused == true)
         {
-            PauseMenu.SetActive(false);
-            thisHPBar.enabled = true;
-            Time.timeScale = 1.0F;
-            ispaused = false;
+            ResumeButton();
         }
         // Нажимаем на I для появления инвентаря
         if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false)
         {
-            //MainCamera.orthographicSize = 15.0F;
             Time.timeScale = 0.0F;
             InventoryCanvas.SetActive(true);
             thisHPBar.enabled = false;
@@ -120,7 +116,6 @@ public class PauseGame : MonoBehaviour {
         // Нажимаем на I чтобы убрать инвентарь
         else if (Input.GetKeyDown(KeyCode.I) && isinventory == true)
         {
-            //MainCamera.orthographicSize = 2.5F;
             InventoryCanvas.SetActive(false);
             Time.timeScale = 1.0F;
             thisHPBar.enabled = true;
@@ -142,6 +137,35 @@ public class PauseGame : MonoBehaviour {
             thisHPBar.enabled = true;
             isTabMenu = false;
         }
+		
+		//Нажимаем на кнопки, когда находимся в одном окне, а хотим вызвать другой.
+		//Из органайзера вызываем Инвентарь по кнопке I
+		if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == true){
+			InventoryButton();
+		}
+		
+		//Из инвентаря вызываем Органайзер
+		if (Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false){
+			isTabMenu = true;
+			isinventory = false;
+			Organaizer.SetActive(true);
+			InventoryCanvas.SetActive(false);
+		}
+		
+		//Все дороги ведут к Esc
+		if (Input.GetKeyDown(KeyCode.Escape) && isinventory == true && ispaused == false && isTabMenu == false){
+			ispaused = true;
+			isinventory = false;
+			PauseMenu.SetActive(true);
+			InventoryCanvas.SetActive(false);
+		}
+		
+		if (Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == true){
+			ispaused = true;
+			isTabMenu = false;
+			PauseMenu.SetActive(true);
+			Organaizer.SetActive(false);
+		}
     }
 
     //Кнопка возвратиться к игре, находиться на Панеле паузы
@@ -149,6 +173,7 @@ public class PauseGame : MonoBehaviour {
     {
         //Убираем Меню паузы
         PauseMenu.SetActive(false);
+		thisHPBar.enabled = true;
         //Возвращаем игру в движение
         Time.timeScale = 1.0F;
         //Меню паузы не вызвано, т.е. false
