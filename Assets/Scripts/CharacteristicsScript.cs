@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +7,9 @@ public class CharacteristicsScript : MonoBehaviour {
 
     public PlayerScript player; //Объект ГГ для обновления характеристик
 
+	public GameObject Inventory;
+	public GameObject Characteristics;
+	
     //Верхняя полоска характеристик
     public Text TextGold;
     public Text TextWeight;
@@ -78,4 +81,14 @@ public class CharacteristicsScript : MonoBehaviour {
         TextcriticalDamage.text = player.criticalDamage.ToString(); // критический урон 
         TextchanceCriticalDamage.text = player.chanceCriticalDamage.ToString(); //шанс критический урон
     }
+	
+	public void GoToCharacteristics(){
+		Inventory.SetActive(false);
+        Characteristics.SetActive(true);
+	}
+	
+	public void GoToInventory(){
+        Characteristics.SetActive(false);
+        Inventory.SetActive(true);
+	}
 }
