@@ -287,7 +287,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\ChangeHPBar.cs" />
     <Compile Include="Assets\Scripts\CharacteristicsScript.cs" />
-    <Compile Include="Assets\Scripts\Inventory.cs" />
+    <Compile Include="Assets\Scripts\InventoryAndCharacteristics\Inventory.cs" />
+    <Compile Include="Assets\Scripts\InventoryAndCharacteristics\Item.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\PauseGame.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
