@@ -10,6 +10,7 @@ public class PauseGame : MonoBehaviour {
     public bool ispaused; //true - пауза игры, false - нет паузы
     public bool isinventory; //true - инвентарь,
     public bool isTabMenu; //true - органайзер
+    public bool isQuests; //true - задания
 
     //Для меню Паузы во время игры
     public GameObject PauseMenu; //Панель меню с кнопками
@@ -21,8 +22,11 @@ public class PauseGame : MonoBehaviour {
     //public Image TabMenuImage; //фон для кнопок органайзера
 
     //Способ вызвать инвентарь
-    public GameObject InventoryCanvas; // Фоновая картинка для инвентаря
-    //public Image imageInventory;
+    public GameObject InventoryCanvas;
+    //public Image imageInventory; // Фоновая картинка для инвентаря
+
+    //Способ вызвать задания
+    public GameObject QuestsCanvas; 
 
     //Для сохранения и загрузки данных
     public PlayerScript player; //Объект ГГ для сохранения и загрузки данных
@@ -91,9 +95,11 @@ public class PauseGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //Оставить как есть или попытаться как-то сгруппировать...
+
 		//На эти кнопки нажимаем, когда находимся в игре.
         // Нажимаем на Esc для появления меню
-        if (Input.GetKeyDown(KeyCode.Escape) && ispaused == false && isinventory == false && isTabMenu == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && ispaused == false && isinventory == false && isTabMenu == false && isQuests == false)
         {
             Time.timeScale = 0.0F;
             PauseMenu.SetActive(true);
@@ -106,7 +112,7 @@ public class PauseGame : MonoBehaviour {
             ResumeButton();
         }
         // Нажимаем на I для появления инвентаря
-        else if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false)
+        else if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == false)
         {
             Time.timeScale = 0.0F;
             InventoryCanvas.SetActive(true);
@@ -121,8 +127,24 @@ public class PauseGame : MonoBehaviour {
             thisHPBar.SetActive(true);
             isinventory = false;
         }
+        // Нажимаем на Q для появления заданий
+        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == false)
+        {
+            Time.timeScale = 0.0F;
+            QuestsCanvas.SetActive(true);
+            thisHPBar.SetActive(false);
+            isQuests = true;
+        }
+        // Нажимаем на Q чтобы убрать задания
+        else if (Input.GetKeyDown(KeyCode.Q) && isQuests == true)
+        {
+            QuestsCanvas.SetActive(false);
+            Time.timeScale = 1.0F;
+            thisHPBar.SetActive(true);
+            isQuests = false;
+        }
         // Нажимаем на TAB для появления organaizer
-        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false)
+        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == false)
         {
             Time.timeScale = 0.0F;
             Organaizer.SetActive(true);
@@ -138,29 +160,58 @@ public class PauseGame : MonoBehaviour {
             isTabMenu = false;
         }
 
+
+
         //Нажимаем на кнопки, когда находимся в одном окне, а хотим вызвать другой.
         //Из органайзера вызываем Инвентарь по кнопке I
-        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == true){
+        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == true && isQuests == false)
+        {
 			InventoryButton();
 		}
 
+
+        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == false && isTabMenu == true && isQuests == false)
+        {
+            JornalButton();
+        }
+        
+
         //Из инвентаря вызываем Органайзер
-        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false){
+        else if (Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
+        {
 			isTabMenu = true;
 			isinventory = false;
 			Organaizer.SetActive(true);
 			InventoryCanvas.SetActive(false);
 		}
 
+        else if (Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == true)
+        {
+            isTabMenu = true;
+            isQuests = false;
+            Organaizer.SetActive(true);
+            QuestsCanvas.SetActive(false);
+        }
+
         //Все дороги ведут к Esc
-        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == true && ispaused == false && isTabMenu == false){
+        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
+        {
 			ispaused = true;
 			isinventory = false;
 			PauseMenu.SetActive(true);
 			InventoryCanvas.SetActive(false);
 		}
 
-        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == true){
+        else if (Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == true)
+        {
+            ispaused = true;
+            isQuests = false;
+            PauseMenu.SetActive(true);
+            QuestsCanvas.SetActive(false);
+        }
+
+        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == true && isQuests == false)
+        {
 			ispaused = true;
 			isTabMenu = false;
 			PauseMenu.SetActive(true);
@@ -168,7 +219,7 @@ public class PauseGame : MonoBehaviour {
 		}
 
         //Из esc во все тяжкие
-        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == true && isTabMenu == false)
+        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == true && isTabMenu == false && isQuests == false)
         {
             ispaused = false;
             isinventory = true;
@@ -176,7 +227,15 @@ public class PauseGame : MonoBehaviour {
             InventoryCanvas.SetActive(true);
         }
 
-        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == true && isTabMenu == false)
+        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == true && isTabMenu == false && isQuests == false)
+        {
+            ispaused = false;
+            isQuests = true;
+            PauseMenu.SetActive(false);
+            QuestsCanvas.SetActive(true);
+        }
+
+        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == true && isTabMenu == false && isQuests == false)
         {
             ispaused = false;
             isTabMenu = true;
@@ -332,7 +391,10 @@ public class PauseGame : MonoBehaviour {
 
     public void JornalButton()
     {
-
+        isTabMenu = false;
+        QuestsCanvas.SetActive(true);
+        Organaizer.SetActive(false);
+        isQuests = true;
     }
 
     public void SkillsButton()
