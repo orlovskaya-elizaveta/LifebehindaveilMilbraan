@@ -175,8 +175,26 @@ public class PauseGame : MonoBehaviour {
             JornalButton();
         }
         
+	//Из  заданий в инвентарь
+	else if(Input.GetKeyDown(KeyCode.I) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
+        {
+		isinventory = false;
+		isQuests = true;
+		QuestsCanvas.SetActive(true);
+		InventoryCanvas.SetActive(false);
+	}
 
-        //Из инвентаря вызываем Органайзер
+	//Из инвентаря в журнал зхаданий
+        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == true)
+        {
+		isQuests = false;
+		isinventory = true;
+		InventoryCanvas.SetActive(true);
+		QuestsCanvas.SetActive(false);
+        }
+		
+		
+        //Из инвентаря (и тд...) вызываем Органайзер
         else if (Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
         {
 			isTabMenu = true;
