@@ -99,256 +99,90 @@ public class PauseGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-
-		//На эти кнопки нажимаем, когда находимся в игре.
-        // Нажимаем на Esc для появления меню
-        if (Input.GetKeyDown(KeyCode.Escape) && ispaused == false && isinventory == false && isTabMenu == false && isQuests == false)
-        {
-            Time.timeScale = 0.0F;
-            PauseMenu.SetActive(true);
-            thisHPBar.SetActive(false);
-            ispaused = true;
-        }
-        // Нажимаем на Esc чтобы убрать меню
-        else if (Input.GetKeyDown(KeyCode.Escape) && ispaused == true)
-        {
-            ResumeButton();
-        }
-        // Нажимаем на I для появления инвентаря
-        else if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == false)
-        {
-            Time.timeScale = 0.0F;
-            InventoryCanvas.SetActive(true);
-            thisHPBar.SetActive(false);
-            isinventory = true;
-        }
-        // Нажимаем на I чтобы убрать инвентарь
-        else if (Input.GetKeyDown(KeyCode.I) && isinventory == true)
-        {
-            InventoryCanvas.SetActive(false);
-            Time.timeScale = 1.0F;
-            thisHPBar.SetActive(true);
-            isinventory = false;
-        }
-        // Нажимаем на Q для появления заданий
-        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == false)
-        {
-            Time.timeScale = 0.0F;
-            QuestsCanvas.SetActive(true);
-            thisHPBar.SetActive(false);
-            isQuests = true;
-        }
-        // Нажимаем на Q чтобы убрать задания
-        else if (Input.GetKeyDown(KeyCode.Q) && isQuests == true)
-        {
-            QuestsCanvas.SetActive(false);
-            Time.timeScale = 1.0F;
-            thisHPBar.SetActive(true);
-            isQuests = false;
-        }
-        // Нажимаем на TAB для появления organaizer
-        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == false)
-        {
-            Time.timeScale = 0.0F;
-            Organaizer.SetActive(true);
-            thisHPBar.SetActive(false);
-            isTabMenu = true;
-        }
-        // Нажимаем на TAB чтобы убрать organaizer
-        else if (Input.GetKeyDown(KeyCode.Tab) && isTabMenu == true)
-        {
-            Organaizer.SetActive(false);
-            Time.timeScale = 1.0F;
-            thisHPBar.SetActive(true);
-            isTabMenu = false;
-        }
-
-        //Нажимаем на кнопки, когда находимся в одном окне, а хотим вызвать другой.
-        //Из органайзера вызываем Инвентарь по кнопке I
-        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == true && isQuests == false)
-        {
-			InventoryButton();
-		}
-
-
-        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == false && isTabMenu == true && isQuests == false)
-        {
-            JornalButton();
-        }
-        
-	//Из инвентаря в журнал зхаданий
-	else if(Input.GetKeyDown(KeyCode.Q) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
-        {
-		isinventory = false;
-		isQuests = true;
-		QuestsCanvas.SetActive(true);
-		InventoryCanvas.SetActive(false);
-	}
-
-	//Из  заданий в инвентарь
-        else if (Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == true)
-        {
-		isQuests = false;
-		isinventory = true;
-		InventoryCanvas.SetActive(true);
-		QuestsCanvas.SetActive(false);
-        }
+	    //Любой канвас можно вывать с игры. А также с других канвасов исключая себя 
+	    //На данный момент спиок канвасов (Пауза, Инвентарь, Органайзер, Задания)
+	    //Выключаем все и устанавливаем все в false, А по нажатию на опреденную кнопку устанавливаем на труе. 
+	    if(Input.GetKeyDown(KeyCode.Escape)){
+		    isinventory = false; 
+		    isTabMenu = false; 
+		    isQuests = false; 
+            	    Organaizer.SetActive(false);
+		    InventoryCanvas.SetActive(false);
+		    QuestsCanvas.SetActive(false);
+		    if(ispaused == false){
+			    Time.timeScale = 0.0F;
+			    ispaused = true;
+			    PauseMenu.SetActive(true);
+			    thisHPBar.SetActive(false);
+		    }
+		    else{
+			    ResumeButton();
+		    }
+	    }
+	    if(Input.GetKeyDown(KeyCode.Tab)){
+		    ispaused = false; 
+		    isinventory = false; 
+		    isQuests = false; 
+		    PauseMenu.SetActive(false);
+		    InventoryCanvas.SetActive(false);
+		    QuestsCanvas.SetActive(false);
 		
+		    if(isTabMenu == false){
+			    Time.timeScale = 0.0F;
+			    isTabMenu = true;
+			    Organaizer.SetActive(true);
+			    thisHPBar.SetActive(false);
+		    }
+		    else{
+			    isTabMenu = false; 
+			    Organaizer.SetActive(false);
+			    Time.timeScale = 1.0F;
+			    thisHPBar.SetActive(true);
+		    }
+	    }
+	    if(Input.GetKeyDown(KeyCode.I)){
+		    ispaused = false; 
+		    isTabMenu = false; 
+		    isQuests = false; 
+		    PauseMenu.SetActive(false);
+            	    Organaizer.SetActive(false);
+		    QuestsCanvas.SetActive(false);
 		
-        //Из инвентаря (и тд...) вызываем Органайзер
-        else if (Input.GetKeyDown(KeyCode.Tab) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
-        {
-			isTabMenu = true;
-			isinventory = false;
-			Organaizer.SetActive(true);
-			InventoryCanvas.SetActive(false);
-		}
-
-        else if (Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == true)
-        {
-            isTabMenu = true;
-            isQuests = false;
-            Organaizer.SetActive(true);
-            QuestsCanvas.SetActive(false);
-        }
-
-        //Все дороги ведут к Esc
-        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == true && ispaused == false && isTabMenu == false && isQuests == false)
-        {
-			ispaused = true;
-			isinventory = false;
-			PauseMenu.SetActive(true);
-			InventoryCanvas.SetActive(false);
-		}
-
-        else if (Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == false && isQuests == true)
-        {
-            ispaused = true;
-            isQuests = false;
-            PauseMenu.SetActive(true);
-            QuestsCanvas.SetActive(false);
-        }
-
-        else if(Input.GetKeyDown(KeyCode.Escape) && isinventory == false && ispaused == false && isTabMenu == true && isQuests == false)
-        {
-			ispaused = true;
-			isTabMenu = false;
-			PauseMenu.SetActive(true);
-			Organaizer.SetActive(false);
-		}
-
-        //Из esc во все тяжкие
-        else if(Input.GetKeyDown(KeyCode.I) && isinventory == false && ispaused == true && isTabMenu == false && isQuests == false)
-        {
-            ispaused = false;
-            isinventory = true;
-            PauseMenu.SetActive(false);
-            InventoryCanvas.SetActive(true);
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Q) && isinventory == false && ispaused == true && isTabMenu == false && isQuests == false)
-        {
-            ispaused = false;
-            isQuests = true;
-            PauseMenu.SetActive(false);
-            QuestsCanvas.SetActive(true);
-        }
-
-        else if(Input.GetKeyDown(KeyCode.Tab) && isinventory == false && ispaused == true && isTabMenu == false && isQuests == false)
-        {
-            ispaused = false;
-            isTabMenu = true;
-            PauseMenu.SetActive(false);
-            Organaizer.SetActive(true);
-        }
+		    if(isinventory == false){
+			    Time.timeScale = 0.0F;
+			    isinventory = true;
+			    InventoryCanvas.SetActive(true);
+			    thisHPBar.SetActive(false);
+		    }
+		    else{
+			    isinventory = false; 
+			    InventoryCanvas.SetActive(false);
+			    Time.timeScale = 1.0F;
+			    thisHPBar.SetActive(true);
+		    }
+	    }
+	    if(Input.GetKeyDown(KeyCode.Q)){
+		    ispaused = false; 
+		    isinventory = false; 
+		    isTabMenu = false; 
+		    PauseMenu.SetActive(false);
+            	    Organaizer.SetActive(false);
+		    InventoryCanvas.SetActive(false);
 		
-		//TODO Проверить на практике:
-	/*
-	//Любой канвас можно вывать с игры. А также с других канвасов исключая себя 
-	//На данный момент спиок канвасов (Пауза, Инвентарь, Органайзер, Задания)
-	//Выключаем все и устанавливаем все в false, А по нажатию на опреденную кнопку устанавливаем на труе. 
-	if(Input.GetKeyDown(KeyCode.Escape){
-		isinventory = false; 
-		isTabMenu = false; 
-		isQuests = false; 
-            	Organaizer.SetActive(false);
-		InventoryCanvas.SetActive(false);
-		QuestsCanvas.SetActive(false);
-		if(ispaused == false){
-			Time.timeScale = 0.0F;
-			ispaused = true;
-			PauseMenu.SetActive(true);
-			thisHPBar.SetActive(false);
-		}
-		else{
-			ResumeButton();
-		}
-	}
-	if(Input.GetKeyDown(KeyCode.Tab){
-		ispaused = false; 
-		isinventory = false; 
-		isQuests = false; 
-		PauseMenu.SetActive(false);
-		InventoryCanvas.SetActive(false);
-		QuestsCanvas.SetActive(false);
-		
-		if(isTabMenu == false){
-			Time.timeScale = 0.0F;
-			isTabMenu = true;
-			Organaizer.SetActive(true);
-			thisHPBar.SetActive(false);
-		}
-		else{
-			isTabMenu = false; 
-			Organaizer.SetActive(false);
-			Time.timeScale = 1.0F;
-			thisHPBar.SetActive(true);
-		}
-	}
-	if(Input.GetKeyDown(KeyCode.I){
-		ispaused = false; 
-		isTabMenu = false; 
-		isQuests = false; 
-		PauseMenu.SetActive(false);
-            	Organaizer.SetActive(false);
-		QuestsCanvas.SetActive(false);
-		
-		if(isinventory == false){
-			Time.timeScale = 0.0F;
-			isinventory = true;
-			InventoryCanvas.SetActive(true);
-			thisHPBar.SetActive(false);
-		}
-		else{
-			isinventory = false; 
-			InventoryCanvas.SetActive(false);
-			Time.timeScale = 1.0F;
-			thisHPBar.SetActive(true);
-		}
-	}
-	if(Input.GetKeyDown(KeyCode.Q){
-		ispaused = false; 
-		isinventory = false; 
-		isTabMenu = false; 
-		PauseMenu.SetActive(false);
-            	Organaizer.SetActive(false);
-		InventoryCanvas.SetActive(false);
-		
-		if(isQuests == false){
-			Time.timeScale = 0.0F;
-			isQuests = true;
-			QuestsCanvas.SetActive(true);
-			thisHPBar.SetActive(false);
-		}
-		else{
-			isQuests = false; 
-			QuestsCanvas.SetActive(false);
-			Time.timeScale = 1.0F;
-			thisHPBar.SetActive(true);
-		}
-	}
-	*/
+		    if(isQuests == false){
+			    Time.timeScale = 0.0F;
+			    isQuests = true;
+			    QuestsCanvas.SetActive(true);
+			    thisHPBar.SetActive(false);
+		    }
+		    else{
+			    isQuests = false; 
+			    QuestsCanvas.SetActive(false);
+			    Time.timeScale = 1.0F;
+			    thisHPBar.SetActive(true);
+		    }
+	    }
+	
     }
 
     //Кнопка возвратиться к игре, находиться на Панеле паузы
@@ -356,7 +190,7 @@ public class PauseGame : MonoBehaviour {
     {
         //Убираем Меню паузы
         PauseMenu.SetActive(false);
-	thisHPBar.SetActive(true);
+	    thisHPBar.SetActive(true);
         //Возвращаем игру в движение
         Time.timeScale = 1.0F;
         //Меню паузы не вызвано, т.е. false

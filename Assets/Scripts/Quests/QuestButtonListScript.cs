@@ -29,8 +29,7 @@ public class QuestButtonListScript : MonoBehaviour {
             if (QuestsList.QuestList[i].isActiveQuest == 1)
             {
                 var but = Instantiate(buttonQuest, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                //TODO: На практике проверить temp.transform.SetParent(InvField.transform,false); Взятый с Inventory.cs
-                but.transform.parent = gameObject.transform;
+                but.transform.SetParent(gameObject.transform, false);
                 but.GetComponent<QuestsButtonScript>().txt.text = QuestsList.QuestList[i].txt;
                 but.GetComponent<QuestsButtonScript>().idQuest = QuestsList.QuestList[i].idQuest;
                 but.GetComponent<QuestsButtonScript>().img.enabled = QuestsList.QuestList[i].chooseimg > 0;
@@ -50,8 +49,7 @@ public class QuestButtonListScript : MonoBehaviour {
             if (QuestsList.QuestList[i].isActiveQuest == 2)
             {
                 var but = Instantiate(buttonQuest, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                //TODO: На практике проверить temp.transform.SetParent(InvField.transform,false); Взятый с Inventory.cs
-                but.transform.parent = gameObject.transform;
+                but.transform.SetParent(gameObject.transform, false);
                 but.GetComponent<QuestsButtonScript>().txt.text = QuestsList.QuestList[i].txt;
                 but.GetComponent<QuestsButtonScript>().idQuest = QuestsList.QuestList[i].idQuest;
                 but.GetComponent<QuestsButtonScript>().img.enabled = QuestsList.QuestList[i].chooseimg > 0;
@@ -87,8 +85,7 @@ public class QuestButtonListScript : MonoBehaviour {
                 Quest v10 = QuestsList.QuestList[i];
                 v10.chooseimg = 0;
                 QuestsList.QuestList[i] = v10;
-                //TODO: проверить на практике. Пока пишу просто комментария
-                //break;
+                break;
             }
         }
         //Теперь нет выбранного квеста (нет поля со значением 1). Можно наш новый выбранный (2) поменять на значение 1.
@@ -103,8 +100,7 @@ public class QuestButtonListScript : MonoBehaviour {
                 Discription1.text = QuestsList.QuestList[i].description1;
                 Discription2.text = QuestsList.QuestList[i].description2;
                 Discription3.text = QuestsList.QuestList[i].description3;
-                //TODO: проверить на практике. Пока пишу просто комментария
-                //break;
+                break;
             }
         }
         //После смены значений в Листе и в полях квеста нам необходимо вкл и вкл картинки во всех полях.
