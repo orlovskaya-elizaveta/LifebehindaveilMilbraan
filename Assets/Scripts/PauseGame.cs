@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+//TODO:
+// В сохранения добавить Лист с квестами 
+// Решить вопрос с нажатием на кнопки клавиатуры
+
 public class PauseGame : MonoBehaviour {
     //Для управления окнами разных Менюшек
     public bool ispaused; //true - пауза игры, false - нет паузы
@@ -71,7 +75,7 @@ public class PauseGame : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
+    void Start () {
         //Если в главном меню была нажата кнопка загрузки игры, то мы осуществляем загрузку
         if (PlayerPrefs.GetInt("loading") == 1)
         {
@@ -95,7 +99,7 @@ public class PauseGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Оставить как есть или попытаться как-то сгруппировать...
+        
 
 		//На эти кнопки нажимаем, когда находимся в игре.
         // Нажимаем на Esc для появления меню
@@ -159,8 +163,6 @@ public class PauseGame : MonoBehaviour {
             thisHPBar.SetActive(true);
             isTabMenu = false;
         }
-
-
 
         //Нажимаем на кнопки, когда находимся в одном окне, а хотим вызвать другой.
         //Из органайзера вызываем Инвентарь по кнопке I
@@ -260,6 +262,93 @@ public class PauseGame : MonoBehaviour {
             PauseMenu.SetActive(false);
             Organaizer.SetActive(true);
         }
+		
+		//TODO Проверить на практике:
+	/*
+	//Любой канвас можно вывать с игры. А также с других канвасов исключая себя 
+	//На данный момент спиок канвасов (Пауза, Инвентарь, Органайзер, Задания)
+	//Выключаем все и устанавливаем все в false, А по нажатию на опреденную кнопку устанавливаем на труе. 
+	if(Input.GetKeyDown(KeyCode.Escape){
+		isinventory = false; 
+		isTabMenu = false; 
+		isQuests = false; 
+            	Organaizer.SetActive(false);
+		InventoryCanvas.SetActive(false);
+		QuestsCanvas.SetActive(false);
+		if(ispaused == false){
+			Time.timeScale = 0.0F;
+			ispaused = true;
+			PauseMenu.SetActive(true);
+			thisHPBar.SetActive(false);
+		}
+		else{
+			ResumeButton();
+		}
+	}
+	if(Input.GetKeyDown(KeyCode.Tab){
+		ispaused = false; 
+		isinventory = false; 
+		isQuests = false; 
+		PauseMenu.SetActive(false);
+		InventoryCanvas.SetActive(false);
+		QuestsCanvas.SetActive(false);
+		
+		if(isTabMenu == false){
+			Time.timeScale = 0.0F;
+			isTabMenu = true;
+			Organaizer.SetActive(true);
+			thisHPBar.SetActive(false);
+		}
+		else{
+			isTabMenu = false; 
+			Organaizer.SetActive(false);
+			Time.timeScale = 1.0F;
+			thisHPBar.SetActive(true);
+		}
+	}
+	if(Input.GetKeyDown(KeyCode.I){
+		ispaused = false; 
+		isTabMenu = false; 
+		isQuests = false; 
+		PauseMenu.SetActive(false);
+            	Organaizer.SetActive(false);
+		QuestsCanvas.SetActive(false);
+		
+		if(isinventory == false){
+			Time.timeScale = 0.0F;
+			isinventory = true;
+			InventoryCanvas.SetActive(true);
+			thisHPBar.SetActive(false);
+		}
+		else{
+			isinventory = false; 
+			InventoryCanvas.SetActive(false);
+			Time.timeScale = 1.0F;
+			thisHPBar.SetActive(true);
+		}
+	}
+	if(Input.GetKeyDown(KeyCode.Q){
+		ispaused = false; 
+		isinventory = false; 
+		isTabMenu = false; 
+		PauseMenu.SetActive(false);
+            	Organaizer.SetActive(false);
+		InventoryCanvas.SetActive(false);
+		
+		if(isQuests == false){
+			Time.timeScale = 0.0F;
+			isQuests = true;
+			QuestsCanvas.SetActive(true);
+			thisHPBar.SetActive(false);
+		}
+		else{
+			isQuests = false; 
+			QuestsCanvas.SetActive(false);
+			Time.timeScale = 1.0F;
+			thisHPBar.SetActive(true);
+		}
+	}
+	*/
     }
 
     //Кнопка возвратиться к игре, находиться на Панеле паузы
@@ -267,7 +356,7 @@ public class PauseGame : MonoBehaviour {
     {
         //Убираем Меню паузы
         PauseMenu.SetActive(false);
-		thisHPBar.SetActive(true);
+	thisHPBar.SetActive(true);
         //Возвращаем игру в движение
         Time.timeScale = 1.0F;
         //Меню паузы не вызвано, т.е. false
