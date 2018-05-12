@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public struct Quest
 {
-    public int isActiveQuest;
-    public int idQuest;
+    public int isActiveQuest; //0 - квест еще не получен. 1 - активный квест. 2 - квест пройден
+    public int idQuest; //Номер квеста
 
     public int chooseimg; // 0 - не выбрано, 1 - текущее, 2 - новая.
-    public string txt;
-    public string description1;
-    public string description2;
-    public string description3;
-    //public void Setchooseimg(int newchooseimg) { chooseimg = newchooseimg; }
+    public string txt; //Текстовое поле для кнопки
+    public string description1; // Оглавление Квеста
+    public string description2; // Описание квеста
+    public string description3; // что надо сделать в квесте
 }
 
 public class PlayerScript : MonoBehaviour {  
@@ -62,10 +61,7 @@ public class PlayerScript : MonoBehaviour {
     public float criticalDamage; // критический урон 
     public float chanceCriticalDamage; //шанс критический урон 
 
-    //public Button QButton;
-    //public List<Button> QuestList;
-
-    public List<Quest> QuestList;
+    public List<Quest> QuestList; //Лист со всеми квестами
 
     private GGState State //Установка и получение состояния ГГ (анимации)
     {
@@ -81,6 +77,7 @@ public class PlayerScript : MonoBehaviour {
 
     private void Awake()
     {
+        //Создание Квестов
         QuestList = new List<Quest>();
         CreateQuestsList();
         
@@ -139,6 +136,7 @@ public class PlayerScript : MonoBehaviour {
             if (State == (GGState)4) State = GGState.IdleUp;
             if (State == (GGState)5) State = GGState.IdleDown;
         }
+        //Для проверки работы с HPbar
         if (Input.GetKeyDown(KeyCode.Z))
         {
             currentHealth -= 10;
@@ -151,6 +149,7 @@ public class PlayerScript : MonoBehaviour {
             currentHealth = currentHealth > maxHealth ? maxHealth : currentHealth;
             HPbar.fillAmount = currentHealth / maxHealth;
         }
+        //Конец проверок с HPbar
     }
 
     void Wake(float mnozhitel_speed)
@@ -218,6 +217,8 @@ public class PlayerScript : MonoBehaviour {
     }
     
     void CreateQuestsList(){
+        //Создание в ручную всех квестов в игре.
+        
         Quest que1;
         que1.isActiveQuest = 1;
         que1.idQuest = 1;
