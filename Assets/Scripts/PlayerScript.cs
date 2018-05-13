@@ -154,7 +154,7 @@ public class PlayerScript : MonoBehaviour {
 
     void Wake(float mnozhitel_speed)
     {
-        currentEnergy -= mnozhitel_speed;
+        currentEnergy -= 0;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         ENERGYbar.fillAmount = currentEnergy / maxEnergy;
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
@@ -165,21 +165,23 @@ public class PlayerScript : MonoBehaviour {
             Vector2 PointA = new Vector2(transform.position.x - (float)0.22, transform.position.y + (float)0.3);
             Vector2 PointB = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.3);
             Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
-            if(colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+            //if(colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
         }
         else
         {
             Vector2 PointA = new Vector2(transform.position.x + (float)0.22, transform.position.y + (float)0.3);
             Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
             Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
-            if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+            //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
         }
         sprite.flipX = direction.x < 0.0F;
     }
 
     void WakeUp(float mnozhitel_speed)
     {
-        currentEnergy -= mnozhitel_speed;
+        currentEnergy -= 0;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         ENERGYbar.fillAmount = currentEnergy / maxEnergy;
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
@@ -192,7 +194,8 @@ public class PlayerScript : MonoBehaviour {
             Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y + (float)0.4);
             Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y + (float)0.3);
             Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
-            if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+            //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
         }
         else
         {
@@ -200,7 +203,8 @@ public class PlayerScript : MonoBehaviour {
             Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.4);
             Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
             Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
-            if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+            //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
         }
     }
 
