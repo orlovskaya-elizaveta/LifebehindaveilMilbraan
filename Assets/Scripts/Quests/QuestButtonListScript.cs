@@ -10,7 +10,7 @@ public class QuestButtonListScript : MonoBehaviour {
     public Text Discription1; //Заголовок квеста. Справа наверху
     public Text Discription2; //Описание квеста.
     public Text Discription3; //Что надо сделать в квесте
-    public PlayerScript QuestsList; //Список всех квестов. Лист находится на нашем ГГ.
+    public UserData QuestsList; //Список всех квестов. Лист находится на нашем ГГ.
 
     private int PositionLine; //На данный момент это позиция на которой находится линия.
     //TODO: избавиться от PositionLine поиском детей в QuestButtonListScript на обнаружение кнопок или линии
