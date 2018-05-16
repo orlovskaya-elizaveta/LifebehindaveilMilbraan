@@ -6,9 +6,8 @@ public enum TypeOfItem { Everything, Weapon, Armor, Food, Other, QuestItems };
 
 public class ItemData {
 
-    public string name;
     public int id;
-    public int countItem;
+    public string name;
     public bool isStackable;
     [Multiline(5)]
     public string descriptionItem;

@@ -12,27 +12,16 @@ public class Inventory : MonoBehaviour {
 
     void Start () {
         items = new List<ItemData>();
-        //InvCanvas = GameObject.Find("/InventoryAndCharacteristics");
-        //InvField = GameObject.Find("/InventoryAndCharacteristics/Inventory/Items/Viewport/InvField");
-        //InvCanvas.SetActive(false);
 
     }
 
     void FixedUpdate()
     {
-        Debug.Log(items.Count);
+        //Debug.Log(items.Count);
     }
 
-    public void Pool ()
+    public List <ItemData> GetList ()
     {
-        if (items.Count != 0)
-        {
-            for (int i = 0; i < items.Count; i++)
-            {
-
-                GameObject temp = Instantiate(Resources.Load("Inv/ItemCell")) as GameObject;
-                temp.transform.SetParent(InvField.transform,false);
-            }
-        }
+        return items;
     }
 }

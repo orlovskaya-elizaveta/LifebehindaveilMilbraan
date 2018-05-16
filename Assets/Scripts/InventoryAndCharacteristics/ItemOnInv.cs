@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class ItemOnInv : MonoBehaviour {
 
+    public ItemData itemData;
+    public int countItem;
 
-    public GameObject item;
+    private Transform DescriptionField;
+
 
     // Use this for initialization
     void Start () {
-        item = Instantiate(Resources.Load("Inv/ItemCell")) as GameObject;
+
+        DescriptionField = transform.GetChild(0);
+        DescriptionField.GetComponent<UnityEngine.UI.Text>().text = itemData.name + "\n" + itemData.descriptionItem;
     }
 	
 	// Update is called once per frame
