@@ -15,6 +15,8 @@ public class PauseGame : MonoBehaviour {
     public bool isinventory; //true - инвентарь,
     public bool isTabMenu; //true - органайзер
     public bool isQuests; //true - задания
+    public bool isMap; //true - map
+    public bool isSkills; //true - skills
 
     //Для меню Паузы во время игры
     public GameObject PauseMenu; //Панель меню с кнопками
@@ -30,7 +32,11 @@ public class PauseGame : MonoBehaviour {
     //public Image imageInventory; // Фоновая картинка для инвентаря
 
     //Способ вызвать задания
-    public GameObject QuestsCanvas; 
+    public GameObject QuestsCanvas;
+
+    //Пустые фоны для Карты и навыков 
+    public GameObject MapCanvas;
+    public GameObject SkillsCanvas;
 
     //Для сохранения и загрузки данных
     public PlayerScript player; //Объект ГГ для сохранения и загрузки данных
@@ -105,11 +111,15 @@ public class PauseGame : MonoBehaviour {
 	    if(Input.GetKeyDown(KeyCode.Escape)){
 		    isinventory = false; 
 		    isTabMenu = false; 
-		    isQuests = false; 
-            	    Organaizer.SetActive(false);
+		    isQuests = false;
+            isMap = false;
+            isSkills = false;
+            Organaizer.SetActive(false);
 		    InventoryCanvas.SetActive(false);
 		    QuestsCanvas.SetActive(false);
-		    if(ispaused == false){
+            MapCanvas.SetActive(false);
+            SkillsCanvas.SetActive(false);
+            if (ispaused == false){
 			    Time.timeScale = 0.0F;
 			    ispaused = true;
 			    PauseMenu.SetActive(true);
@@ -122,12 +132,15 @@ public class PauseGame : MonoBehaviour {
 	    if(Input.GetKeyDown(KeyCode.Tab)){
 		    ispaused = false; 
 		    isinventory = false; 
-		    isQuests = false; 
-		    PauseMenu.SetActive(false);
+		    isQuests = false;
+            isMap = false;
+            isSkills = false;
+            PauseMenu.SetActive(false);
 		    InventoryCanvas.SetActive(false);
 		    QuestsCanvas.SetActive(false);
-		
-		    if(isTabMenu == false){
+            MapCanvas.SetActive(false);
+            SkillsCanvas.SetActive(false);
+            if (isTabMenu == false){
 			    Time.timeScale = 0.0F;
 			    isTabMenu = true;
 			    Organaizer.SetActive(true);
@@ -143,12 +156,15 @@ public class PauseGame : MonoBehaviour {
 	    if(Input.GetKeyDown(KeyCode.I)){
 		    ispaused = false; 
 		    isTabMenu = false; 
-		    isQuests = false; 
-		    PauseMenu.SetActive(false);
-            	    Organaizer.SetActive(false);
+		    isQuests = false;
+            isMap = false;
+            isSkills = false;
+            PauseMenu.SetActive(false);
+            Organaizer.SetActive(false);
 		    QuestsCanvas.SetActive(false);
-		
-		    if(isinventory == false){
+            MapCanvas.SetActive(false);
+            SkillsCanvas.SetActive(false);
+            if (isinventory == false){
 			    Time.timeScale = 0.0F;
 			    isinventory = true;
 			    InventoryCanvas.SetActive(true);
@@ -161,15 +177,18 @@ public class PauseGame : MonoBehaviour {
 			    thisHPBar.SetActive(true);
 		    }
 	    }
-	    if(Input.GetKeyDown(KeyCode.Q)){
+	    if(Input.GetKeyDown(KeyCode.J)){
 		    ispaused = false; 
 		    isinventory = false; 
-		    isTabMenu = false; 
-		    PauseMenu.SetActive(false);
-            	    Organaizer.SetActive(false);
+		    isTabMenu = false;
+            isMap = false;
+            isSkills = false;
+            PauseMenu.SetActive(false);
+            Organaizer.SetActive(false);
 		    InventoryCanvas.SetActive(false);
-		
-		    if(isQuests == false){
+            MapCanvas.SetActive(false);
+            SkillsCanvas.SetActive(false);
+            if (isQuests == false){
 			    Time.timeScale = 0.0F;
 			    isQuests = true;
 			    QuestsCanvas.SetActive(true);
@@ -182,7 +201,62 @@ public class PauseGame : MonoBehaviour {
 			    thisHPBar.SetActive(true);
 		    }
 	    }
-	
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            ispaused = false;
+            isinventory = false;
+            isTabMenu = false;
+            isMap = false;
+            isQuests = false;
+            PauseMenu.SetActive(false);
+            Organaizer.SetActive(false);
+            InventoryCanvas.SetActive(false);
+            MapCanvas.SetActive(false);
+            QuestsCanvas.SetActive(false);
+            
+            if (isSkills == false)
+            {
+                Time.timeScale = 0.0F;
+                isSkills = true;
+                SkillsCanvas.SetActive(true);
+                thisHPBar.SetActive(false);
+            }
+            else
+            {
+                isSkills = false;
+                SkillsCanvas.SetActive(false);
+                Time.timeScale = 1.0F;
+                thisHPBar.SetActive(true);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            ispaused = false;
+            isinventory = false;
+            isTabMenu = false;
+            isSkills = false;
+            isQuests = false;
+            PauseMenu.SetActive(false);
+            Organaizer.SetActive(false);
+            InventoryCanvas.SetActive(false);
+            SkillsCanvas.SetActive(false);
+            QuestsCanvas.SetActive(false);
+
+            if (isMap == false)
+            {
+                Time.timeScale = 0.0F;
+                isMap = true;
+                MapCanvas.SetActive(true);
+                thisHPBar.SetActive(false);
+            }
+            else
+            {
+                isMap = false;
+                MapCanvas.SetActive(false);
+                Time.timeScale = 1.0F;
+                thisHPBar.SetActive(true);
+            }
+        }
     }
 
     //Кнопка возвратиться к игре, находиться на Панеле паузы
@@ -327,7 +401,10 @@ public class PauseGame : MonoBehaviour {
     //Кнопки для органайзера
     public void MapButton()
     {
-
+        isTabMenu = false;
+        MapCanvas.SetActive(true);
+        Organaizer.SetActive(false);
+        isMap = true;
     }
 
     public void JornalButton()
@@ -340,7 +417,10 @@ public class PauseGame : MonoBehaviour {
 
     public void SkillsButton()
     {
-
+        isTabMenu = false;
+        SkillsCanvas.SetActive(true);
+        Organaizer.SetActive(false);
+        isSkills = true;
     }
 
     public void InventoryButton()
