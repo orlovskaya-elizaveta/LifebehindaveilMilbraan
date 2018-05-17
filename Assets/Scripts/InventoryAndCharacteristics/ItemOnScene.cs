@@ -11,6 +11,8 @@ public class ItemOnScene : MonoBehaviour {
     //ссылка на инвентарь
     private Inventory inv;
 
+    public UserData userData;
+
     //характеристики объекта
     ItemData itemData;
 
@@ -22,7 +24,7 @@ public class ItemOnScene : MonoBehaviour {
 
         itemData = new ItemData();
 
-        //криворукое заполнение данных
+        //криворукое рандомное заполнение данных
         int randNumb = Random.Range(0, 4); //это временное
         System.IO.StreamReader file = new System.IO.StreamReader("ItemsData.txt", System.Text.Encoding.GetEncoding(1251));
         string line;
@@ -31,18 +33,17 @@ public class ItemOnScene : MonoBehaviour {
         {
             i++;      
         }
-        bool res = int.TryParse(line, out itemData.id);
-        Debug.Log(itemData.id);
+        bool res = int.TryParse(line, out itemData.id);//записываем id
         line = file.ReadLine();
-        itemData.name = line;
+        itemData.name = line;//записываем имя
         line = file.ReadLine();
-        itemData.descriptionItem = line;
+        itemData.descriptionItem = line;//описание
         line = file.ReadLine();
-        itemData.pathIcon = line;
+        itemData.pathIcon = line;//и путь до иконки
 
         file.Close();
 
-        //поместим описание на всплывающую панель
+        //найдем всплывающую панель как дочерний объект и поместим на нее текст описания
         TextPanel = DescriptionPanel.transform.GetChild(1);
         TextPanel.GetComponent<UnityEngine.UI.Text>().text = itemData.name + "\n\n" + itemData.descriptionItem;
     }
@@ -62,9 +63,10 @@ public class ItemOnScene : MonoBehaviour {
     //по клику подбираем предмет в инвентарь и удаляем его со сцены
     void OnMouseUp()
     {
+        userData = GameObject.Find("UserData").GetComponent<UserData>();
 
         //находим наш инвентарь
-        inv = GameObject.Find("InventoryManager").GetComponent<Inventory>();
+        inv = userData.inventory;
 
         //добавляем в него данные об объекте TODO обращаться не напрямую к списку
         inv.items.Add(itemData);
