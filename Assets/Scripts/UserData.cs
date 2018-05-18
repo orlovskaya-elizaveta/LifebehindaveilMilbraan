@@ -16,7 +16,11 @@ public class UserData : MonoBehaviour
 
         //создание объекта журнала квестов
         quests = new QuestsData();
-    }
 
-    
+        //Не ругайся, это было лишь для проверки
+        //TODO: После коммита 17.05 можно удалить внизу
+        Quest v21 = quests.QuestList[0];
+        v21.isActiveQuest = 2;
+        quests.QuestList[0] = v21;
+    }    
 }

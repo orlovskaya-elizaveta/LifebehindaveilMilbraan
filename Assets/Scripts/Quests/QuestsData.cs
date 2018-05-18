@@ -82,7 +82,10 @@ public class QuestsData {
     }
 
 
-
+    public List<Quest> GetList()
+    {
+        return QuestList;
+    }
 
 
 
