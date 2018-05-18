@@ -28,7 +28,7 @@ public class QuestButtonListScript : MonoBehaviour {
         //это я дописала, чтобы работало
         //QuestsList = new QuestsData();
         
-        QuestsList = userData.GetComponent<UserData>().quests.GetList();
+        QuestsList = userData.GetComponent<UserData>().ggData.quests.GetList();
 
         //TODO: Надо перенести все в отдельную функцию
         //Добавление активных квестов
@@ -123,6 +123,6 @@ public class QuestButtonListScript : MonoBehaviour {
             }
         }
 
-        userData.GetComponent<UserData>().quests.QuestList = QuestsList;
+        userData.GetComponent<UserData>().ggData.quests.QuestList = QuestsList;
     }
 }

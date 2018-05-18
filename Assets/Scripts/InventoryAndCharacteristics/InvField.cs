@@ -14,7 +14,7 @@ public class InvField : MonoBehaviour {
 
         //Копируем себе список предметов из инвентаря
         //TODO при закрытии отдавать список обратно, так как в инвентаре могут происходить изменения этого списка
-        itemList = userData.GetComponent<UserData>().inventory.GetList();
+        itemList = userData.GetComponent<UserData>().ggData.inventory.GetList();
         
         
         for (int i = 0; i < itemList.Count; i++)

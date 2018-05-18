@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class Inventory {
 
-
-    public GameObject InvField;
-    private GameObject itemOnInv;
-    public GameObject InvCanvas;
     public List<ItemData> items;
 
+    //конструктор создает пустой список
     public Inventory() {
         items = new List<ItemData>();
     }
 
+    //отдать список предметов
     public List <ItemData> GetList ()
     {
         return items;
     }
+
+    //положить предмет в инвентарь
+    public void PutItem(ItemData item)
+    {
+        items.Add(item);
+    }
+
 }
