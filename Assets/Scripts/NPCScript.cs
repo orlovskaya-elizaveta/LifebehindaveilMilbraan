@@ -9,24 +9,29 @@ public class NPCScript : MonoBehaviour {
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private int rnumber;
-    private int StateNPC0;
 
-    /*private NPCState State //Установка и получение состояния (анимации)
+    private NPCState State //Установка и получение состояния (анимации)
     {
         get
         {
-            return (NPCState)animator.GetInteger("StateNPC");
+            return (NPCState)animator.GetInteger("StateNpc");
         }
         set
         {
-            animator.SetInteger("StateNPC", (int)value);
+            animator.SetInteger("StateNpc", (int)value);
         }
-    }*/
+    }
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+    }
+
 
     void Start()
     {
         StartCoroutine(GameCoroutineNPC());
-        StateNPC0 = 0;
     }
 
     IEnumerator GameCoroutineNPC()
@@ -37,27 +42,26 @@ public class NPCScript : MonoBehaviour {
             switch (rnumber)
             {
                 case 0:
+                    State = NPCState.NPC1Right;
+                    sprite.flipX = false;
                     direction = transform.right;
                     transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    //State = NPCState.NPC1Right; 
-                    StateNPC0 = 0;
                     break;
                 case 1:
+                    State = NPCState.NPC1Right;
+                    sprite.flipX = true;
                     direction = -transform.right;
                     transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    StateNPC0 = 1;
                     break;
                 case 2:
+                    State = NPCState.NPC1Back;
                     direction = transform.up;
                     transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    //State = NPCState.NPC1Front;
-                    StateNPC0 = 2;
                     break;
                 case 3:
+                    State = NPCState.NPC1Front;
                     direction = -transform.up;
                     transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    //State = NPCState.NPC1Back;
-                    StateNPC0 = 3;
                     break;
             }
             yield return new WaitForSeconds(1.0f);
@@ -65,20 +69,6 @@ public class NPCScript : MonoBehaviour {
     }
     private void Update()
     {
-        switch (StateNPC0)
-        {
-            case 0:
-                //animator.SetInteger(0, 0);
-                break;
-            case 1:
-                break;
-            case 2:
-                //animator.SetInteger("StateNpc", (int) 1);
-                break;
-            case 3:
-                //animator.SetInteger("StateNPC", (int) 2);
-                break;
-        }
     }
 }
 
