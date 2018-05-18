@@ -279,11 +279,11 @@ public class PauseGame : MonoBehaviour {
         positionSave.x = player.transform.position.x;
         positionSave.y = player.transform.position.y;
         positionSave.z = player.transform.position.z;
-        positionSave.currentHealth = player.currentHealth;
-        positionSave.maxHealth = player.maxHealth;
+        //positionSave.currentHealth = player.currentHealth;
+        //positionSave.maxHealth = player.maxHealth;
 
-        positionSave.maxEnergy = player.maxEnergy;        //Максимальное количество ЭНЕРГИИ
-        positionSave.currentEnergy = player.currentEnergy;    //текущее количество ЭНЕРГИИ
+        //positionSave.maxEnergy = player.maxEnergy;        //Максимальное количество ЭНЕРГИИ
+        //positionSave.currentEnergy = player.currentEnergy;    //текущее количество ЭНЕРГИИ
         positionSave.currentGold = player.currentGold;     //Текущее бабло
         positionSave.currentWeight = player.currentWeight;   //Насколько тяжела ноша
         positionSave.maxWeight = player.maxWeight;       //А сколько сможешь поднять ты!?
@@ -333,12 +333,12 @@ public class PauseGame : MonoBehaviour {
             {
                 PlayerSave positionPlayer = (PlayerSave)bformatter.Deserialize(fs);
                 player.transform.position = new Vector3(positionPlayer.x, positionPlayer.y, positionPlayer.z);
-                player.currentHealth = positionPlayer.currentHealth;
-                player.maxHealth = positionPlayer.maxHealth;
-                player.HPbar.fillAmount = player.currentHealth / player.maxHealth;
+                //player.currentHealth = positionPlayer.currentHealth;
+                //player.maxHealth = positionPlayer.maxHealth;
+                //player.HPbar.fillAmount = player.currentHealth / player.maxHealth;
 
-                player.maxEnergy = positionPlayer.maxEnergy;        //Максимальное количество ЭНЕРГИИ
-                player.currentEnergy = positionPlayer.currentEnergy;    //текущее количество ЭНЕРГИИ
+                //player.maxEnergy = positionPlayer.maxEnergy;        //Максимальное количество ЭНЕРГИИ
+                //player.currentEnergy = positionPlayer.currentEnergy;    //текущее количество ЭНЕРГИИ
                 player.currentGold = positionPlayer.currentGold;     //Текущее бабло
                 player.currentWeight = positionPlayer.currentWeight;   //Насколько тяжела ноша
                 player.maxWeight = positionPlayer.maxWeight;       //А сколько сможешь поднять ты!?

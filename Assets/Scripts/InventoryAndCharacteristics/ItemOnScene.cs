@@ -65,11 +65,13 @@ public class ItemOnScene : MonoBehaviour {
     {
         userData = GameObject.Find("UserData").GetComponent<UserData>();
 
+        userData.ggData.inventory.PutItem(itemData);
+        /*
         //находим наш инвентарь
         inv = userData.inventory;
 
         //добавляем в него данные об объекте TODO обращаться не напрямую к списку
-        inv.items.Add(itemData);
+        inv.items.Add(itemData);*/
 
         //удаляем объект со сцены
         Destroy(gameObject);
