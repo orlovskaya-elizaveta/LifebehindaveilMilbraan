@@ -9,6 +9,7 @@ public class CharacteristicsScript : MonoBehaviour {
 
 	public GameObject Inventory;
 	public GameObject Characteristics;
+
 	
     //Верхняя полоска характеристик
     public Text TextGold;
@@ -61,10 +62,10 @@ public class CharacteristicsScript : MonoBehaviour {
         Textendurance.text = player.endurance.ToString(); //Выносливость
         Textintellect.text = player.intellect.ToString(); //Интеллект 
                                                      //Дополнительные параметры
-        TextmaxHealth.text = player.maxHealth.ToString();
-        TextrestoringHealth.text = player.restoringHealth.ToString();
-        TextmaxEnergy.text = player.maxEnergy.ToString();
-        TextrestoringEnergy.text = player.restoringEnergy.ToString();
+        //TextmaxHealth.text = player.maxHealth.ToString();
+        //TextrestoringHealth.text = player.restoringHealth.ToString();
+        //TextmaxEnergy.text = player.maxEnergy.ToString();
+        //TextrestoringEnergy.text = player.restoringEnergy.ToString();
         Textdefense.text = player.defense.ToString();      //Защита
         Textmagicdefense.text = player.magicdefense.ToString(); //Магическая Защита
         Textarmor.text = player.armor.ToString();        //Броня

@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+//скрипт будет делать хз что вообще, я запуталась, нафиг он нужен, в нем нет нихрена и одновременно есть всё и все его дергают
+//пусть живет, в общем
 
 public class UserData : MonoBehaviour
 {
-    public Inventory inventory;
-    public QuestsData quests;
+    //ГГДата наследуется от CreatureData (поэтому имеет инвентарь и статы) и добавляет от себя квесты (в скриптах квестов поменяла обращение, чтобы работало)
+    //поэтому к инвентарю, квестам и статам ГГ обращаемся через userData.ggData.нужныйАттрибут()
+    public GGData ggData;
 
     private void Awake()
     {
-        //создание объекта инвентаря
-        inventory = new Inventory();
 
-        //создание объекта журнала квестов
-        quests = new QuestsData();
+        ggData = new GGData();
 
-        //Не ругайся, это было лишь для проверки
-        //TODO: После коммита 17.05 можно удалить внизу
-        Quest v21 = quests.QuestList[0];
-        v21.isActiveQuest = 2;
-        quests.QuestList[0] = v21;
-    }    
+
+
+        //тестовое
+        ggData.stats.Set("Attack", 20);
+
+    }
+
+
+
+
+    
+
+
+
+
 }

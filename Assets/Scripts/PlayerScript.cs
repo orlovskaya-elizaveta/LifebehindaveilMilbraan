@@ -10,16 +10,13 @@ public class PlayerScript : MonoBehaviour {
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private Vector3 direction; //для перемещения нашего ГГ
-    public Image HPbar; //Скролл ХП ГГ
-    public Image ENERGYbar; //Скролл ЭЕРГИИ ГГ
+    public UserData userData;
 
     //Все основные параметры нашего персонажа
-    public float maxHealth = 100.0F;        //Максимальное количество жизней
-    public float restoringHealth;
-    public float currentHealth = 50.0F;     //текущее количество жизней
-    public float maxEnergy = 100.0F;        //Максимальное количество ЭНЕРГИИ
-    public float restoringEnergy;
-    public float currentEnergy = 50.0F;    //текущее количество ЭНЕРГИИ
+    private float currentEnergy;    //текущее количество ЭНЕРГИИ
+    private float restoringEnergy; //скорость восстановления энергии
+    private float expenseEnergy; //скорость расхода энергии
+
     public int currentGold;     //Текущее бабло
     public int currentWeight;   //Насколько тяжела ноша
     public int maxWeight;       //А сколько сможешь поднять ты!?
@@ -65,12 +62,8 @@ public class PlayerScript : MonoBehaviour {
     {   
         animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
-        HPbar.fillAmount = currentHealth / maxHealth;
-        ENERGYbar.fillAmount = currentEnergy / maxEnergy;
+        userData = GameObject.Find("UserData").GetComponent<UserData>();
 
-
-        restoringHealth = 10;
-        restoringEnergy = 1;
         //Обнуление всех параметров, характеристик и тп у ГГ
          currentGold = 0;     //Текущее бабло
          currentWeight = 0;   //Насколько тяжела ноша
@@ -103,6 +96,12 @@ public class PlayerScript : MonoBehaviour {
 }
     
     void Update () {
+        //обновляем значение энергии из данных игрока. Использование этой переменной в дальнейшем не меняет значения энергии в юзердата
+        //поэтому после каждого изменения здесь обновляю вручную с помощью Set TODO решить этот вопрос по другому
+        currentEnergy = userData.ggData.stats.Get("Energy");
+        restoringEnergy = userData.ggData.stats.Get("RestoringEnergy");
+        expenseEnergy = userData.ggData.stats.Get("ExpenseEnergy");
+
         //Если нажаты две кнопки - происходит движение по диагонали и отображается анимация ходьбы в сторону.
         //Если ходьба в какую-либо сторону, то происходит движение именно туда.
         //Если нажатия кнопок нет, то происходит анимация "стоит". 
@@ -111,34 +110,20 @@ public class PlayerScript : MonoBehaviour {
         else if (Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) Wake(1.0F);
         else
         {
-            currentEnergy++;
+            currentEnergy += restoringEnergy;
             currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
-            ENERGYbar.fillAmount = currentEnergy / maxEnergy;
+            userData.ggData.stats.Set("Energy", currentEnergy);
             if (State == (GGState)3) State = GGState.IdleRight;
             if (State == (GGState)4) State = GGState.IdleUp;
             if (State == (GGState)5) State = GGState.IdleDown;
         }
-        //Для проверки работы с HPbar
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            currentHealth -= 10;
-            currentHealth = currentHealth < 0.0F ? 0.0F : currentHealth;
-            HPbar.fillAmount = currentHealth / maxHealth;
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            currentHealth += 10;
-            currentHealth = currentHealth > maxHealth ? maxHealth : currentHealth;
-            HPbar.fillAmount = currentHealth / maxHealth;
-        }
-        //Конец проверок с HPbar
     }
 
     void Wake(float mnozhitel_speed)
     {
-        currentEnergy -= 0;
+        currentEnergy -= expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
-        ENERGYbar.fillAmount = currentEnergy / maxEnergy;
+        userData.ggData.stats.Set("Energy", currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
         State = GGState.WalkRight;
         direction = transform.right * Input.GetAxis("Horizontal");
@@ -163,9 +148,9 @@ public class PlayerScript : MonoBehaviour {
 
     void WakeUp(float mnozhitel_speed)
     {
-        currentEnergy -= 0;
+        currentEnergy -= expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
-        ENERGYbar.fillAmount = currentEnergy / maxEnergy;
+        userData.ggData.stats.Set("Energy", currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
         //ВОЗМОЖНО, можно перенести на две разные функции, чтобы был механизм похожий на функцию Wake(...)
         animator.StopPlayback();
@@ -194,6 +179,8 @@ public class PlayerScript : MonoBehaviour {
     {
         //Вызываем поочередно две функции.
         //0.7071F = корень(2)/2, что есть движение на 45 градусов.
+
+        //TODO здесь энергия тратится в два раза быстрее, надо поправить
         WakeUp(0.7071F);
         Wake(0.7071F);
     }
