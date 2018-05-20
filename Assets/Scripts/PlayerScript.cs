@@ -127,8 +127,9 @@ public class PlayerScript : MonoBehaviour {
             currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
             userData.ggData.stats.Set("Energy", currentEnergy);
             if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15) State = GGState.IdleRight;
-            if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
-            if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
+            else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
+            else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
+            if (State == (GGState)14) sprite.flipX = true;
         }
     }
 
@@ -268,6 +269,7 @@ public class PlayerScript : MonoBehaviour {
         Debug.Log((float)Screen.height / (float)Screen.width);
         Debug.Log(Screen.height );
         Debug.Log(Screen.width);*/
+        sprite.flipX = false;
         if (MousePosition.y/ MousePosition.x < (float)Screen.height / (float)Screen.width &&
             (- (float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Front;
 
