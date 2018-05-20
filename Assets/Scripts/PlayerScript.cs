@@ -22,7 +22,7 @@ public class PlayerScript : MonoBehaviour {
     public int maxWeight;       //А сколько сможешь поднять ты!?
     public int Level; //текущий левел
     public int CurrentExperience; //сколько опыта есть
-    public int NexttExperience; //сколько опыта до следующего
+    public int NextExperience; //сколько опыта до следующего
     //Характеристики
     //Основные параметры
     public int strength; // Сила ГГ
@@ -70,7 +70,7 @@ public class PlayerScript : MonoBehaviour {
          maxWeight = 0;       //А сколько сможешь поднять ты!?
          Level = 0;
         CurrentExperience = 0;
-        NexttExperience = 100;
+        NextExperience = 100;
         //Характеристики
         //Основные параметры
          strength = 0; // Сила ГГ
@@ -102,10 +102,23 @@ public class PlayerScript : MonoBehaviour {
         restoringEnergy = userData.ggData.stats.Get("RestoringEnergy");
         expenseEnergy = userData.ggData.stats.Get("ExpenseEnergy");
 
+        //Первая проверка на смерть персонажа, если умер, то нет смысла что-то нажимать
+
+        //Если нажата ЛКМ, то анимация удара
+        if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
+        //Если нажат пробел - по анимцию Dash
+
+
+        //Если Shift + направление - бег (LeftShift)
+        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunDiag();
+        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && (currentEnergy > 10.0F)) RunUp(2 * 1.0F);
+        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunSide(2 * 1.0F);
+
+        //ХОДЬБА
         //Если нажаты две кнопки - происходит движение по диагонали и отображается анимация ходьбы в сторону.
         //Если ходьба в какую-либо сторону, то происходит движение именно туда.
         //Если нажатия кнопок нет, то происходит анимация "стоит". 
-        if (Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) WakeDiag();
+        else if (Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) WakeDiag();
         else if (Input.GetButton("Vertical") && (currentEnergy > 10.0F)) WakeUp(1.0F);
         else if (Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) Wake(1.0F);
         else
@@ -113,9 +126,9 @@ public class PlayerScript : MonoBehaviour {
             currentEnergy += restoringEnergy;
             currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
             userData.ggData.stats.Set("Energy", currentEnergy);
-            if (State == (GGState)3) State = GGState.IdleRight;
-            if (State == (GGState)4) State = GGState.IdleUp;
-            if (State == (GGState)5) State = GGState.IdleDown;
+            if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15) State = GGState.IdleRight;
+            if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
+            if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
         }
     }
 
@@ -185,6 +198,89 @@ public class PlayerScript : MonoBehaviour {
         Wake(0.7071F);
     }
 
+    void RunSide(float mnozhitel_speed)
+    {
+        currentEnergy -= expenseEnergy;
+        currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
+        userData.ggData.stats.Set("Energy", currentEnergy);
+        //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
+        State = GGState.RunSide;
+        direction = transform.right * Input.GetAxis("Horizontal");
+        if (direction.x < 0.0F)
+        {
+            Vector2 PointA = new Vector2(transform.position.x - (float)0.22, transform.position.y + (float)0.3);
+            Vector2 PointB = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.3);
+            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //if(colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+        }
+        else
+        {
+            Vector2 PointA = new Vector2(transform.position.x + (float)0.22, transform.position.y + (float)0.3);
+            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
+            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
+        }
+        sprite.flipX = direction.x < 0.0F;
+    }
+
+    void RunUp(float mnozhitel_speed)
+    {
+        currentEnergy -= expenseEnergy;
+        currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
+        userData.ggData.stats.Set("Energy", currentEnergy);
+        //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
+        //ВОЗМОЖНО, можно перенести на две разные функции, чтобы был механизм похожий на функцию Wake(...)
+        animator.StopPlayback();
+        direction = transform.up * Input.GetAxis("Vertical");
+        if (direction.y > 0.0F)
+        {
+            State = GGState.RunBack;
+            Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y + (float)0.4);
+            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y + (float)0.3);
+            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+        }
+        else
+        {
+            State = GGState.RunFront;
+            Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.4);
+            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
+            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
+        }
+    }
+
+    void RunDiag()
+    {
+        RunUp(2 * 0.7071F);
+        RunSide(2 * 0.7071F);
+    }
+
+    void Attack(Vector3 MousePosition)
+    {
+        //if(MousePosition.y > Screen.height/2) State = GGState.Attack1Back;
+        //else State = GGState.Attack1Front;
+        /*Debug.Log(MousePosition.y / MousePosition.x);
+        Debug.Log((float)Screen.height / (float)Screen.width);
+        Debug.Log(Screen.height );
+        Debug.Log(Screen.width);*/
+        if (MousePosition.y/ MousePosition.x < (float)Screen.height / (float)Screen.width &&
+            (- (float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Front;
+
+        if (MousePosition.y / MousePosition.x > (float)Screen.height / (float)Screen.width &&
+            (-(float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Left;
+
+        if (MousePosition.y / MousePosition.x < (float)Screen.height / (float)Screen.width &&
+            (-(float)Screen.height + MousePosition.y) / MousePosition.x > -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Right;
+
+        if (MousePosition.y / MousePosition.x > (float)Screen.height / (float)Screen.width &&
+            (-(float)Screen.height + MousePosition.y) / MousePosition.x > -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Back;
+    }
+
     private void FixedUpdate()
     {
     }
@@ -197,5 +293,18 @@ public enum GGState
     IdleDown, //2
     WalkRight, //3
     WalkUp, //4
-    WalkDown //5
+    WalkDown, //5
+    RunBack, //6
+    RunFront, //7
+    RunSide, //8
+    DashBack, //9
+    DashFront, //10
+    DashSide, //11
+    Attack1Back, //12
+    Attack1Front, //13
+    Attack1Left, //14
+    Attack1Right, //15
+    DeathBack, //16
+    DeathFront, //17
+    DeathSide //18
 }

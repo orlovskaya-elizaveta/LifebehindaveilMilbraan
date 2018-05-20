@@ -54,7 +54,7 @@ public class CharacteristicsScript : MonoBehaviour {
         TextGold.text = player.currentGold.ToString();     //Текущее бабло
         TextWeight.text = player.currentWeight.ToString() + "/" + player.maxWeight.ToString();       //А сколько сможешь поднять ты!?
         TextLevel.text = player.Level.ToString();
-        TextExperience.text = player.CurrentExperience.ToString() + "/" + player.NexttExperience.ToString();
+        TextExperience.text = player.CurrentExperience.ToString() + "/" + player.NextExperience.ToString();
         //Характеристики
         //Основные параметры
         Textstrength.text = player.strength.ToString(); // Сила ГГ
