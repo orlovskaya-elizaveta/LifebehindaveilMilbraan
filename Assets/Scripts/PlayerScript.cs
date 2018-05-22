@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {  
+    //TODO: Понять где лучше разместить эту переменную
+    public bool IsBattle; 
+    
     [SerializeField]
     private Vector2 speed = new Vector2(2, 2); //Скорость персонажа.
-    
+
+    public GameObject Sword;
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private Vector3 direction; //для перемещения нашего ГГ
@@ -59,7 +63,10 @@ public class PlayerScript : MonoBehaviour {
     }
 
     private void Awake()
-    {   
+    {
+        IsBattle = true;//false;
+        Sword.SetActive(false);
+
         animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         userData = GameObject.Find("UserData").GetComponent<UserData>();
@@ -126,10 +133,12 @@ public class PlayerScript : MonoBehaviour {
             currentEnergy += restoringEnergy;
             currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
             userData.ggData.stats.Set("Energy", currentEnergy);
-            if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15) State = GGState.IdleRight;
+            if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15){
+                State = GGState.IdleRight;
+                if (State == (GGState)14) sprite.flipX = true;
+            }
             else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
             else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
-            if (State == (GGState)14) sprite.flipX = true;
         }
     }
 
@@ -269,18 +278,21 @@ public class PlayerScript : MonoBehaviour {
         Debug.Log((float)Screen.height / (float)Screen.width);
         Debug.Log(Screen.height );
         Debug.Log(Screen.width);*/
-        sprite.flipX = false;
-        if (MousePosition.y/ MousePosition.x < (float)Screen.height / (float)Screen.width &&
-            (- (float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Front;
+        if(IsBattle){
+            //Проверка в какую из четырех областей было нажато ЛКМ
+            sprite.flipX = false;
+            if (MousePosition.y/ MousePosition.x < (float)Screen.height / (float)Screen.width &&
+                (- (float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Front;
 
-        if (MousePosition.y / MousePosition.x > (float)Screen.height / (float)Screen.width &&
-            (-(float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Left;
+            if (MousePosition.y / MousePosition.x >= (float)Screen.height / (float)Screen.width &&
+                (-(float)Screen.height + MousePosition.y) / MousePosition.x <= -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Left;
 
-        if (MousePosition.y / MousePosition.x < (float)Screen.height / (float)Screen.width &&
-            (-(float)Screen.height + MousePosition.y) / MousePosition.x > -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Right;
+            if (MousePosition.y / MousePosition.x <= (float)Screen.height / (float)Screen.width &&
+                (-(float)Screen.height + MousePosition.y) / MousePosition.x >= -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Right;
 
-        if (MousePosition.y / MousePosition.x > (float)Screen.height / (float)Screen.width &&
-            (-(float)Screen.height + MousePosition.y) / MousePosition.x > -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Back;
+            if (MousePosition.y / MousePosition.x > (float)Screen.height / (float)Screen.width &&
+                (-(float)Screen.height + MousePosition.y) / MousePosition.x > -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Back;
+        }
     }
 
     private void FixedUpdate()
