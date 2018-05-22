@@ -234,6 +234,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\ChangeHPBar.cs" />
     <Compile Include="Assets\Scripts\CharacteristicsScript.cs" />
     <Compile Include="Assets\Scripts\Creatures\CreatureData.cs" />

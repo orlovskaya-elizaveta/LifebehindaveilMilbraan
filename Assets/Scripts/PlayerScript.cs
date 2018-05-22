@@ -9,7 +9,8 @@ public class PlayerScript : MonoBehaviour {
     
     [SerializeField]
     private Vector2 speed = new Vector2(2, 2); //Скорость персонажа.
-    
+
+    public GameObject Sword;
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private Vector3 direction; //для перемещения нашего ГГ
@@ -62,9 +63,10 @@ public class PlayerScript : MonoBehaviour {
     }
 
     private void Awake()
-    {   
-        IsBattle = false;
-        
+    {
+        IsBattle = true;//false;
+        Sword.SetActive(false);
+
         animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         userData = GameObject.Find("UserData").GetComponent<UserData>();
