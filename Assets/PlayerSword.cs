@@ -15,7 +15,7 @@ public class PlayerSword : MonoBehaviour {
     {
         //узнаем, какой урон наносит наш меч
         damage = userData.ggData.stats.Get("Attack");
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && collision.isTrigger == false)
         {
             //и передаем этот урон объекту врага
             collision.gameObject.GetComponent<EnemyBehaviour>().GetDamage(damage);

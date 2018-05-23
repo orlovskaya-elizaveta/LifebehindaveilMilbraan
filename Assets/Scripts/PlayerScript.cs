@@ -144,7 +144,7 @@ public class PlayerScript : MonoBehaviour {
 
     void Wake(float mnozhitel_speed)
     {
-        currentEnergy -= expenseEnergy;
+        currentEnergy -= mnozhitel_speed == 1? expenseEnergy : expenseEnergy/2;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set("Energy", currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
@@ -171,7 +171,7 @@ public class PlayerScript : MonoBehaviour {
 
     void WakeUp(float mnozhitel_speed)
     {
-        currentEnergy -= expenseEnergy;
+        currentEnergy -= mnozhitel_speed == 1? expenseEnergy : expenseEnergy/2;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set("Energy", currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
@@ -210,7 +210,7 @@ public class PlayerScript : MonoBehaviour {
 
     void RunSide(float mnozhitel_speed)
     {
-        currentEnergy -= expenseEnergy;
+        currentEnergy -= mnozhitel_speed == 2? 2*expenseEnergy : expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set("Energy", currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
@@ -237,7 +237,7 @@ public class PlayerScript : MonoBehaviour {
 
     void RunUp(float mnozhitel_speed)
     {
-        currentEnergy -= expenseEnergy;
+        currentEnergy -= mnozhitel_speed == 2? 2*expenseEnergy : expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set("Energy", currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
