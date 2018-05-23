@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NPCData : CreatureData
 {
-    private string dialog;
+    public string dialog;
 
     public NPCData()
     {

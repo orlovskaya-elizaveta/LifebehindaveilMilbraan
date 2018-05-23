@@ -12,6 +12,19 @@ public class GGData : CreatureData {
     }
 
     //сюда можно поместить остальные данные, которые не связаны со  сценой и которые присущи игроку
+
+    public void GetDamage(float damage)
+    {
+        if (stats.stats["HP"] > 0)
+            stats.stats["HP"] -= damage;
+        else
+            Dying();
+    }
+
+    private void Dying()
+    {
+
+    }
 }
 
 
