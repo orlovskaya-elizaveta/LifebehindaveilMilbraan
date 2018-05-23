@@ -49,50 +49,15 @@ public class NPCBehaviour : MonoBehaviour {
             double rand = Random.Range(0, 2 * (float)System.Math.PI);
             target[i] = new Vector3((transform.position.x + rad * (float)System.Math.Sin(rand)), (transform.position.y + rad * (float)System.Math.Cos(rand)), -2);
         }
-        currTarget = target[0];
+        //currTarget = target[0];
+        GetNextPoint();
     }
 
 
     void Start()
     {
-        //StartCoroutine(GameCoroutineNPC());
     }
 
-    
-    /*
-    IEnumerator GameCoroutineNPC()
-    {
-        while (true)
-        {
-            rnumber = Random.Range(0, 4);
-            switch (rnumber)
-            {
-                case 0:
-                    State = NPCState.NPC1Right;
-                    sprite.flipX = false;
-                    direction = transform.right;
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    break;
-                case 1:
-                    State = NPCState.NPC1Right;
-                    sprite.flipX = true;
-                    direction = -transform.right;
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    break;
-                case 2:
-                    State = NPCState.NPC1Back;
-                    direction = transform.up;
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    break;
-                case 3:
-                    State = NPCState.NPC1Front;
-                    direction = -transform.up;
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, 1.0f * Time.deltaTime);
-                    break;
-            }
-            yield return new WaitForSeconds(1.0f);
-        }
-    }*/
     private void Update()
     {
 
@@ -132,6 +97,47 @@ public class NPCBehaviour : MonoBehaviour {
     {
         //выбираем новую точку, до которой будем двигаться
         currTarget = target[Random.Range(0, 5)];
+        //Для смены анимации у НПС. Считаем угол от НПС до следующей точки
+        //Подумать еще с условиями (где-то лишние больше или равно)
+        float x = currTarget.x - transform.position.x;
+        float a;
+        if (x != 0) a = Mathf.Atan((currTarget.y - transform.position.y) / (x)) * 180 / 3.14f;
+        else a = 90;
+        if (x >= 0 && a >= 0)
+        {
+
+        }
+        else if (x <= 0 && a <= 0)
+        {
+            a = 180 + a;
+        }
+        else if (x <= 0 && a >= 0)
+        {
+            a = 180 + a;
+        }
+        else if (x >= 0 && a >= 0)
+        {
+            a = 360 + a;
+        }
+
+        if(a >= 315 || a <= 45)
+        {
+            State = NPCState.NPC1Right;
+            sprite.flipX = false;
+        }
+        else if (a >= 45 && a <= 135)
+        {
+            State = NPCState.NPC1Back;
+        }
+        else if (a >= 135 && a <= 225)
+        {
+            State = NPCState.NPC1Right;
+            sprite.flipX = true;
+        }
+        else if (a >= 225 && a <= 315)
+        {
+            State = NPCState.NPC1Front;
+        }
     }
 
     //всплывание реплики
