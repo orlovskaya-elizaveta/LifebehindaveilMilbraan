@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSword : MonoBehaviour {
+    UserData userData;
+    float damage;
+
+    public void Awake()
+    {
+        userData = GameObject.Find("UserData").GetComponent<UserData>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "NPC")
+        //узнаем, какой урон наносит наш меч
+        damage = userData.ggData.stats.Get("Attack");
+        if (collision.gameObject.tag == "Enemy")
         {
-            Destroy(collision.gameObject);
+            //и передаем этот урон объекту врага
+            collision.gameObject.GetComponent<EnemyBehaviour>().GetDamage(damage);
         }
     }
 }
