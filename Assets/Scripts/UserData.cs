@@ -18,9 +18,8 @@ public class UserData : MonoBehaviour
         ggData = new GGData();
 
 
-
-        //тестовое
-        ggData.stats.Set("Attack", 20);
+        //тестовое TODO
+        ggData.stats.Set(Stats.Key.ATTACK, 20);
 
     }
 

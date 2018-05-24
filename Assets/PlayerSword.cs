@@ -14,7 +14,7 @@ public class PlayerSword : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //узнаем, какой урон наносит наш меч
-        damage = userData.ggData.stats.Get("Attack");
+        damage = userData.ggData.stats.Get(Stats.Key.ATTACK);
         if (collision.gameObject.tag == "Enemy" && collision.isTrigger == false)
         {
             //и передаем этот урон объекту врага
