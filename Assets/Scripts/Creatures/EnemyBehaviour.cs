@@ -22,8 +22,6 @@ public class EnemyBehaviour : MonoBehaviour {
     private float timer;
     private Vector3 GGPos;
 
-    private Dictionary<string, float> stats; //синтаксический сахар
-
     private UnityEngine.UI.Text HPInfo;
 
     private void Awake()
@@ -39,7 +37,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
         //создаем экземпляр данных
         enemyData = new EnemyData();
-        stats = enemyData.stats.stats;//еще сахарочку, чтобы жизнь была сладкой
 
         //создаем массив точек для гуляния пока не видно ГГ
         target = new Vector3[5];
@@ -59,7 +56,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Update () {
         //вывод текущего хп на панельку, панелька тестовая
-        HPInfo.text = stats["HP"].ToString();
+        HPInfo.text = enemyData.stats.Get(Stats.Key.HP).ToString();
 
         // проверяем, достаточно ли близко гг, если да - идти к нему и атаковать, если нет - прогуливаться
         if (isGGNear == true)
@@ -85,7 +82,7 @@ public class EnemyBehaviour : MonoBehaviour {
         //если далеко - идем к нему
         else
         {
-            transform.Translate(dir.normalized * stats["Speed"] * Time.deltaTime, Space.World);
+            transform.Translate(dir.normalized * enemyData.stats.Get(Stats.Key.SPEED) * Time.deltaTime, Space.World);
         }
         
         
@@ -99,7 +96,7 @@ public class EnemyBehaviour : MonoBehaviour {
             timer += 1 * Time.deltaTime;
             if (timer >= 1)
             {
-                userData.ggData.GetDamage(stats["Attack"]);
+                userData.ggData.GetDamage(enemyData.stats.Get(Stats.Key.ATTACK));
                 timer = 0;
             }
         }
@@ -109,7 +106,7 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         //просто движемся до выбранной точки, если дошли - меняем точку
         Vector3 dir = currTarget - transform.position;
-        transform.Translate(dir.normalized * stats["Speed"] * Time.deltaTime, Space.World);
+        transform.Translate(dir.normalized * enemyData.stats.Get(Stats.Key.SPEED) * Time.deltaTime, Space.World);
         if (Vector3.Distance(transform.position, currTarget) <= 0.3f)
         {
             GetNextPoint();
@@ -143,8 +140,9 @@ public class EnemyBehaviour : MonoBehaviour {
     public void GetDamage(float damage)
     {
         //по клику здоровье врага отнимается, если стало 0, то через секнду объект врага удаляется со сцены
-        if (stats["HP"] > 0)
-            stats["HP"] -= damage;
+        float currHP = enemyData.stats.Get(Stats.Key.HP);
+        if (currHP > 0)
+            enemyData.stats.Set(Stats.Key.HP, currHP - damage);
         else
             Destroy(gameObject, 1);
     }
