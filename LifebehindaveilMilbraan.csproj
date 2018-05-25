@@ -303,6 +303,7 @@
     <Compile Include="Assets\Scripts\Quests\QuestButtonListScript.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestsButtonScript.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestsData.cs" />
+    <Compile Include="Assets\Scripts\RoofCollider.cs" />
     <Compile Include="Assets\Scripts\UserData.cs" />
   </ItemGroup>
   <ItemGroup>

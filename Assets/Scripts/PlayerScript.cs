@@ -105,9 +105,9 @@ public class PlayerScript : MonoBehaviour {
     void Update () {
         //обновляем значение энергии из данных игрока. Использование этой переменной в дальнейшем не меняет значения энергии в юзердата
         //поэтому после каждого изменения здесь обновляю вручную с помощью Set TODO решить этот вопрос по другому
-        currentEnergy = userData.ggData.stats.Get("Energy");
-        restoringEnergy = userData.ggData.stats.Get("RestoringEnergy");
-        expenseEnergy = userData.ggData.stats.Get("ExpenseEnergy");
+        currentEnergy = userData.ggData.stats.Get(Stats.Key.ENERGY);
+        restoringEnergy = userData.ggData.stats.Get(Stats.Key.RESTORING_ENERGY);
+        expenseEnergy = userData.ggData.stats.Get(Stats.Key.EXPENSE_ENERGY);
 
         //Первая проверка на смерть персонажа, если умер, то нет смысла что-то нажимать
 
@@ -132,7 +132,7 @@ public class PlayerScript : MonoBehaviour {
         {
             currentEnergy += restoringEnergy;
             currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
-            userData.ggData.stats.Set("Energy", currentEnergy);
+            userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
             if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15){
                 State = GGState.IdleRight;
                 if (State == (GGState)14) sprite.flipX = true;
@@ -146,7 +146,7 @@ public class PlayerScript : MonoBehaviour {
     {
         currentEnergy -= mnozhitel_speed == 1? expenseEnergy : expenseEnergy/2;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
-        userData.ggData.stats.Set("Energy", currentEnergy);
+        userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
         State = GGState.WalkRight;
         direction = transform.right * Input.GetAxis("Horizontal");
@@ -173,7 +173,7 @@ public class PlayerScript : MonoBehaviour {
     {
         currentEnergy -= mnozhitel_speed == 1? expenseEnergy : expenseEnergy/2;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
-        userData.ggData.stats.Set("Energy", currentEnergy);
+        userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
         //ВОЗМОЖНО, можно перенести на две разные функции, чтобы был механизм похожий на функцию Wake(...)
         animator.StopPlayback();
@@ -212,7 +212,7 @@ public class PlayerScript : MonoBehaviour {
     {
         currentEnergy -= mnozhitel_speed == 2? 2*expenseEnergy : expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
-        userData.ggData.stats.Set("Energy", currentEnergy);
+        userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
         State = GGState.RunSide;
         direction = transform.right * Input.GetAxis("Horizontal");
@@ -239,7 +239,7 @@ public class PlayerScript : MonoBehaviour {
     {
         currentEnergy -= mnozhitel_speed == 2? 2*expenseEnergy : expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
-        userData.ggData.stats.Set("Energy", currentEnergy);
+        userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
         //ВОЗМОЖНО, можно перенести на две разные функции, чтобы был механизм похожий на функцию Wake(...)
         animator.StopPlayback();

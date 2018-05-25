@@ -15,8 +15,9 @@ public class GGData : CreatureData {
 
     public void GetDamage(float damage)
     {
-        if (stats.stats["HP"] > 0)
-            stats.stats["HP"] -= damage;
+        float currHP = stats.Get(Stats.Key.HP);
+        if (currHP > 0)
+            stats.Set(Stats.Key.HP, currHP - damage);
         else
             Dying();
     }

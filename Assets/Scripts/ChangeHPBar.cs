@@ -24,8 +24,8 @@ public class ChangeHPBar : MonoBehaviour {
         ENERGYbar = gameObject.transform.GetChild(0).GetChild(2).GetComponent<Image>();
 
         
-        maxHP = userData.ggData.stats.Get("MaxHP");
-        maxEnergy = userData.ggData.stats.Get("MaxEnergy");
+        maxHP = userData.ggData.stats.Get(Stats.Key.MAX_HP);
+        maxEnergy = userData.ggData.stats.Get(Stats.Key.MAX_ENERGY);
 
         /*
          PanelHPBar.GetComponent<RectTransform>().sizeDelta = new Vector2(100,60);
@@ -40,8 +40,8 @@ public class ChangeHPBar : MonoBehaviour {
 
     void Update()
     {
-        currentHP = userData.ggData.stats.Get("HP");
-        currentEnergy = userData.ggData.stats.Get("Energy");
+        currentHP = userData.ggData.stats.Get(Stats.Key.HP);
+        currentEnergy = userData.ggData.stats.Get(Stats.Key.ENERGY);
         HPbar.fillAmount = currentHP / maxHP;
         ENERGYbar.fillAmount = currentEnergy / maxEnergy;
     }
