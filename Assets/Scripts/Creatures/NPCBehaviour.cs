@@ -115,7 +115,7 @@ public class NPCBehaviour : MonoBehaviour {
         {
             a = 180 + a;
         }
-        else if (x >= 0 && a >= 0)
+        else if (x >= 0 && a <= 0)
         {
             a = 360 + a;
         }
