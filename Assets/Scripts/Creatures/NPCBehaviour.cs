@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +11,8 @@ public class NPCBehaviour : MonoBehaviour {
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private int rnumber;
+    private AnimatorState[] states;
+    private static UnityEditor.Animations.AnimatorController controller;
 
     private Vector3[] target;
     private Vector3 currTarget;
@@ -31,9 +35,18 @@ public class NPCBehaviour : MonoBehaviour {
         }
     }
 
+    //Магия из https://stackoverflow.com/questions/45937991/how-can-i-get-animator-specific-state-length-and-how-to-make-a-loop-to-be-infi
+    private static UnityEditor.Animations.AnimatorState[] GetStateNames(Animator animator)
+    {
+        controller = animator ? animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController : null;
+        return controller == null ? null : controller.layers.SelectMany(l => l.stateMachine.states).Select(s => s.state).ToArray();
+    }
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        states = GetStateNames(animator);
+        //Debug.Log(states.Length);
         sprite = GetComponentInChildren<SpriteRenderer>();
         data = new NPCData();
 
@@ -115,15 +128,23 @@ public class NPCBehaviour : MonoBehaviour {
         {
             a = 180 + a;
         }
-        else if (x >= 0 && a >= 0)
+        else if (x >= 0 && a <= 0)
         {
             a = 360 + a;
         }
 
         if(a >= 315 || a <= 45)
         {
-            State = NPCState.NPC1Right;
-            sprite.flipX = false;
+            switch (states.Length)
+            {
+                case 3:
+                    State = NPCState.NPC1Right;
+                    sprite.flipX = false;
+                    break;
+                case 4:
+                    State = NPCState.NPC1Right;
+                    break;
+            }
         }
         else if (a >= 45 && a <= 135)
         {
@@ -131,8 +152,16 @@ public class NPCBehaviour : MonoBehaviour {
         }
         else if (a >= 135 && a <= 225)
         {
-            State = NPCState.NPC1Right;
-            sprite.flipX = true;
+            switch (states.Length)
+            {
+                case 3:
+                    State = NPCState.NPC1Right;
+                    sprite.flipX = true;
+                    break;
+                case 4:
+                    State = NPCState.NPC1Left;
+                    break;
+            }
         }
         else if (a >= 225 && a <= 315)
         {
@@ -162,5 +191,6 @@ public enum NPCState
 {
     NPC1Right, //0
     NPC1Front, //1
-    NPC1Back //2
+    NPC1Back, //2
+    NPC1Left
 }
