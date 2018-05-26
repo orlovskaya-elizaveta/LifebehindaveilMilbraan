@@ -234,7 +234,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\ChangeHPBar.cs" />
     <Compile Include="Assets\Scripts\CharacteristicsScript.cs" />
     <Compile Include="Assets\Scripts\Creatures\CreatureData.cs" />
@@ -252,6 +251,7 @@
     <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\PauseGame.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerSword.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestButtonListScript.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestsButtonScript.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestsData.cs" />
