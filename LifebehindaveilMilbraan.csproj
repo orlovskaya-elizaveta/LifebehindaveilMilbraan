@@ -249,6 +249,7 @@
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\ItemOnInv.cs" />
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\ItemOnScene.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\Oblako.cs" />
     <Compile Include="Assets\Scripts\PauseGame.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\PlayerSword.cs" />
