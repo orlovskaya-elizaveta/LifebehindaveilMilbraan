@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerScript : MonoBehaviour {  
+public class PlayerScript : MonoBehaviour
+{
     //TODO: Понять где лучше разместить эту переменную
-    public bool IsBattle; 
-    
+    public bool IsBattle;
+    public bool IsDeath;
+
     [SerializeField]
     private Vector2 speed = new Vector2(2, 2); //Скорость персонажа.
 
@@ -15,6 +17,7 @@ public class PlayerScript : MonoBehaviour {
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private Vector3 direction; //для перемещения нашего ГГ
     public UserData userData;
+    private float timer;
 
     //Все основные параметры нашего персонажа
     private float currentEnergy;    //текущее количество ЭНЕРГИИ
@@ -64,6 +67,8 @@ public class PlayerScript : MonoBehaviour {
 
     private void Awake()
     {
+        //timer = 0;
+        IsDeath = false;
         IsBattle = true;//false;
         Sword.SetActive(false);
 
@@ -72,37 +77,38 @@ public class PlayerScript : MonoBehaviour {
         userData = GameObject.Find("UserData").GetComponent<UserData>();
 
         //Обнуление всех параметров, характеристик и тп у ГГ
-         currentGold = 0;     //Текущее бабло
-         currentWeight = 0;   //Насколько тяжела ноша
-         maxWeight = 0;       //А сколько сможешь поднять ты!?
-         Level = 0;
+        currentGold = 0;     //Текущее бабло
+        currentWeight = 0;   //Насколько тяжела ноша
+        maxWeight = 0;       //А сколько сможешь поднять ты!?
+        Level = 0;
         CurrentExperience = 0;
         NextExperience = 100;
         //Характеристики
         //Основные параметры
-         strength = 0; // Сила ГГ
-         agility = 0; //Ловкость
-         endurance = 0; //Выносливость
-         intellect = 0; //Интеллект 
-        //Дополнительные параметры
-         defense = 0;      //Защита
-         magicdefense = 0; //Магическая Защита
-         armor = 0;        //Броня
-         magicarmor = 0;   //Магическая броня
-        //Сопротивляемость
-         resistanceToPoisons = 0; //сопротивляемость к ядам
-         resistanceToStunning = 0; // сопротивляемость к оглушению
-         resistanceToBleeding = 0; //сопротивляемость к кровотечению 
-         resistanceToMagic = 0; //сопротивляемость к магии
+        strength = 0; // Сила ГГ
+        agility = 0; //Ловкость
+        endurance = 0; //Выносливость
+        intellect = 0; //Интеллект 
+                       //Дополнительные параметры
+        defense = 0;      //Защита
+        magicdefense = 0; //Магическая Защита
+        armor = 0;        //Броня
+        magicarmor = 0;   //Магическая броня
+                          //Сопротивляемость
+        resistanceToPoisons = 0; //сопротивляемость к ядам
+        resistanceToStunning = 0; // сопротивляемость к оглушению
+        resistanceToBleeding = 0; //сопротивляемость к кровотечению 
+        resistanceToMagic = 0; //сопротивляемость к магии
 
         travelspeed = 2.0f;
         attackSpeed = 0.0f; //скорость атаки
         physicalDamage = 0.0f; // физический урон 
         criticalDamage = 0.0f; // критический урон 
         chanceCriticalDamage = 0.0f; //шанс критический урон 
-}
-    
-    void Update () {
+    }
+
+    void Update()
+    {
         //обновляем значение энергии из данных игрока. Использование этой переменной в дальнейшем не меняет значения энергии в юзердата
         //поэтому после каждого изменения здесь обновляю вручную с помощью Set TODO решить этот вопрос по другому
         currentEnergy = userData.ggData.stats.Get(Stats.Key.ENERGY);
@@ -110,41 +116,50 @@ public class PlayerScript : MonoBehaviour {
         expenseEnergy = userData.ggData.stats.Get(Stats.Key.EXPENSE_ENERGY);
 
         //Первая проверка на смерть персонажа, если умер, то нет смысла что-то нажимать
+        if (userData.ggData.stats.Get(Stats.Key.HP) > 0)
+        {
 
-        //Если нажата ЛКМ, то анимация удара
-        if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
-        //Если нажат пробел - по анимцию Dash
+            //Если нажата ЛКМ, то анимация удара
+            if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
+            //Если нажат пробел - по анимцию Dash
 
 
-        //Если Shift + направление - бег (LeftShift)
-        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunDiag();
-        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && (currentEnergy > 10.0F)) RunUp(2 * 1.0F);
-        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunSide(2 * 1.0F);
+            //Если Shift + направление - бег (LeftShift)
+            else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunDiag();
+            else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && (currentEnergy > 10.0F)) RunUp(2 * 1.0F);
+            else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunSide(2 * 1.0F);
 
-        //ХОДЬБА
-        //Если нажаты две кнопки - происходит движение по диагонали и отображается анимация ходьбы в сторону.
-        //Если ходьба в какую-либо сторону, то происходит движение именно туда.
-        //Если нажатия кнопок нет, то происходит анимация "стоит". 
-        else if (Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) WakeDiag();
-        else if (Input.GetButton("Vertical") && (currentEnergy > 10.0F)) WakeUp(1.0F);
-        else if (Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) Wake(1.0F);
+            //ХОДЬБА
+            //Если нажаты две кнопки - происходит движение по диагонали и отображается анимация ходьбы в сторону.
+            //Если ходьба в какую-либо сторону, то происходит движение именно туда.
+            //Если нажатия кнопок нет, то происходит анимация "стоит". 
+            else if (Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) WakeDiag();
+            else if (Input.GetButton("Vertical") && (currentEnergy > 10.0F)) WakeUp(1.0F);
+            else if (Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) Wake(1.0F);
+            else
+            {
+                currentEnergy += restoringEnergy;
+                currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
+                userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
+                if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
+                {
+                    State = GGState.IdleRight;
+                    if (State == (GGState)14) sprite.flipX = true;
+                }
+                else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
+                else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
+            }
+        }
         else
         {
-            currentEnergy += restoringEnergy;
-            currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
-            userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
-            if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15){
-                State = GGState.IdleRight;
-                if (State == (GGState)14) sprite.flipX = true;
-            }
-            else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
-            else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
+            if (!IsDeath) Dying();
+            //else GetComponent<Animator>().speed = 0;
         }
     }
 
     void Wake(float mnozhitel_speed)
     {
-        currentEnergy -= mnozhitel_speed == 1? expenseEnergy : expenseEnergy/2;
+        currentEnergy -= mnozhitel_speed == 1 ? expenseEnergy : expenseEnergy / 2;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
@@ -171,7 +186,7 @@ public class PlayerScript : MonoBehaviour {
 
     void WakeUp(float mnozhitel_speed)
     {
-        currentEnergy -= mnozhitel_speed == 1? expenseEnergy : expenseEnergy/2;
+        currentEnergy -= mnozhitel_speed == 1 ? expenseEnergy : expenseEnergy / 2;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
@@ -210,7 +225,7 @@ public class PlayerScript : MonoBehaviour {
 
     void RunSide(float mnozhitel_speed)
     {
-        currentEnergy -= mnozhitel_speed == 2? 2*expenseEnergy : expenseEnergy;
+        currentEnergy -= mnozhitel_speed == 2 ? 2 * expenseEnergy : expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Так как одна анимация на два случая жизни, то сразу отображаем анимацию, а потом осуществляем ходьбу.
@@ -237,7 +252,7 @@ public class PlayerScript : MonoBehaviour {
 
     void RunUp(float mnozhitel_speed)
     {
-        currentEnergy -= mnozhitel_speed == 2? 2*expenseEnergy : expenseEnergy;
+        currentEnergy -= mnozhitel_speed == 2 ? 2 * expenseEnergy : expenseEnergy;
         currentEnergy = currentEnergy < 0.0F ? 0.0F : currentEnergy;
         userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         //Останавливаем анимацию, после чего определяем направление движения и затем осуществляем нужную анимацию и движение.
@@ -278,11 +293,12 @@ public class PlayerScript : MonoBehaviour {
         Debug.Log((float)Screen.height / (float)Screen.width);
         Debug.Log(Screen.height );
         Debug.Log(Screen.width);*/
-        if(IsBattle){
+        if (IsBattle)
+        {
             //Проверка в какую из четырех областей было нажато ЛКМ
             sprite.flipX = false;
-            if (MousePosition.y/ MousePosition.x < (float)Screen.height / (float)Screen.width &&
-                (- (float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Front;
+            if (MousePosition.y / MousePosition.x < (float)Screen.height / (float)Screen.width &&
+                (-(float)Screen.height + MousePosition.y) / MousePosition.x < -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Front;
 
             if (MousePosition.y / MousePosition.x >= (float)Screen.height / (float)Screen.width &&
                 (-(float)Screen.height + MousePosition.y) / MousePosition.x <= -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Left;
@@ -293,6 +309,35 @@ public class PlayerScript : MonoBehaviour {
             if (MousePosition.y / MousePosition.x > (float)Screen.height / (float)Screen.width &&
                 (-(float)Screen.height + MousePosition.y) / MousePosition.x > -((float)Screen.height / (float)Screen.width)) State = GGState.Attack1Back;
         }
+    }
+
+    void Dying()
+    {
+        IsDeath = true;
+        //GetComponent<Animator>().speed = 0;
+        if (timer == 0)
+        {
+            if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
+            {
+                State = GGState.DeathSide;
+                //animator.Play("DeathSide");
+                if (State == (GGState)14) sprite.flipX = true;
+            }
+            else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12)
+            {
+                State = GGState.DeathFront;
+                //animator.Play("DeathFront");
+            }
+            else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13)
+            {
+                State = GGState.DeathBack;
+                //animator.Play("DeathBack");
+            }
+        }
+        //animator.Play("RunBack");
+        
+
+        //GetComponent<Animator>().speed = 0;
     }
 
     private void FixedUpdate()
