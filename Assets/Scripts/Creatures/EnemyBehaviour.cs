@@ -11,7 +11,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     float stayTime = 1;
 
-
+    private bool IsDeath;
 
     private Rigidbody2D rigidbody;
     private SpriteRenderer sprite;
@@ -40,6 +40,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private void Awake()
     {
+        IsDeath = false;
+
         animator = GetComponent<Animator>();
         //получаем всякие ссылки
         rigidbody = GetComponent<Rigidbody2D>();
@@ -72,16 +74,26 @@ public class EnemyBehaviour : MonoBehaviour {
         //вывод текущего хп на панельку, панелька тестовая
         HPInfo.text = enemyData.stats.Get(Stats.Key.HP).ToString();
 
-        // проверяем, достаточно ли близко гг, если да - идти к нему и атаковать, если нет - прогуливаться
-        if (isGGNear == true)
+        if (!IsDeath)
         {
-            GoToAttack();
+            // проверяем, достаточно ли близко гг, если да - идти к нему и атаковать, если нет - прогуливаться
+            if (isGGNear == true)
+            {
+                GoToAttack();
+            }
+            else
+            {
+                Walking();
+            }
         }
         else
         {
-            Walking();
+            timer += 1 * Time.deltaTime;
+            if (timer > 1)
+            {
+                Destroy(gameObject, 0);
+            }
         }
-
 
     }
 
@@ -301,7 +313,24 @@ public class EnemyBehaviour : MonoBehaviour {
         if (currHP > 0)
             enemyData.stats.Set(Stats.Key.HP, currHP - damage);
         else
-            Destroy(gameObject, 1);
+        {
+            IsDeath = true;
+            if(State == (EnemyState)0 || State == (EnemyState)3 || State == (EnemyState)6)
+            {
+                State = EnemyState.EnemyStateDeathRight;
+            }
+            if (State == (EnemyState)1 || State == (EnemyState)4)
+            {
+                State = EnemyState.EnemyStateDeathRight;
+            }
+            if (State == (EnemyState)5 || State == (EnemyState)2)
+            {
+                State = EnemyState.EnemyStateDeathBack;
+            }
+            timer = 0;
+            //Destroy(gameObject, 0);
+        }
+            
     }
 
 
@@ -316,5 +345,8 @@ public enum EnemyState
     EnemyStateAttackRight, //3
     EnemyStateAttackFront, //4
     EnemyStateAttackBack, //5
-    EnemyStateAttackLeft
+    EnemyStateAttackLeft,
+    EnemyStateDeathRight, //7
+    EnemyStateDeathFront, //8
+    EnemyStateDeathBack //9
 }

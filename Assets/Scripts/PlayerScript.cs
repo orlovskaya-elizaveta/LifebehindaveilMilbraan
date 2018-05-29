@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour
 {
     //TODO: Понять где лучше разместить эту переменную
     public bool IsBattle;
-    public bool IsDeath;
+    private bool IsDeath;
 
     [SerializeField]
     private Vector2 speed = new Vector2(2, 2); //Скорость персонажа.
@@ -153,6 +153,12 @@ public class PlayerScript : MonoBehaviour
         else
         {
             if (!IsDeath) Dying();
+            timer += 1 * Time.deltaTime;
+            if(timer > 1)
+            {
+                GetComponent<Animator>().speed = 0;
+            }
+            //
             //else GetComponent<Animator>().speed = 0;
         }
     }
@@ -365,5 +371,6 @@ public enum GGState
     Attack1Right, //15
     DeathBack, //16
     DeathFront, //17
-    DeathSide //18
+    DeathSide, //18
+    EndDeathSide
 }
