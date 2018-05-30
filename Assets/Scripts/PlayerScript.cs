@@ -121,7 +121,12 @@ public class PlayerScript : MonoBehaviour
 
             //Если нажата ЛКМ, то анимация удара
             if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
-            //Если нажат пробел - по анимцию Dash
+
+            //Если нажат пробел - то анимацию Dash
+            else if (Input.GetKey(KeyCode.Space))
+            {
+                Dash();
+            }
 
 
             //Если Shift + направление - бег (LeftShift)
@@ -141,13 +146,13 @@ public class PlayerScript : MonoBehaviour
                 currentEnergy += restoringEnergy;
                 currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
                 userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
-                if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
+                if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15 || State == (GGState)11)
                 {
                     State = GGState.IdleRight;
                     if (State == (GGState)14) sprite.flipX = true;
                 }
-                else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12) State = GGState.IdleUp;
-                else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13) State = GGState.IdleDown;
+                else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12 || State == (GGState)9) State = GGState.IdleUp;
+                else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13 || State == (GGState)10) State = GGState.IdleDown;
             }
         }
         else
@@ -344,6 +349,33 @@ public class PlayerScript : MonoBehaviour
         
 
         //GetComponent<Animator>().speed = 0;
+    }
+
+    void Dash()
+    {
+        if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
+        {
+            State = GGState.DashSide;
+            if (State == (GGState)14)
+            {
+                sprite.flipX = true;
+                transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0.1f, 0), 0.1f/4.0f);
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0.1f, 0), 0.1f / 4.0f);
+            }
+        }
+        else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12)
+        {
+            State = GGState.DashFront;
+            transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0, 0.1f), 0.1f / 4.0f);
+        }
+        else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13)
+        {
+            State = GGState.DashBack;
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0.1f), 0.1f / 4.0f);
+        }
     }
 
     private void FixedUpdate()
