@@ -260,6 +260,7 @@
     <Compile Include="Assets\Scripts\Quests\QuestsData.cs" />
     <Compile Include="Assets\Scripts\RoofCollider.cs" />
     <Compile Include="Assets\Scripts\UserData.cs" />
+    <Compile Include="Assets\YouDiedScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\text.txt" />
