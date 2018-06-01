@@ -234,9 +234,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LightController.cs" />
-    <Compile Include="Assets\Scripts\ChangeHPBar.cs" />
-    <Compile Include="Assets\Scripts\CharacteristicsScript.cs" />
     <Compile Include="Assets\Scripts\Creatures\CreatureData.cs" />
     <Compile Include="Assets\Scripts\Creatures\EnemyBehaviour.cs" />
     <Compile Include="Assets\Scripts\Creatures\EnemyData.cs" />
@@ -244,21 +241,25 @@
     <Compile Include="Assets\Scripts\Creatures\NPCBehaviour.cs" />
     <Compile Include="Assets\Scripts\Creatures\NPCData.cs" />
     <Compile Include="Assets\Scripts\Creatures\Stats.cs" />
+    <Compile Include="Assets\Scripts\ForObjectsOnScene\ObjectView.cs" />
+    <Compile Include="Assets\Scripts\ForObjectsOnScene\Oblako.cs" />
+    <Compile Include="Assets\Scripts\ForObjectsOnScene\RoofCollider.cs" />
+    <Compile Include="Assets\Scripts\InventoryAndCharacteristics\CharacteristicsScript.cs" />
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\Inventory.cs" />
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\InvField.cs" />
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\ItemData.cs" />
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\ItemOnInv.cs" />
     <Compile Include="Assets\Scripts\InventoryAndCharacteristics\ItemOnScene.cs" />
+    <Compile Include="Assets\Scripts\LightController.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\ObjectView.cs" />
-    <Compile Include="Assets\Scripts\Oblako.cs" />
     <Compile Include="Assets\Scripts\PauseGame.cs" />
-    <Compile Include="Assets\Scripts\PlayerScript.cs" />
-    <Compile Include="Assets\Scripts\PlayerSword.cs" />
+    <Compile Include="Assets\Scripts\Player\ChangeHPBar.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerScript.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerSword.cs" />
+    <Compile Include="Assets\Scripts\Quests\Quest.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestButtonListScript.cs" />
-    <Compile Include="Assets\Scripts\Quests\QuestsButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Quests\QuestsButton.cs" />
     <Compile Include="Assets\Scripts\Quests\QuestsData.cs" />
-    <Compile Include="Assets\Scripts\RoofCollider.cs" />
     <Compile Include="Assets\Scripts\UserData.cs" />
     <Compile Include="Assets\YouDiedScript.cs" />
   </ItemGroup>
