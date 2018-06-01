@@ -2,21 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct Quest
-{
-    public int isActiveQuest; //0 - квест еще не получен. 1 - активный квест. 2 - квест пройден
-    public int idQuest; //Номер квеста
-
-    public int chooseimg; // 0 - не выбрано, 1 - текущее, 2 - новая.
-    public string txt; //Текстовое поле для кнопки
-    public string description1; // Оглавление Квеста
-    public string description2; // Описание квеста
-    public string description3; // что надо сделать в квесте
-}
-
 public class QuestsData {
 
     public List<Quest> QuestList; //Лист со всеми квестами
+    public int activeQuestID; //id квеста, выбранного активным в данный момент
 
     public QuestsData()
     {
@@ -27,66 +16,45 @@ public class QuestsData {
 
     void CreateQuestsList()
     {
-        //Создание в ручную всех квестов в игре.
+        //заполняем список квестов из файла
+        System.IO.StreamReader file = new System.IO.StreamReader("QuestsData.txt", System.Text.Encoding.GetEncoding(1251));
+        string line;
+        while ((line = file.ReadLine()) != null)
+        {
+            Quest newQuest = new Quest();
+            int.TryParse(line, out newQuest.id);//записываем id
 
-        Quest que1;
-        que1.isActiveQuest = 1;
-        que1.idQuest = 1;
-        que1.chooseimg = 1; // 0 - не выбрано, 1 - текущее, 2 - новая.
-        que1.txt = "Задание 1";
-        que1.description1 = "Задание 1";
-        que1.description2 = "Задание 1";
-        que1.description3 = "Задание 1";
-        QuestList.Add(que1);
+            line = file.ReadLine();
+            int st = 0;
+            int.TryParse(line, out st);
+            newQuest.status = (Quest.Status)st;//статус
 
-        Quest que2;
-        que2.isActiveQuest = 2;
-        que2.idQuest = 2;
-        que2.chooseimg = 0; // 0 - не выбрано, 1 - текущее, 2 - новая.
-        que2.txt = "Задание 2";
-        que2.description1 = "Задание 2";
-        que2.description2 = "Задание 2";
-        que2.description3 = "Задание 2";
-        QuestList.Add(que2);
+            line = file.ReadLine();
+            newQuest.name = line;//имя
 
-        Quest que3;
-        que3.isActiveQuest = 0;
-        que3.idQuest = 3;
-        que3.chooseimg = 0; // 0 - не выбрано, 1 - текущее, 2 - новая.
-        que3.txt = "Задание 3";
-        que3.description1 = "Задание 3";
-        que3.description2 = "Задание 3";
-        que3.description3 = "Задание 3";
-        QuestList.Add(que3);
+            line = file.ReadLine();
+            newQuest.title = line;//заголовок
 
-        Quest que4;
-        que4.isActiveQuest = 1;
-        que4.idQuest = 4;
-        que4.chooseimg = 0; // 0 - не выбрано, 1 - текущее, 2 - новая.
-        que4.txt = "Задание 4";
-        que4.description1 = "Задание 4";
-        que4.description2 = "Задание 4";
-        que4.description3 = "Задание 4";
-        QuestList.Add(que4);
+            line = file.ReadLine();
+            newQuest.description = line;//описание
 
-        Quest que5;
-        que5.isActiveQuest = 1;
-        que5.idQuest = 5;
-        que5.chooseimg = 0; // 0 - не выбрано, 1 - текущее, 2 - новая.
-        que5.txt = "Задание 5";
-        que5.description1 = "Задание 5";
-        que5.description2 = "Задание 5";
-        que5.description3 = "Задание 5";
-        QuestList.Add(que5);
-        //QuestList[0].chooseimg = 0;
+            line = file.ReadLine();
+            newQuest.toDo = line;//и что делать
+
+            QuestList.Add(newQuest);
+        }
+        file.Close();
+
     }
 
-
-    public List<Quest> GetList()
+    //получить объект Quest по его id
+    public Quest GetQuestData (int id)
     {
-        return QuestList;
+        for (int i = 0; i < QuestList.Count; i++)
+        {
+            if (QuestList[i].id == id)
+                return QuestList[i];
+        }
+        return null;
     }
-
-
-
 }

@@ -5,124 +5,101 @@ using UnityEngine.UI;
 
 public class QuestButtonListScript : MonoBehaviour {
 
-    public Button buttonQuest; //Шаблон для создания кнопок, взятый из Префабов.
-    public Image LineImage; //Линия между активными и уже сделанными квестами
-    public Text Discription1; //Заголовок квеста. Справа наверху
-    public Text Discription2; //Описание квеста.
-    public Text Discription3; //Что надо сделать в квесте
+    private GameObject buttonQuest; //Шаблон для создания кнопок, взятый из Префабов.
+    private GameObject LineImage; //Линия между активными и уже сделанными квестами
+    private Text QuestTitle; //Заголовок квеста. Справа наверху
+    private Text QuestDescription; //Описание квеста.
+    private Text QuestToDo; //Что надо сделать в квесте
 
-    public List<Quest> QuestsList;
-    public GameObject userData; //Список всех квестов.
+    public QuestsData Quests;
+    public UserData userData; //Список всех квестов.
+    int currentActiveQuestID;
+    Transform content;
 
     private int PositionLine; //На данный момент это позиция на которой находится линия.
+    private GameObject questView;
+    GameObject currentQuestButton;
+
     //TODO: избавиться от PositionLine поиском детей в QuestButtonListScript на обнаружение кнопок или линии
-    
+
     private void Awake()
     {
-        PositionLine = 0; //Первоначальная позиция
+        buttonQuest = Resources.Load("Quests/QuestButton") as GameObject;
+        LineImage = Resources.Load("Quests/QuestSeparator") as GameObject;
     }
 
     void Start()
     {
-        /////////////////////////////////////////////////////////////////////////////////////
-        //это я дописала, чтобы работало
-        //QuestsList = new QuestsData();
-        
-        QuestsList = userData.GetComponent<UserData>().ggData.quests.GetList();
+        userData = GameObject.Find("UserData").GetComponent<UserData>();
+        Quests = userData.GetComponent<UserData>().ggData.quests;
+        currentActiveQuestID = userData.GetComponent<UserData>().ggData.quests.activeQuestID;
+        content = transform.Find("Scroll View/Viewport/Content");
 
-        //TODO: Надо перенести все в отдельную функцию
-        //Добавление активных квестов
-        for (int i = 0; i < QuestsList.Count; i++)
+        //удаляем старые дочерние объекты для отрисовки актуального списка
+        foreach (Transform child in content) Destroy(child.gameObject);
+
+        //добавляем активные
+        for (int i = 0; i < Quests.QuestList.Count; i++)
         {
-            if (QuestsList[i].isActiveQuest == 1)
+            if (Quests.QuestList[i].status == Quest.Status.ACTIVE)
             {
-                var but = Instantiate(buttonQuest, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                but.transform.SetParent(gameObject.transform, false);
-                but.GetComponent<QuestsButtonScript>().txt.text = QuestsList[i].txt;
-                but.GetComponent<QuestsButtonScript>().idQuest = QuestsList[i].idQuest;
-                but.GetComponent<QuestsButtonScript>().img.enabled = QuestsList[i].chooseimg > 0;
-                //but.onClick.AddListener(ClickButtonQuest());
-                but.onClick.AddListener(delegate { ClickButtonQuest(but.GetComponent<QuestsButtonScript>().idQuest - 1); });
-                PositionLine++;
+                GenerateButton(i);
             }
         }
 
-        //Добавление линии между активными и пройденными квестами
-        LineImage = Instantiate(LineImage, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-        LineImage.transform.parent = gameObject.transform;
-
-        //Добавление уже пройденных квестов
-        for (int i = 0; i < QuestsList.Count; i++)
+        //добавляем разделитель, если есть хоть один активный квест
+        if (content.GetChild(0))
         {
-            if (QuestsList[i].isActiveQuest == 2)
-            {
-                var but = Instantiate(buttonQuest, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                but.transform.SetParent(gameObject.transform, false);
-                but.GetComponent<QuestsButtonScript>().txt.text = QuestsList[i].txt;
-                but.GetComponent<QuestsButtonScript>().idQuest = QuestsList[i].idQuest;
-                but.GetComponent<QuestsButtonScript>().img.enabled = QuestsList[i].chooseimg > 0;
-                but.GetComponent<QuestsButtonScript>().txt.color = Color.gray;
-                but.onClick.AddListener(delegate { ClickButtonQuest(but.GetComponent<QuestsButtonScript>().idQuest - 1); });
-            }
+            GameObject sep = Instantiate(LineImage, transform.position, Quaternion.identity) as GameObject;
+            sep.transform.SetParent(content, false);
         }
-        //Заполняем поля квестов текстовыми значениями выбранного квеста 
-        for (int i = 0; i < QuestsList.Count; i++)
+
+        //добавляем выполненные
+        for (int i = 0; i < Quests.QuestList.Count; i++)
         {
-            if (QuestsList[i].chooseimg == 1)
+            if (Quests.QuestList[i].status == Quest.Status.DONE)
             {
-                Discription1.text = QuestsList[i].description1;
-                Discription2.text = QuestsList[i].description2;
-                Discription3.text = QuestsList[i].description3;
+                GenerateButton(i);
             }
         }
     }
 
-    //Функция для смены заданий в Канвасе Квестов. Т.е. перемещаем указатель(картинку вкл/выкл) и заменяем поля новым текстом
-    public void ClickButtonQuest(int idQ)
+    private void GenerateButton (int i)
     {
-        //Для смены структур в листе надо создавать новую структуру, менять в ней данный и после этойго менять уже в самом листе
-        //Выбранный квест ставим в поел chooseimg значение 2
-        Quest v = QuestsList[idQ];
-        v.chooseimg = 2;
-        QuestsList[idQ] = v;
-        //Ищем выбранный до этого квест со значением 1 и меняем на 2
-        for (int i = 0; i < QuestsList.Count; i++)
+        Quest qData = Quests.QuestList[i];
+        //по списку создаем префабы для каждого объекта
+        GameObject questView = Instantiate(Resources.Load("Quests/QuestButton"), transform.position, Quaternion.identity) as GameObject;
+        //делаем их дочерними к полю вывода
+        questView.transform.SetParent(content, false);
+        //и отдаем им данные
+        bool isActiveQuest = qData.id == currentActiveQuestID;
+        questView.GetComponent<QuestsButton>().SetQData(isActiveQuest, qData.name, qData.id);
+        
+        questView.GetComponent<Button>().onClick.AddListener(delegate { UpdateView(questView); });
+        //если это текущий активный квест, то сохраняем на него ссылку и вызываем отрисовку его описания справа
+        if (isActiveQuest)
         {
-            if (QuestsList[i].chooseimg == 1)
-            {
-                Quest v10 = QuestsList[i];
-                v10.chooseimg = 0;
-                QuestsList[i] = v10;
-                break;
-            }
+            currentQuestButton = questView;
+            UpdateView(questView);
         }
-        //Теперь нет выбранного квеста (нет поля со значением 1). Можно наш новый выбранный (2) поменять на значение 1.
-        for (int i = 0; i < QuestsList.Count; i++)
+        //если квест выполнен, делаем текст серым
+        if (qData.status == Quest.Status.DONE)
         {
-            if (QuestsList[i].chooseimg == 2)
-            {
-                Quest v21 = QuestsList[i];
-                v21.chooseimg = 1;
-                QuestsList[i] = v21;
-                //Поменяли значения и меняем все поля на новые текстовые значения
-                Discription1.text = QuestsList[i].description1;
-                Discription2.text = QuestsList[i].description2;
-                Discription3.text = QuestsList[i].description3;
-                break;
-            }
+            questView.GetComponent<QuestsButton>().SetTextColorGray();
         }
-        //После смены значений в Листе и в полях квеста нам необходимо вкл и вкл картинки во всех полях.
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (i != PositionLine) { 
-                if (QuestsList[transform.GetChild(i).GetComponentInChildren<QuestsButtonScript>().idQuest - 1].chooseimg == 1)
-                {
-                    transform.GetChild(i).GetComponentInChildren<QuestsButtonScript>().img.enabled = true;
-                }
-                else transform.GetChild(i).GetComponentInChildren<QuestsButtonScript>().img.enabled = false;
-            }
-        }
+    }
 
-        userData.GetComponent<UserData>().ggData.quests.QuestList = QuestsList;
+    public void UpdateView (GameObject questButton)
+    {
+        //переписываем поля описания квеста
+        int id = questButton.GetComponent<QuestsButton>().questID;
+        Quest qData = Quests.GetQuestData(id);
+        transform.GetChild(2).GetComponent<UnityEngine.UI.Text>().text = qData.title;
+        transform.GetChild(3).GetComponent<UnityEngine.UI.Text>().text = qData.description;
+        transform.GetChild(4).GetComponent<UnityEngine.UI.Text>().text = qData.toDo;
+        //и меняем флажок активного квеста
+        currentQuestButton.GetComponent<QuestsButton>().SetFlag(false);
+        questButton.GetComponent<QuestsButton>().SetFlag(true);
+        currentQuestButton = questButton;
     }
 }

@@ -124,13 +124,11 @@ public class PlayerScript : MonoBehaviour
             
             //Если нажата ЛКМ, то анимация удара
             if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
-
-            //Если нажат пробел - то анимацию Dash
+            //Если нажат пробел - по анимцию Dash
             else if (Input.GetKey(KeyCode.Space))
             {
                 Dash();
             }
-            
 
             //Если Shift + направление - бег (LeftShift)
             else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunDiag();
