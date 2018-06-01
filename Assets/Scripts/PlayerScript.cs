@@ -193,7 +193,7 @@ public class PlayerScript : MonoBehaviour
                 YouDied.SetActive(true);
                 //Если анимация подходит к концу, то останавливаем игровой таймер, тем самым анимация на канвасе тоже закончится и 
                 //делаем активными кнопки на этом канвасе
-                if (YouDied.active && timer > 1)
+                if (YouDied.active && timer > 2)
                 {
                     Time.timeScale = 0.0F;
                     YouDied.GetComponent<YouDiedScript>().SetActiveAllButtons();

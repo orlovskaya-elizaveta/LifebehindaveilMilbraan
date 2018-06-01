@@ -10,6 +10,11 @@ public class MainMenu : MonoBehaviour {
     public GameObject LoadButton;
     public GameObject NewButton;
     public GameObject NewButton2;
+    public GameObject PanelSettings;
+
+    public float music;
+    public float sound;
+
     //public Image img1;
     //public Image img2;
     //public Image img3;
@@ -49,11 +54,21 @@ public class MainMenu : MonoBehaviour {
 
     public void SettingGame()
     {
-
+        PanelSettings.SetActive(!PanelSettings.activeSelf);
     }
 
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void SetMusic(float val)
+    {
+        music = val;
+    }
+
+    public void SetSound(float val)
+    {
+        sound = val;
     }
 }
