@@ -6,20 +6,20 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour
 {
     //TODO: Понять где лучше разместить эту переменную
-    public bool IsBattle;
-    private bool IsDeath;
-    private bool IsDash;
+    public bool IsBattle; //Режим битвы сейчас или нет
+    private bool IsDeath; //Мертв ли наш персонаж. True - мертв
+    private bool IsDash; //Происходит ли анимация - кувырок
 
     [SerializeField]
     private Vector2 speed = new Vector2(2, 2); //Скорость персонажа.
 
-    public GameObject YouDied;
-    public GameObject Sword;
+    public GameObject YouDied; //Канвас "Вы погибли"
+    public GameObject Sword; //TODO: А надо ли.
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private Vector3 direction; //для перемещения нашего ГГ
-    public UserData userData;
-    private float timer;
+    public UserData userData; 
+    private float timer; //Таймер для проигрывания анимации кувырков и смерти.
 
     //Все основные параметры нашего персонажа
     private float currentEnergy;    //текущее количество ЭНЕРГИИ
@@ -71,7 +71,7 @@ public class PlayerScript : MonoBehaviour
     {
         //timer = 0;
         IsDeath = false;
-        IsBattle = true;//false;
+        IsBattle = true; //false;
         Sword.SetActive(false);
 
         animator = GetComponent<Animator>();
@@ -118,6 +118,7 @@ public class PlayerScript : MonoBehaviour
         expenseEnergy = userData.ggData.stats.Get(Stats.Key.EXPENSE_ENERGY);
 
         //Первая проверка на смерть персонажа, если умер, то нет смысла что-то нажимать
+        //ВОПРОС!? А нормально каждый кадр проверять userData.ggData.stats.Get(Stats.Key.HP) > 0
         if (userData.ggData.stats.Get(Stats.Key.HP) > 0)
         {
             
@@ -165,9 +166,11 @@ public class PlayerScript : MonoBehaviour
                     IsDash = false;
                 }
             }
+            //Таймер для анимации кувырок
             timer += 1 * Time.deltaTime;
             if (IsDash)
             {
+                //В зависимости от того, куда кувырок, то производим смещение.
                 if (State == GGState.DashFront) transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0, 0.4f), 0.005f);
                 else if (State == GGState.DashBack) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0.4f), 0.005f);
                 else if (State == GGState.DashSide && sprite.flipX == false) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0.4f, 0), 0.005f);
@@ -176,13 +179,20 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
+            //Для начала проигрывания анимации
             if (!IsDeath) Dying();
+            //Таймер для того, чтобы сыграть анимацию умирания
             timer += 1 * Time.deltaTime;
             if(timer > 1)
             {
+                //Останавливаем анимацию ГГ, он будет лежать на земле
                 GetComponent<Animator>().speed = 0;
+                //Если еще не был открыт канвас "Вы погибли", то обнуляем таймер, чтобы сыграть анимацию на канвасе
                 if (!YouDied.active) timer = 0;
+                //Открываем канвас "Вы погибли" и тем самым проигрывается анимация 
                 YouDied.SetActive(true);
+                //Если анимация подходит к концу, то останавливаем игровой таймер, тем самым анимация на канвасе тоже закончится и 
+                //делаем активными кнопки на этом канвасе
                 if (YouDied.active && timer > 1)
                 {
                     Time.timeScale = 0.0F;
@@ -252,8 +262,6 @@ public class PlayerScript : MonoBehaviour
     {
         //Вызываем поочередно две функции.
         //0.7071F = корень(2)/2, что есть движение на 45 градусов.
-
-        //TODO здесь энергия тратится в два раза быстрее, надо поправить
         WakeUp(0.7071F);
         Wake(0.7071F);
     }
@@ -322,12 +330,6 @@ public class PlayerScript : MonoBehaviour
 
     void Attack(Vector3 MousePosition)
     {
-        //if(MousePosition.y > Screen.height/2) State = GGState.Attack1Back;
-        //else State = GGState.Attack1Front;
-        /*Debug.Log(MousePosition.y / MousePosition.x);
-        Debug.Log((float)Screen.height / (float)Screen.width);
-        Debug.Log(Screen.height );
-        Debug.Log(Screen.width);*/
         if (IsBattle)
         {
             //Проверка в какую из четырех областей было нажато ЛКМ
@@ -348,32 +350,26 @@ public class PlayerScript : MonoBehaviour
 
     void Dying()
     {
+        //Персонаж умер. Устанавливаем таймер в 0 для проигрывания анимации
         IsDeath = true;
         timer = 0;
-        //GetComponent<Animator>().speed = 0;
-        if (timer == 0)
+        //Установка нужной анимации
+        if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
         {
-            if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
-            {
-                State = GGState.DeathSide;
-                //animator.Play("DeathSide");
-                if (State == (GGState)14) sprite.flipX = true;
-            }
-            else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12)
-            {
-                State = GGState.DeathFront;
-                //animator.Play("DeathFront");
-            }
-            else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13)
-            {
-                State = GGState.DeathBack;
-                //animator.Play("DeathBack");
-            }
+            State = GGState.DeathSide;
+            //animator.Play("DeathSide");
+            if (State == (GGState)14) sprite.flipX = true;
         }
-        //animator.Play("RunBack");
-        
-
-        //GetComponent<Animator>().speed = 0;
+        else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12)
+        {
+            State = GGState.DeathFront;
+            //animator.Play("DeathFront");
+        }
+        else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13)
+        {
+            State = GGState.DeathBack;
+            //animator.Play("DeathBack");
+        }
     }
 
     void Dash()
