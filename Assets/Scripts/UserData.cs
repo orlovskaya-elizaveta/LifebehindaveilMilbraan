@@ -20,7 +20,7 @@ public class UserData : MonoBehaviour
 
         //тестовое TODO
         ggData.stats.Set(Stats.Key.ATTACK, 50);
-        ggData.quests.activeQuestID = 5;
+        //ggData.quests.activeQuestID = 5;
 
     }
 
