@@ -5,7 +5,7 @@ using UnityEngine;
 public class QuestsData {
 
     public List<Quest> QuestList; //Лист со всеми квестами
-    public int activeQuestID; //id квеста, выбранного активным в данный момент
+    public int currentQuestID; //id квеста, выбранного активным в данный момент
 
     public QuestsData()
     {
@@ -56,5 +56,11 @@ public class QuestsData {
                 return QuestList[i];
         }
         return null;
+    }
+
+    public void TakeTheQuest (int id)
+    {
+        GetQuestData(id).status = Quest.Status.ACTIVE;
+        currentQuestID = id;
     }
 }

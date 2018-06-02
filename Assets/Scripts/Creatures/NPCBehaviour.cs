@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NPCBehaviour : MonoBehaviour {
 
@@ -18,8 +19,11 @@ public class NPCBehaviour : MonoBehaviour {
     private Vector3 currTarget;
     private float timer;
 
-    GameObject dialog;
+    GameObject dialogPanel;
     bool isDialog;
+    public string NPCName;
+    Transform Dialog;
+    UserData userData;
 
     NPCData data;
 
@@ -48,8 +52,8 @@ public class NPCBehaviour : MonoBehaviour {
         states = GetStateNames(animator);
         //Debug.Log(states.Length);
         sprite = GetComponentInChildren<SpriteRenderer>();
-        data = new NPCData();
-
+        data = new NPCData(NPCName);
+        userData = GameObject.Find("UserData").GetComponent<UserData>();
 
         //создаем массив точек для гуляния
         target = new Vector3[5];
@@ -66,11 +70,6 @@ public class NPCBehaviour : MonoBehaviour {
         GetNextPoint();
     }
 
-
-    void Start()
-    {
-    }
-
     private void Update()
     {
 
@@ -82,7 +81,7 @@ public class NPCBehaviour : MonoBehaviour {
             timer += 1 * Time.deltaTime;
             if (timer >= 2)
             {
-                Destroy(dialog);
+                Destroy(dialogPanel);
                 isDialog = false;
                 timer = 0;
             }
@@ -172,18 +171,40 @@ public class NPCBehaviour : MonoBehaviour {
     //всплывание реплики
     void OnMouseUp()
     {
-        Vector3 offset = new Vector3(0, 0.5f, 0);
-        isDialog = true;
-        dialog = Instantiate(Resources.Load("DialogPanel"), transform.position, Quaternion.identity) as GameObject;
-        dialog.transform.SetParent(this.transform, false);
-        dialog.transform.position += offset;
-        Transform TextPanel = dialog.transform.GetChild(1);
-        TextPanel.GetComponent<UnityEngine.UI.Text>().text = data.dialog;
+        if (data.questID == -1)//если не дает квест - выводим панельку
+        {
+            Vector3 offset = new Vector3(0, 0.5f, 0);
+            Vector3 pos = new Vector3(0, 0, 0);
+            isDialog = true;
+            dialogPanel = Instantiate(Resources.Load("DialogPanel"), pos, Quaternion.identity) as GameObject;
+            dialogPanel.transform.SetParent(this.transform, false);
+            dialogPanel.transform.position += offset;
+            Transform TextPanel = dialogPanel.transform.GetChild(1);
+            TextPanel.GetComponent<UnityEngine.UI.Text>().text = data.dialog;
+        }
+        //TODO сделать остановку времени на разговор (или хотя бы перемещений людей)
+        else // если есть квест выводим диалог
+        {
+            Dialog = GameObject.Find("Dialog").transform.Find("Canvas");
+            Dialog.gameObject.SetActive(true);
+            Dialog.Find("Text").GetComponent<UnityEngine.UI.Text>().text = data.dialog;
+            
+            GameObject agreeButton = Dialog.Find("ButtonAgree").gameObject;
+            agreeButton.SetActive(true);
+            GameObject disagreeButton = Dialog.Find("ButtonDisagree").gameObject;
+            disagreeButton.SetActive(true);
+            
+            agreeButton.GetComponent<Button>().onClick.AddListener( delegate { GetQuest(); });
+            disagreeButton.GetComponent<Button>().onClick.AddListener(delegate { Dialog.gameObject.SetActive(false); });
+        }
+        
     }
 
-    void OnMouseExit()
+    //выдавание квеста
+    public void GetQuest()
     {
-        //Destroy(dialog);
+        userData.ggData.quests.TakeTheQuest(data.questID);
+        Dialog.gameObject.SetActive(false);
     }
 }
 

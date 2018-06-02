@@ -13,14 +13,10 @@ public class QuestButtonListScript : MonoBehaviour {
 
     public QuestsData Quests;
     public UserData userData; //Список всех квестов.
-    int currentActiveQuestID;
     Transform content;
 
-    private int PositionLine; //На данный момент это позиция на которой находится линия.
     private GameObject questView;
     GameObject currentQuestButton;
-
-    //TODO: избавиться от PositionLine поиском детей в QuestButtonListScript на обнаружение кнопок или линии
 
     private void Awake()
     {
@@ -28,11 +24,10 @@ public class QuestButtonListScript : MonoBehaviour {
         LineImage = Resources.Load("Quests/QuestSeparator") as GameObject;
     }
 
-    void Start()
+    void OnEnable()
     {
         userData = GameObject.Find("UserData").GetComponent<UserData>();
         Quests = userData.GetComponent<UserData>().ggData.quests;
-        currentActiveQuestID = userData.GetComponent<UserData>().ggData.quests.activeQuestID;
         content = transform.Find("Scroll View/Viewport/Content");
 
         //удаляем старые дочерние объекты для отрисовки актуального списка
@@ -48,7 +43,7 @@ public class QuestButtonListScript : MonoBehaviour {
         }
 
         //добавляем разделитель, если есть хоть один активный квест
-        if (content.GetChild(0))
+        if (content.childCount >= 1)
         {
             GameObject sep = Instantiate(LineImage, transform.position, Quaternion.identity) as GameObject;
             sep.transform.SetParent(content, false);
@@ -72,7 +67,7 @@ public class QuestButtonListScript : MonoBehaviour {
         //делаем их дочерними к полю вывода
         questView.transform.SetParent(content, false);
         //и отдаем им данные
-        bool isActiveQuest = qData.id == currentActiveQuestID;
+        bool isActiveQuest = qData.id == Quests.currentQuestID;
         questView.GetComponent<QuestsButton>().SetQData(isActiveQuest, qData.name, qData.id);
         
         questView.GetComponent<Button>().onClick.AddListener(delegate { UpdateView(questView); });
@@ -98,8 +93,9 @@ public class QuestButtonListScript : MonoBehaviour {
         transform.GetChild(3).GetComponent<UnityEngine.UI.Text>().text = qData.description;
         transform.GetChild(4).GetComponent<UnityEngine.UI.Text>().text = qData.toDo;
         //и меняем флажок активного квеста
-        currentQuestButton.GetComponent<QuestsButton>().SetFlag(false);
+        if (currentQuestButton) currentQuestButton.GetComponent<QuestsButton>().SetFlag(false);
         questButton.GetComponent<QuestsButton>().SetFlag(true);
         currentQuestButton = questButton;
+        Quests.currentQuestID = qData.id;
     }
 }
