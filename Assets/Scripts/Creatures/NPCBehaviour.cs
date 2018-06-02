@@ -1,20 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor.Animations;
+#endif
 using UnityEngine;
+//using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class NPCBehaviour : MonoBehaviour {
+public class NPCBehaviour : MonoBehaviour
+{
 
     private Vector3 direction; //для перемещения 
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private int rnumber;
+#if UNITY_EDITOR
     private AnimatorState[] states;
     private static UnityEditor.Animations.AnimatorController controller;
-
+#endif
     private Vector3[] target;
     private Vector3 currTarget;
     private float timer;
@@ -38,18 +43,21 @@ public class NPCBehaviour : MonoBehaviour {
             animator.SetInteger("StateNpc", (int)value);
         }
     }
-
+#if UNITY_EDITOR
     //Магия из https://stackoverflow.com/questions/45937991/how-can-i-get-animator-specific-state-length-and-how-to-make-a-loop-to-be-infi
     private static UnityEditor.Animations.AnimatorState[] GetStateNames(Animator animator)
     {
         controller = animator ? animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController : null;
         return controller == null ? null : controller.layers.SelectMany(l => l.stateMachine.states).Select(s => s.state).ToArray();
     }
+#endif
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+#if UNITY_EDITOR
         states = GetStateNames(animator);
+#endif
         //Debug.Log(states.Length);
         sprite = GetComponentInChildren<SpriteRenderer>();
         data = new NPCData(NPCName);
@@ -73,7 +81,7 @@ public class NPCBehaviour : MonoBehaviour {
     private void Update()
     {
 
-        
+
         if (!isDialog)
             Walking();
         else
@@ -101,7 +109,7 @@ public class NPCBehaviour : MonoBehaviour {
                 GetNextPoint();
                 timer = 0;
             }
-            
+
         }
     }
 
@@ -132,8 +140,9 @@ public class NPCBehaviour : MonoBehaviour {
             a = 360 + a;
         }
 
-        if(a >= 315 || a <= 45)
+        if (a >= 315 || a <= 45)
         {
+#if UNITY_EDITOR
             switch (states.Length)
             {
                 case 3:
@@ -144,6 +153,7 @@ public class NPCBehaviour : MonoBehaviour {
                     State = NPCState.NPC1Right;
                     break;
             }
+#endif
         }
         else if (a >= 45 && a <= 135)
         {
@@ -151,6 +161,7 @@ public class NPCBehaviour : MonoBehaviour {
         }
         else if (a >= 135 && a <= 225)
         {
+#if UNITY_EDITOR
             switch (states.Length)
             {
                 case 3:
@@ -161,6 +172,7 @@ public class NPCBehaviour : MonoBehaviour {
                     State = NPCState.NPC1Left;
                     break;
             }
+#endif
         }
         else if (a >= 225 && a <= 315)
         {
@@ -182,22 +194,22 @@ public class NPCBehaviour : MonoBehaviour {
             Transform TextPanel = dialogPanel.transform.GetChild(1);
             TextPanel.GetComponent<UnityEngine.UI.Text>().text = data.dialog;
         }
-        //TODO сделать остановку времени на разговор (или хотя бы перемещений людей)
         else // если есть квест выводим диалог
         {
+            Time.timeScale = 0.0F; //Это останавливает вообще игроковое время, но можно нажимать на кнопки.
             Dialog = GameObject.Find("Dialog").transform.Find("Canvas");
             Dialog.gameObject.SetActive(true);
             Dialog.Find("Text").GetComponent<UnityEngine.UI.Text>().text = data.dialog;
-            
+
             GameObject agreeButton = Dialog.Find("ButtonAgree").gameObject;
             agreeButton.SetActive(true);
             GameObject disagreeButton = Dialog.Find("ButtonDisagree").gameObject;
             disagreeButton.SetActive(true);
-            
-            agreeButton.GetComponent<Button>().onClick.AddListener( delegate { GetQuest(); });
-            disagreeButton.GetComponent<Button>().onClick.AddListener(delegate { Dialog.gameObject.SetActive(false); });
+
+            agreeButton.GetComponent<Button>().onClick.AddListener(delegate { GetQuest(); });
+            disagreeButton.GetComponent<Button>().onClick.AddListener(delegate { GetDisagree(); });
         }
-        
+
     }
 
     //выдавание квеста
@@ -205,6 +217,13 @@ public class NPCBehaviour : MonoBehaviour {
     {
         userData.ggData.quests.TakeTheQuest(data.questID);
         Dialog.gameObject.SetActive(false);
+        Time.timeScale = 1.0F; //Возвращает скорость в мир наш как было до этого.
+    }
+
+    public void GetDisagree()
+    {
+        Dialog.gameObject.SetActive(false);
+        Time.timeScale = 1.0F; //Возвращает скорость в мир наш как было до этого.
     }
 }
 

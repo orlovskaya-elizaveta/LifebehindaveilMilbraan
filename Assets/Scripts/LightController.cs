@@ -10,6 +10,7 @@ public class LightController : MonoBehaviour {
     Light GlobalLight;
     Light LocalLight;
     public float timer = 1f;
+    public GameObject Player; //слежка за игроком
 
     void Start () {
 
@@ -21,6 +22,7 @@ public class LightController : MonoBehaviour {
     }
     void Update()
     {
+        GoToPlayer();
         timer -= Time.deltaTime;
         if (isDay && timer <= 0)
         {
@@ -36,7 +38,15 @@ public class LightController : MonoBehaviour {
             timer = 1;
             if (GlobalLight.intensity == 340) isDay = true;
         }
+        
+    }
 
+    void GoToPlayer()
+    {
+        Vector3 dir = Player.transform.position - transform.position;
+        //transform.Translate(dir.normalized, Space.World);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, 100 * Time.deltaTime);
+        transform.position = new Vector3(transform.position .x, transform.position.y, - 101);
     }
 
     /*

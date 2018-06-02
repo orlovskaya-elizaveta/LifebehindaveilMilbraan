@@ -11,7 +11,6 @@ public class CreatureData
     {
         inventory = new Inventory();
         stats = new Stats();
-
     }
 }
 
