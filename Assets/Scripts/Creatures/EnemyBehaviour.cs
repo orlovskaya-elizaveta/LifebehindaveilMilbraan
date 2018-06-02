@@ -295,6 +295,8 @@ public class EnemyBehaviour : MonoBehaviour {
             isGGNear = true;
             isDamage = true;
             GGPos = col.GetComponentInParent<Transform>().position;
+            //Если видим нашего ГГ, значит и он нас видит. Пора поднимать свои мечи.
+            userData.ggData.SetBattle(true);
         }
     }
     void OnTriggerExit2D(Collider2D col)
@@ -303,16 +305,18 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             isGGNear = false;
             isDamage = false;
+            //Его нигде не видно? Тогда пора быть мирным гражданином нашему ГГ.
+            userData.ggData.SetBattle(false);
         }
     }
 
     public void GetDamage(float damage)
     {
+        Debug.Log(enemyData.stats.Get(Stats.Key.HP));
         //по клику здоровье врага отнимается, если стало 0, то через секнду объект врага удаляется со сцены
         float currHP = enemyData.stats.Get(Stats.Key.HP);
-        if (currHP > 0)
-            enemyData.stats.Set(Stats.Key.HP, currHP - damage);
-        else
+        enemyData.stats.Set(Stats.Key.HP, currHP - damage);
+        if (currHP - damage <= 0)
         {
             IsDeath = true;
             if(State == (EnemyState)0 || State == (EnemyState)3 || State == (EnemyState)6)
@@ -328,7 +332,6 @@ public class EnemyBehaviour : MonoBehaviour {
                 State = EnemyState.EnemyStateDeathBack;
             }
             timer = 0;
-            //Destroy(gameObject, 0);
         }
             
     }

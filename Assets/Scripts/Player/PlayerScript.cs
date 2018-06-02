@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
-    //TODO: Понять где лучше разместить эту переменную
-    public bool IsBattle; //Режим битвы сейчас или нет
+    //TODO: Понять где лучше разместить эти переменную
+    //public bool IsBattle; //Режим битвы сейчас или нет
     private bool IsDeath; //Мертв ли наш персонаж. True - мертв
     private bool IsDash; //Происходит ли анимация - кувырок
 
@@ -71,7 +71,7 @@ public class PlayerScript : MonoBehaviour
     {
         //timer = 0;
         IsDeath = false;
-        IsBattle = true; //false;
+        //IsBattle = true; //false;
         Sword.SetActive(false);
 
         animator = GetComponent<Animator>();
@@ -210,17 +210,17 @@ public class PlayerScript : MonoBehaviour
         direction = transform.right * Input.GetAxis("Horizontal");
         if (direction.x < 0.0F)
         {
-            Vector2 PointA = new Vector2(transform.position.x - (float)0.22, transform.position.y + (float)0.3);
-            Vector2 PointB = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x - (float)0.22, transform.position.y + (float)0.3);
+            //Vector2 PointB = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if(colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
         }
         else
         {
-            Vector2 PointA = new Vector2(transform.position.x + (float)0.22, transform.position.y + (float)0.3);
-            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x + (float)0.22, transform.position.y + (float)0.3);
+            //Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
         }
@@ -239,18 +239,18 @@ public class PlayerScript : MonoBehaviour
         if (direction.y > 0.0F)
         {
             State = GGState.WalkUp;
-            Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y + (float)0.4);
-            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y + (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y + (float)0.4);
+            //Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y + (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
         }
         else
         {
             State = GGState.WalkDown;
-            Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.4);
-            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.4);
+            //Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
         }
@@ -274,17 +274,17 @@ public class PlayerScript : MonoBehaviour
         direction = transform.right * Input.GetAxis("Horizontal");
         if (direction.x < 0.0F)
         {
-            Vector2 PointA = new Vector2(transform.position.x - (float)0.22, transform.position.y + (float)0.3);
-            Vector2 PointB = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x - (float)0.22, transform.position.y + (float)0.3);
+            //Vector2 PointB = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if(colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
         }
         else
         {
-            Vector2 PointA = new Vector2(transform.position.x + (float)0.22, transform.position.y + (float)0.3);
-            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x + (float)0.22, transform.position.y + (float)0.3);
+            //Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.x * Time.deltaTime);
         }
@@ -303,18 +303,18 @@ public class PlayerScript : MonoBehaviour
         if (direction.y > 0.0F)
         {
             State = GGState.RunBack;
-            Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y + (float)0.4);
-            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y + (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y + (float)0.4);
+            //Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y + (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
         }
         else
         {
             State = GGState.RunFront;
-            Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.4);
-            Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
-            Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
+            //Vector2 PointA = new Vector2(transform.position.x - (float)0.15, transform.position.y - (float)0.4);
+            //Vector2 PointB = new Vector2(transform.position.x + (float)0.15, transform.position.y - (float)0.3);
+            //Collider2D[] colliders = Physics2D.OverlapAreaAll(PointA, PointB);
             //if (colliders.Length == 0) transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, mnozhitel_speed * speed.y * Time.deltaTime);
         }
@@ -328,7 +328,7 @@ public class PlayerScript : MonoBehaviour
 
     void Attack(Vector3 MousePosition)
     {
-        if (IsBattle)
+        if (userData.ggData.IsBattle)
         {
             //Проверка в какую из четырех областей было нажато ЛКМ
             sprite.flipX = false;

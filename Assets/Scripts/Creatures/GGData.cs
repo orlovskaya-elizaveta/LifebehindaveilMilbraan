@@ -11,7 +11,9 @@ public class GGData : CreatureData {
         quests = new QuestsData();
     }
 
-    //сюда можно поместить остальные данные, которые не связаны со  сценой и которые присущи игроку
+    //сюда можно поместить остальные данные, которые не связаны со сценой и которые присущи игроку
+    //Переменная отвечающая за состояние "Это битва?"
+    public bool IsBattle;
 
     public void GetDamage(float damage)
     {
@@ -21,6 +23,12 @@ public class GGData : CreatureData {
         else
             Dying();
     }
+    
+    public void SetBattle(bool SetIsBattle)
+    {
+        IsBattle = SetIsBattle;
+    }
+
 
     private void Dying()
     {

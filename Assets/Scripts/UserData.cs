@@ -14,7 +14,6 @@ public class UserData : MonoBehaviour
 
     private void Awake()
     {
-
         ggData = new GGData();
 
 
@@ -22,14 +21,6 @@ public class UserData : MonoBehaviour
         ggData.stats.Set(Stats.Key.ATTACK, 50);
         //ggData.quests.activeQuestID = 5;
 
+        ggData.IsBattle = false;
     }
-
-
-
-
-    
-
-
-
-
 }
