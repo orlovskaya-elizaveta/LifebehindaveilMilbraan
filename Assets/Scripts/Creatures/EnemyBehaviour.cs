@@ -94,7 +94,7 @@ public class EnemyBehaviour : MonoBehaviour {
                 Destroy(gameObject, 0);
             }
         }
-
+        transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y / 1000);
     }
 
     private void GoToAttack()
@@ -102,46 +102,28 @@ public class EnemyBehaviour : MonoBehaviour {
         //если близко к ГГ, то бьем его
         Vector3 dir = GGPos - transform.position;
         float x = GGPos.x - transform.position.x;
-        float a;
-        if (x != 0) a = Mathf.Atan((GGPos.y - transform.position.y) / (x)) * 180 / 3.14f;
-        else a = 90;
-        if (x >= 0 && a >= 0)
-        {
-
-        }
-        else if (x <= 0 && a <= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x <= 0 && a >= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x >= 0 && a <= 0)
-        {
-            a = 360 + a;
-        }
-        //было 0.7
+        float b = Mathf.Atan2((GGPos.y - transform.position.y), x);
+        b = b * 180 / 3.14f;
         if (Vector3.Distance(transform.position, GGPos) <= 0.6f)
         {
             //Для смены анимации у НПС. Считаем угол от НПС до следующей точки
             //Подумать еще с условиями (где-то лишние больше или равно)
-            if (a >= 315 || a <= 45)
+            if (b >= -45 && b <= 45)
             {
                 sprite.flipX = false;
                 State = EnemyState.EnemyStateAttackRight;
-                
+
             }
-            else if (a >= 45 && a <= 135)
+            else if (b >= 45 && b <= 135)
             {
                 State = EnemyState.EnemyStateAttackBack;
             }
-            else if (a >= 135 && a <= 225)
+            else if (b >= 135 || b <= -135)
             {
                 sprite.flipX = false;
                 State = EnemyState.EnemyStateAttackLeft;
             }
-            else if (a >= 225 && a <= 315)
+            else if (b >= -135 && b <= -45)
             {
                 State = EnemyState.EnemyStateAttackFront;
             }
@@ -152,28 +134,27 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             //Для смены анимации у НПС. Считаем угол от НПС до следующей точки
             //Подумать еще с условиями (где-то лишние больше или равно)
-            if (a >= 315 || a <= 45)
+            if (b >= -45 && b <= 45)
             {
                 sprite.flipX = false;
-                State = EnemyState.EnemyStateRight;                
+                State = EnemyState.EnemyStateRight;
             }
-            else if (a >= 45 && a <= 135)
+            else if (b >= 45 && b <= 135)
             {
                 State = EnemyState.EnemyStateBack;
             }
-            else if (a >= 135 && a <= 225)
+            else if (b >= 135 || b <= -135)
             {
                 sprite.flipX = true;
                 State = EnemyState.EnemyStateRight;
             }
-            else if (a >= 225 && a <= 315)
+            else if (b >= -135 && b <= -45)
             {
                 State = EnemyState.EnemyStateFront;
             }
             transform.Translate(dir.normalized * enemyData.stats.Get(Stats.Key.SPEED) * Time.deltaTime, Space.World);
         }
-        
-        
+
     }
 
     private void Attack()
@@ -195,41 +176,24 @@ public class EnemyBehaviour : MonoBehaviour {
         //просто движемся до выбранной точки, если дошли - меняем точку
         Vector3 dir = currTarget - transform.position;
         float x = currTarget.x - transform.position.x;
-        float a;
-        if (x != 0) a = Mathf.Atan((currTarget.y - transform.position.y) / (x)) * 180 / 3.14f;
-        else a = 90;
-        if (x >= 0 && a >= 0)
-        {
+        float b = Mathf.Atan2((GGPos.y - transform.position.y), x);
+        b = b * 180 / 3.14f;
 
-        }
-        else if (x <= 0 && a <= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x <= 0 && a >= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x >= 0 && a <= 0)
-        {
-            a = 360 + a;
-        }
-
-        if (a >= 315 || a <= 45)
+        if (b >= -45 && b <= 45)
         {
             State = EnemyState.EnemyStateRight;
             sprite.flipX = false;
         }
-        else if (a >= 45 && a <= 135)
+        else if (b >= 45 && b <= 135)
         {
             State = EnemyState.EnemyStateBack;
         }
-        else if (a >= 135 && a <= 225)
+        else if (b >= 135 || b <= -135)
         {
             State = EnemyState.EnemyStateRight;
             sprite.flipX = true;
         }
-        else if (a >= 225 && a <= 315)
+        else if (b >= -135 && b <= -45)
         {
             State = EnemyState.EnemyStateFront;
         }
@@ -248,41 +212,22 @@ public class EnemyBehaviour : MonoBehaviour {
         //Для смены анимации у НПС. Считаем угол от НПС до следующей точки
         //Подумать еще с условиями (где-то лишние больше или равно)
         float x = currTarget.x - transform.position.x;
-        float a;
-        if (x != 0) a = Mathf.Atan((currTarget.y - transform.position.y) / (x)) * 180 / 3.14f;
-        else a = 90;
-        if (x >= 0 && a >= 0)
-        {
-
-        }
-        else if (x <= 0 && a <= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x <= 0 && a >= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x >= 0 && a <= 0)
-        {
-            a = 360 + a;
-        }
-
-        if (a >= 315 || a <= 45)
+        float b = Mathf.Atan2((GGPos.y - transform.position.y), x);
+        if (b >= -45 && b <= 45)
         {
             State = EnemyState.EnemyStateRight;
             sprite.flipX = false;
         }
-        else if (a >= 45 && a <= 135)
+        else if (b >= 45 && b <= 135)
         {
             State = EnemyState.EnemyStateBack;
         }
-        else if (a >= 135 && a <= 225)
+        else if (b >= 135 || b <= -135)
         {
             State = EnemyState.EnemyStateRight;
             sprite.flipX = true;
         }
-        else if (a >= 225 && a <= 315)
+        else if (b >= -135 && b <= -45)
         {
             State = EnemyState.EnemyStateFront;
         }

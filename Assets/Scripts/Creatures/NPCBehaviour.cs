@@ -94,6 +94,7 @@ public class NPCBehaviour : MonoBehaviour
                 timer = 0;
             }
         }
+        transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y / 1000);
     }
 
     private void Walking()
@@ -120,27 +121,10 @@ public class NPCBehaviour : MonoBehaviour
         //Для смены анимации у НПС. Считаем угол от НПС до следующей точки
         //Подумать еще с условиями (где-то лишние больше или равно)
         float x = currTarget.x - transform.position.x;
-        float a;
-        if (x != 0) a = Mathf.Atan((currTarget.y - transform.position.y) / (x)) * 180 / 3.14f;
-        else a = 90;
-        if (x >= 0 && a >= 0)
-        {
+        float b = Mathf.Atan2((currTarget.y - transform.position.y), x);
+        b = b * 180 / 3.14f;
 
-        }
-        else if (x <= 0 && a <= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x <= 0 && a >= 0)
-        {
-            a = 180 + a;
-        }
-        else if (x >= 0 && a <= 0)
-        {
-            a = 360 + a;
-        }
-
-        if (a >= 315 || a <= 45)
+        if (b >= -45 && b <= 45)
         {
 #if UNITY_EDITOR
             switch (states.Length)
@@ -155,11 +139,11 @@ public class NPCBehaviour : MonoBehaviour
             }
 #endif
         }
-        else if (a >= 45 && a <= 135)
+        else if (b >= 45 && b <= 135)
         {
             State = NPCState.NPC1Back;
         }
-        else if (a >= 135 && a <= 225)
+        else if (b >= 135 || b <= -135)
         {
 #if UNITY_EDITOR
             switch (states.Length)
@@ -174,7 +158,7 @@ public class NPCBehaviour : MonoBehaviour
             }
 #endif
         }
-        else if (a >= 225 && a <= 315)
+        else if (b >= -135 && b <= -45)
         {
             State = NPCState.NPC1Front;
         }
