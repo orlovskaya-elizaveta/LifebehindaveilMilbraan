@@ -198,6 +198,9 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
+
+        //Для того, чтобы все люди относительно друг друга имели передний и задний план.
+        transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y/1000);
     }
 
     void Wake(float mnozhitel_speed)
