@@ -23,8 +23,8 @@ public class EnemyBehaviour : MonoBehaviour {
     private bool isDamage;
     private float timer;
     private Vector3 GGPos;
-
-    private UnityEngine.UI.Text HPInfo;
+    
+    private UnityEngine.UI.Image HPBar;
 
     private EnemyState State //Установка и получение состояния (анимации)
     {
@@ -49,7 +49,7 @@ public class EnemyBehaviour : MonoBehaviour {
         userData = GameObject.Find("UserData").GetComponent<UserData>();
 
         //получаем ссылку на панельку для тестового вывода хп
-        HPInfo = gameObject.transform.GetChild(0).GetChild(1).GetComponent<UnityEngine.UI.Text>();
+        HPBar = gameObject.transform.GetChild(0).GetChild(1).GetComponent<UnityEngine.UI.Image>();
 
         //создаем экземпляр данных
         enemyData = new EnemyData();
@@ -72,7 +72,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Update () {
         //вывод текущего хп на панельку, панелька тестовая
-        HPInfo.text = enemyData.stats.Get(Stats.Key.HP).ToString();
+        HPBar.fillAmount = enemyData.stats.Get(Stats.Key.HP)/ enemyData.stats.Get(Stats.Key.MAX_HP);
 
         if (!IsDeath)
         {
@@ -312,7 +312,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public void GetDamage(float damage)
     {
-        Debug.Log(enemyData.stats.Get(Stats.Key.HP));
+        //Debug.Log(enemyData.stats.Get(Stats.Key.HP));
         //по клику здоровье врага отнимается, если стало 0, то через секнду объект врага удаляется со сцены
         float currHP = enemyData.stats.Get(Stats.Key.HP);
         enemyData.stats.Set(Stats.Key.HP, currHP - damage);

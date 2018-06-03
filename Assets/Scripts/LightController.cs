@@ -45,7 +45,7 @@ public class LightController : MonoBehaviour {
     {
         Vector3 dir = Player.transform.position - transform.position;
         //transform.Translate(dir.normalized, Space.World);
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, 100 * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, 300 * Time.deltaTime);
         transform.position = new Vector3(transform.position .x, transform.position.y, - 101);
     }
 
