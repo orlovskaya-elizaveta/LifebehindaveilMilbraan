@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
 using UnityEditor.Animations;
-#endif
+#endif*/
 using UnityEngine;
 //using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
@@ -16,10 +16,10 @@ public class NPCBehaviour : MonoBehaviour
     private Animator animator; //работа с анимацией
     private SpriteRenderer sprite; //для разворота персонажа в анимации лево-право
     private int rnumber;
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
     private AnimatorState[] states;
     private static UnityEditor.Animations.AnimatorController controller;
-#endif
+#endif*/
     private Vector3[] target;
     private Vector3 currTarget;
     private float timer;
@@ -29,6 +29,9 @@ public class NPCBehaviour : MonoBehaviour
     public string NPCName;
     Transform Dialog;
     UserData userData;
+
+    [SerializeField]
+    private int sizeAnimation;
 
     NPCData data;
 
@@ -43,23 +46,24 @@ public class NPCBehaviour : MonoBehaviour
             animator.SetInteger("StateNpc", (int)value);
         }
     }
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
     //Магия из https://stackoverflow.com/questions/45937991/how-can-i-get-animator-specific-state-length-and-how-to-make-a-loop-to-be-infi
     private static UnityEditor.Animations.AnimatorState[] GetStateNames(Animator animator)
     {
         controller = animator ? animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController : null;
         return controller == null ? null : controller.layers.SelectMany(l => l.stateMachine.states).Select(s => s.state).ToArray();
     }
-#endif
+#endif*/
 
-    private void Awake()
+    private void Start()
     {
         animator = GetComponent<Animator>();
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
         states = GetStateNames(animator);
-#endif
+#endif*/
         //Debug.Log(states.Length);
         sprite = GetComponentInChildren<SpriteRenderer>();
+        if (NPCName == null) NPCName = "NPC0";
         data = new NPCData(NPCName);
         userData = GameObject.Find("UserData").GetComponent<UserData>();
 
@@ -126,8 +130,7 @@ public class NPCBehaviour : MonoBehaviour
 
         if (b >= -45 && b <= 45)
         {
-#if UNITY_EDITOR
-            switch (states.Length)
+            switch (sizeAnimation)
             {
                 case 3:
                     State = NPCState.NPC1Right;
@@ -137,7 +140,18 @@ public class NPCBehaviour : MonoBehaviour
                     State = NPCState.NPC1Right;
                     break;
             }
-#endif
+            /*#if UNITY_EDITOR
+                        switch (states.Length)
+                        {
+                            case 3:
+                                State = NPCState.NPC1Right;
+                                sprite.flipX = false;
+                                break;
+                            case 4:
+                                State = NPCState.NPC1Right;
+                                break;
+                        }
+            #endif*/
         }
         else if (b >= 45 && b <= 135)
         {
@@ -145,8 +159,19 @@ public class NPCBehaviour : MonoBehaviour
         }
         else if (b >= 135 || b <= -135)
         {
-#if UNITY_EDITOR
-            switch (states.Length)
+            /*#if UNITY_EDITOR
+                        switch (states.Length)
+                        {
+                            case 3:
+                                State = NPCState.NPC1Right;
+                                sprite.flipX = true;
+                                break;
+                            case 4:
+                                State = NPCState.NPC1Left;
+                                break;
+                        }
+            #endif*/
+            switch (sizeAnimation)
             {
                 case 3:
                     State = NPCState.NPC1Right;
@@ -156,7 +181,6 @@ public class NPCBehaviour : MonoBehaviour
                     State = NPCState.NPC1Left;
                     break;
             }
-#endif
         }
         else if (b >= -135 && b <= -45)
         {

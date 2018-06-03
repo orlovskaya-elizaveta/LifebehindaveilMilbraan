@@ -6,7 +6,7 @@ public class PlayerSword : MonoBehaviour {
     UserData userData;
     float damage;
 
-    public void Awake()
+    public void Start()
     {
         userData = GameObject.Find("UserData").GetComponent<UserData>();
     }

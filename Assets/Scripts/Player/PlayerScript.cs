@@ -67,7 +67,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private void Start()
     {
         //timer = 0;
         IsDeath = false;
