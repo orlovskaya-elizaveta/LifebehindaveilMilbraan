@@ -8,7 +8,7 @@ public class YouDiedScript : MonoBehaviour {
     public  GameObject LButton;
     public  GameObject RButton;
 
-    public  void SetActiveAllButtons()
+    public void SetActiveAllButtons()
     {
         LButton.SetActive(true);
         RButton.SetActive(true);
