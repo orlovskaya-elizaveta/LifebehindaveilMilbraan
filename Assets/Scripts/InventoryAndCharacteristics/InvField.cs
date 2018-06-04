@@ -19,6 +19,7 @@ public class InvField : MonoBehaviour {
         
         for (int i = 0; i < itemList.Count; i++)
             {
+            Debug.Log(itemList[i]);
             //по списку создаем префабы для каждого объекта
             GameObject item = Instantiate(Resources.Load("Inv/ItemCell"), transform.position, Quaternion.identity) as GameObject;
             //делаем их дочерними к полю вывода
