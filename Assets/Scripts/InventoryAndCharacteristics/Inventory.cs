@@ -21,6 +21,10 @@ public class Inventory {
     public void PutItem(ItemData item)
     {
         items.Add(item);
+        for (int i = 0; i < items.Count; i++)
+        {
+            Debug.Log(items[i].id);
+        }
     }
 
 }
