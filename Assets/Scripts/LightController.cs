@@ -18,6 +18,7 @@ public class LightController : MonoBehaviour {
         LocalLight = gameObject.transform.GetChild(1).GetComponentInChildren<Light>();
         GlobalLight.intensity = 340;
         LocalLight.intensity = 0;
+        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, -101);
         //StartCoroutine(TestCoroutine());
     }
     void Update()
