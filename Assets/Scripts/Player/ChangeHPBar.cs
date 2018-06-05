@@ -42,6 +42,7 @@ public class ChangeHPBar : MonoBehaviour {
     {
         currentHP = userData.ggData.stats.Get(Stats.Key.HP);
         currentEnergy = userData.ggData.stats.Get(Stats.Key.ENERGY);
+        //TODO (рефакторинг): надо перенести в две разные функции и вызывать тогда, когда происходит их изменение.
         HPbar.fillAmount = currentHP / maxHP;
         ENERGYbar.fillAmount = currentEnergy / maxEnergy;
     }
