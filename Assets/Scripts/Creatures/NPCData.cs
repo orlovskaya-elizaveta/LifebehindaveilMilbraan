@@ -38,9 +38,11 @@ public class NPCData : CreatureData
             XmlNodeList itemContent = item.ChildNodes;
             bool ThisNPC = false;
             foreach (XmlNode itemItens in itemContent) {
-                if (itemItens.Name == NPCname) {
-                    name = NPCname;
-                    ThisNPC = true;
+                if (itemItens.Name == "name") {
+                    if(itemItens.InnerText == NPCname){
+                        name = NPCname;
+                        ThisNPC = true;
+                    }
                 }
                 else if (itemItens.Name == "questID" && ThisNPC) questID = itemItens.InnerText; //TODO to int
                 else if (itemItens.Name == "dialog" && ThisNPC) dialog = itemItens.InnerText;
