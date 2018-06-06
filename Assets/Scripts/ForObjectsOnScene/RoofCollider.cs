@@ -6,7 +6,7 @@ public class RoofCollider : MonoBehaviour {
 
     SpriteRenderer sr;
     Color color;
-
+    /*
     private void Awake()
     {
         sr = gameObject.GetComponent<SpriteRenderer>();
@@ -32,5 +32,5 @@ public class RoofCollider : MonoBehaviour {
             color.a = 1f;
             sr.color = color;
         }
-    }
+    }*/
 }
