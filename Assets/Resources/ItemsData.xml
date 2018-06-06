@@ -1,32 +1,32 @@
 <items>
   <item>
 	<id>1</id>
-    <name>Предмет 1</name>
-    <descriptionItem>Описание предмета 1</descriptionItem>
+    <name>РџСЂРµРґРјРµС‚ 1</name>
+    <descriptionItem>РћРїРёСЃР°РЅРёРµ РїСЂРµРґРјРµС‚Р° 1</descriptionItem>
 	<pathIcon>/Inv/sword.png</pathIcon>
   </item>
   <item>
 	<id>2</id>
-    <name>Предмет 2</name>
-    <descriptionItem>Описание предмета 2</descriptionItem>
+    <name>РџСЂРµРґРјРµС‚ 2</name>
+    <descriptionItem>РћРїРёСЃР°РЅРёРµ РїСЂРµРґРјРµС‚Р° 2</descriptionItem>
 	<pathIcon>/Inv/money.png</pathIcon>
   </item>
   <item>
 	<id>3</id>
-    <name>Предмет 3</name>
-    <descriptionItem>Описание предмета 3</descriptionItem>
+    <name>РџСЂРµРґРјРµС‚ 3</name>
+    <descriptionItem>РћРїРёСЃР°РЅРёРµ РїСЂРµРґРјРµС‚Р° 3</descriptionItem>
 	<pathIcon>/Inv/money.png</pathIcon>
   </item>
   <item>
 	<id>4</id>
-    <name>Предмет 4</name>
-    <descriptionItem>Описание предмета 4</descriptionItem>
+    <name>РџСЂРµРґРјРµС‚ 4</name>
+    <descriptionItem>РћРїРёСЃР°РЅРёРµ РїСЂРµРґРјРµС‚Р° 4</descriptionItem>
 	<pathIcon>/Inv/money.png</pathIcon>
   </item>
   <item>
 	<id>5</id>
-    <name>Предмет 5</name>
-    <descriptionItem>Описание предмета 5</descriptionItem>
+    <name>РџСЂРµРґРјРµС‚ 5</name>
+    <descriptionItem>РћРїРёСЃР°РЅРёРµ РїСЂРµРґРјРµС‚Р° 5</descriptionItem>
 	<pathIcon>/Inv/money.png</pathIcon>
   </item>
 </items>
