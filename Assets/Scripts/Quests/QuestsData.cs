@@ -11,7 +11,7 @@ public class QuestsData {
     {
         //Создание Квестов
         QuestList = new List<Quest>();
-        CreateQuestsList();
+        CreateQuestsList2();
     }
 
     void CreateQuestsList()
@@ -46,7 +46,7 @@ public class QuestsData {
         file.Close();
     }
     
-    void CreateQuestsList()
+    void CreateQuestsList2()
     {
         //Считывание из xml
         //Примеры из интернета:
