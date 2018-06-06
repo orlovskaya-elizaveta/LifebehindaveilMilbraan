@@ -64,7 +64,7 @@ public class QuestsData {
         xmlNodeList dataList = xmlDoc.GetElementsByTagName("quest");
         
         foreach (XmlNode item in dataList) {
-            XmlNodeList itemContent = dataList.ChildNodes;
+            XmlNodeList itemContent = item.ChildNodes;
             Quest newQuest = new Quest();
             //obj = new Dictionary<String, String>(); // obj объявлен ранее в описании класса
 
