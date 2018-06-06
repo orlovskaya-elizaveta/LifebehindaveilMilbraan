@@ -11,7 +11,7 @@ public class QuestsData {
     {
         //Создание Квестов
         QuestList = new List<Quest>();
-        CreateQuestsList();
+        CreateQuestsList2();
     }
 
     void CreateQuestsList()
@@ -45,6 +45,39 @@ public class QuestsData {
         }
         file.Close();
 
+    }
+    
+    void CreateQuestsList2()
+    {
+        //Считывание из xml
+        //Примеры из интернета:
+        //https://igroman14.livejournal.com/116218.html
+        //https://www.studica.com/blog/read-xml-file-in-unity
+        //http://unitynoobs.blogspot.com/2011/02/xml-loading-data-from-xml-file.html
+        
+        //Загружаем из ресурсов наш xml файл
+        TextAsset xmlAsset = Resources.Load("QuestData.xml");
+        // надо получить число элементов в root'овом теге.
+        XmlDocument xmlDoc = new XmlDocument();
+        if (xmlAsset) xmlDoc.LoadXml(xmlAsset.text);
+        
+        xmlNodeList dataList = xmlDoc.GetElementsByTagName("quest");
+        
+        foreach (XmlNode item in dataList) {
+            XmlNodeList itemContent = dataList.ChildNodes;
+            Quest newQuest = new Quest();
+            //obj = new Dictionary<String, String>(); // obj объявлен ранее в описании класса
+
+            foreach (XmlNode itemItens in itemContent) {
+                if (itemItens.Name == "id") newQuest.id = itemItens.InnerText; // TODO to int
+                else if (itemItens.Name == "status") newQuest.status = itemItens.InnerText;
+                else if (itemItens.Name == "name") newQuest.name = itemItens.InnerText;
+                else if (itemItens.Name == "title") newQuest.title = itemItens.InnerText;
+                else if (itemItens.Name == "description") newQuest.description = itemItens.InnerText;
+                else if (itemItens.Name == "toDo") newQuest.toDo = itemItens.InnerText;
+            }
+            QuestList.Add(newQuest); 
+        }
     }
 
     //получить объект Quest по его id
