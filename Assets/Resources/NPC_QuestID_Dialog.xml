@@ -1,0 +1,52 @@
+<npcs>
+  <npc>
+	<name>NPC0</name>
+    <questID>-1</questID>
+    <dialog>Пшлвн</dialog>
+  </npc>
+  <npc>
+	<name>NPC1</name>
+    <questID>1</questID>
+    <dialog>Задание 1</dialog>
+  </npc>
+  <npc>
+	<name>NPC2</name>
+    <questID>2</questID>
+    <dialog>Задание 2</dialog>
+  </npc>
+  <npc>
+	<name>NPC3</name>
+    <questID>-1</questID>
+    <dialog>Ниче не даю</dialog>
+  </npc>
+  <npc>
+	<name>NPC4</name>
+    <questID>4</questID>
+    <dialog>Задание 4</dialog>
+  </npc>
+  <npc>
+	<name>NPC5</name>
+    <questID>5</questID>
+    <dialog>Задание 5</dialog>
+  </npc>
+  <npc>
+	<name>NPC6</name>
+    <questID>-1</questID>
+    <dialog>Алалалала</dialog>
+  </npc>
+  <npc>
+	<name>NPC7</name>
+    <questID>7</questID>
+    <dialog>Задание 7</dialog>
+  </npc>
+  <npc>
+	<name>NPC8</name>
+    <questID>8</questID>
+    <dialog>Задание 8</dialog>
+  </npc>
+  <npc>
+	<name>NPC9</name>
+    <questID>9</questID>
+    <dialog>Задание 9</dialog>
+  </npc>
+</npcs>
