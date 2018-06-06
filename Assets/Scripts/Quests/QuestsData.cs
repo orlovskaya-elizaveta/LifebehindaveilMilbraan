@@ -44,7 +44,15 @@ public class QuestsData {
             QuestList.Add(newQuest);
         }
         file.Close();
-
+    }
+    
+    void CreateQuestsList()
+    {
+        //Считывание из xml
+        //Примеры из интернета:
+        //https://igroman14.livejournal.com/116218.html
+        //https://www.studica.com/blog/read-xml-file-in-unity
+        //http://unitynoobs.blogspot.com/2011/02/xml-loading-data-from-xml-file.html
     }
 
     //получить объект Quest по его id
