@@ -25,7 +25,7 @@ public class ItemOnScene : MonoBehaviour {
         itemData = new ItemData();
 
         //криворукое рандомное заполнение данных
-        int randNumb = Random.Range(0, 4); //это временное
+        /*int randNumb = Random.Range(0, 4); //это временное
         System.IO.StreamReader file = new System.IO.StreamReader("ItemsData.txt", System.Text.Encoding.GetEncoding(1251));
         string line;
         int i = 0;
@@ -41,7 +41,32 @@ public class ItemOnScene : MonoBehaviour {
         line = file.ReadLine();
         itemData.pathIcon = line;//и путь до иконки
 
-        file.Close();
+        file.Close();*/
+        
+        int randNumb = Random.Range(1, 5); //это временное
+        //Загружаем из ресурсов наш xml файл
+        TextAsset xmlAsset = Resources.Load("ItemsData.xml");
+        // надо получить число элементов в root'овом теге.
+        XmlDocument xmlDoc = new XmlDocument();
+        if (xmlAsset) xmlDoc.LoadXml(xmlAsset.text);
+        
+        xmlNodeList dataList = xmlDoc.GetElementsByTagName("npc");
+        
+        foreach (XmlNode item in dataList) {
+            XmlNodeList itemContent = item.ChildNodes;
+            bool ThisItem = false;
+            foreach (XmlNode itemItens in itemContent) {
+                if (itemItens.Name == "id") {
+                    if (itemItens.InnerText == randNumb){ //TODO to int
+                        itemData.id = randNumb;
+                        ThisItem = true;
+                    }
+                }
+                else if (itemItens.Name == "name" && ThisItem) itemData.name = itemItens.InnerText; 
+                else if (itemItens.Name == "descriptionItem" && ThisItem) itemData.descriptionItem = itemItens.InnerText;
+                else if (itemItens.Name == "pathIcon" && ThisItem) itemData.pathIcon = itemItens.InnerText;
+            }
+        }
 
         //найдем всплывающую панель как дочерний объект и поместим на нее текст описания
         TextPanel = DescriptionPanel.transform.GetChild(1);
