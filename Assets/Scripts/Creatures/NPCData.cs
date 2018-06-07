@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
 public class NPCData : CreatureData
 {
@@ -10,7 +11,7 @@ public class NPCData : CreatureData
 
     public NPCData(string NPCname)
     {
-        questID = -1;//нет квеста
+        /*questID = -1;//нет квеста
         //TODO вынести чтение файла в NPCController
         name = NPCname;
         System.IO.StreamReader file = new System.IO.StreamReader("NPC_QuestID_Dialog.txt", System.Text.Encoding.GetEncoding(1251));
@@ -24,6 +25,29 @@ public class NPCData : CreatureData
                 dialog = file.ReadLine();
             }
         }
-        file.Close();
+        file.Close();*/
+        
+        //Загружаем из ресурсов наш xml файл
+        TextAsset xmlAsset = Resources.Load("NPC_QuestID_Dialog") as TextAsset;
+        // надо получить число элементов в root'овом теге.
+        XmlDocument xmlDoc = new XmlDocument();
+        if (xmlAsset) xmlDoc.LoadXml(xmlAsset.text);
+        
+        XmlNodeList dataList = xmlDoc.GetElementsByTagName("npc");
+        
+        foreach (XmlNode item in dataList) {
+            XmlNodeList itemContent = item.ChildNodes;
+            bool ThisNPC = false;
+            foreach (XmlNode itemItens in itemContent) {
+                if (itemItens.Name == "name") {
+                    if(itemItens.InnerText == NPCname){
+                        name = NPCname;
+                        ThisNPC = true;
+                    }
+                }
+                else if (itemItens.Name == "questID" && ThisNPC) questID = int.Parse(itemItens.InnerText); //TODO to int
+                else if (itemItens.Name == "dialog" && ThisNPC) dialog = itemItens.InnerText;
+            }
+        }
     }
 }

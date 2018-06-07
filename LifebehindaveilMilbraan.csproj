@@ -265,6 +265,9 @@
     <Compile Include="Assets\Scripts\YouDiedScript.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Resources\ItemsData.xml" />
+    <None Include="Assets\Resources\NPC_QuestID_Dialog.xml" />
+    <None Include="Assets\Resources\QuestData.xml" />
     <None Include="Assets\text.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

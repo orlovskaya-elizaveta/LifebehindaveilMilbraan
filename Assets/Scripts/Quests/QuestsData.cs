@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using System.IO;
 using UnityEngine;
 
-public class QuestsData {
-
+public class QuestsData
+{
     public List<Quest> QuestList; //Лист со всеми квестами
     public int currentQuestID; //id квеста, выбранного активным в данный момент
 
@@ -44,6 +47,7 @@ public class QuestsData {
             QuestList.Add(newQuest);
         }
         file.Close();
+
     }
     
     void CreateQuestsList2()
@@ -53,6 +57,30 @@ public class QuestsData {
         //https://igroman14.livejournal.com/116218.html
         //https://www.studica.com/blog/read-xml-file-in-unity
         //http://unitynoobs.blogspot.com/2011/02/xml-loading-data-from-xml-file.html
+        //Загружаем из ресурсов наш xml файл
+        TextAsset xmlAsset = Resources.Load("QuestData") as TextAsset;
+        
+        XmlDocument document = new XmlDocument();
+        if (xmlAsset) document.LoadXml(xmlAsset.text);
+        
+        XmlNodeList dataList = document.GetElementsByTagName("quest");
+
+        foreach (XmlNode item in dataList)
+        {
+            XmlNodeList itemContent = item.ChildNodes;
+            Quest newQuest = new Quest();
+            foreach (XmlNode itemItens in itemContent)
+            {
+                if (itemItens.Name == "id") newQuest.id = int.Parse(itemItens.InnerText); // TODO to int
+                else if (itemItens.Name == "status") newQuest.status = (Quest.Status)int.Parse(itemItens.InnerText);
+                else if (itemItens.Name == "name") newQuest.name = itemItens.InnerText;
+                else if (itemItens.Name == "title") newQuest.title = itemItens.InnerText;
+                else if (itemItens.Name == "description") newQuest.description = itemItens.InnerText;
+                else if (itemItens.Name == "toDo") newQuest.toDo = itemItens.InnerText;
+            }
+            QuestList.Add(newQuest);
+        }
+
     }
 
     //получить объект Quest по его id

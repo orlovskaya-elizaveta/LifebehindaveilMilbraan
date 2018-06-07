@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<items>
+  <item>
+    <id>1</id>
+    <name>Предмет 1</name>
+    <descriptionItem>Описание предмета 1</descriptionItem>
+    <pathIcon>/Inv/sword.png</pathIcon>
+  </item>
+  <item>
+    <id>2</id>
+    <name>Предмет 2</name>
+    <descriptionItem>Описание предмета 2</descriptionItem>
+    <pathIcon>/Inv/money.png</pathIcon>
+  </item>
+  <item>
+    <id>3</id>
+    <name>Предмет 3</name>
+    <descriptionItem>Описание предмета 3</descriptionItem>
+    <pathIcon>/Inv/money.png</pathIcon>
+  </item>
+  <item>
+    <id>4</id>
+    <name>Предмет 4</name>
+    <descriptionItem>Описание предмета 4</descriptionItem>
+    <pathIcon>/Inv/money.png</pathIcon>
+  </item>
+  <item>
+    <id>5</id>
+    <name>Предмет 5</name>
+    <descriptionItem>Описание предмета 5</descriptionItem>
+    <pathIcon>/Inv/money.png</pathIcon>
+  </item>
+</items>
