@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
 public class ItemOnScene : MonoBehaviour {
 
@@ -43,21 +44,22 @@ public class ItemOnScene : MonoBehaviour {
 
         file.Close();*/
         
+        
         int randNumb = Random.Range(1, 5); //это временное
         //Загружаем из ресурсов наш xml файл
-        TextAsset xmlAsset = Resources.Load("ItemsData.xml");
+        TextAsset xmlAsset = Resources.Load("ItemsData") as TextAsset;
         // надо получить число элементов в root'овом теге.
         XmlDocument xmlDoc = new XmlDocument();
         if (xmlAsset) xmlDoc.LoadXml(xmlAsset.text);
-        
-        xmlNodeList dataList = xmlDoc.GetElementsByTagName("npc");
+
+        XmlNodeList dataList = xmlDoc.GetElementsByTagName("item");
         
         foreach (XmlNode item in dataList) {
             XmlNodeList itemContent = item.ChildNodes;
             bool ThisItem = false;
             foreach (XmlNode itemItens in itemContent) {
                 if (itemItens.Name == "id") {
-                    if (itemItens.InnerText == randNumb){ //TODO to int
+                    if (int.Parse(itemItens.InnerText) == randNumb){ //TODO to int
                         itemData.id = randNumb;
                         ThisItem = true;
                     }

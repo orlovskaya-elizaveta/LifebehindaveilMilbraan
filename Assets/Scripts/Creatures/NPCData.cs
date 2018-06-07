@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
 public class NPCData : CreatureData
 {
@@ -27,12 +28,12 @@ public class NPCData : CreatureData
         file.Close();*/
         
         //Загружаем из ресурсов наш xml файл
-        TextAsset xmlAsset = Resources.Load("NPC_QuestID_Dialog.xml");
+        TextAsset xmlAsset = Resources.Load("NPC_QuestID_Dialog") as TextAsset;
         // надо получить число элементов в root'овом теге.
         XmlDocument xmlDoc = new XmlDocument();
         if (xmlAsset) xmlDoc.LoadXml(xmlAsset.text);
         
-        xmlNodeList dataList = xmlDoc.GetElementsByTagName("npc");
+        XmlNodeList dataList = xmlDoc.GetElementsByTagName("npc");
         
         foreach (XmlNode item in dataList) {
             XmlNodeList itemContent = item.ChildNodes;
@@ -44,10 +45,9 @@ public class NPCData : CreatureData
                         ThisNPC = true;
                     }
                 }
-                else if (itemItens.Name == "questID" && ThisNPC) questID = itemItens.InnerText; //TODO to int
+                else if (itemItens.Name == "questID" && ThisNPC) questID = int.Parse(itemItens.InnerText); //TODO to int
                 else if (itemItens.Name == "dialog" && ThisNPC) dialog = itemItens.InnerText;
             }
         }
-        
     }
 }
