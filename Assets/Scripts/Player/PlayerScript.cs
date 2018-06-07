@@ -54,6 +54,7 @@ public class PlayerScript : MonoBehaviour
     public float physicalDamage; // физический урон 
     public float criticalDamage; // критический урон 
     public float chanceCriticalDamage; //шанс критический урон 
+    Color col;
 
     private GGState State //Установка и получение состояния ГГ (анимации)
     {
@@ -75,7 +76,7 @@ public class PlayerScript : MonoBehaviour
         Sword.SetActive(false);
 
         animator = GetComponent<Animator>();
-        sprite = GetComponentInChildren<SpriteRenderer>();
+        sprite = GetComponent<SpriteRenderer>();
         userData = GameObject.Find("UserData").GetComponent<UserData>();
 
         //Обнуление всех параметров, характеристик и тп у ГГ
@@ -108,6 +109,7 @@ public class PlayerScript : MonoBehaviour
         criticalDamage = 0.0f; // критический урон 
         chanceCriticalDamage = 0.0f; //шанс критический урон 
     }
+
 
     void Update()
     {
@@ -201,7 +203,30 @@ public class PlayerScript : MonoBehaviour
 
         //Для того, чтобы все люди относительно друг друга имели передний и задний план.
         transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y/1000);
+
+
+
+        //прозрачность перса если он зашел за дом
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.forward);
+           
+        if (hit.collider != null)
+        {
+            if (hit.transform.gameObject.tag == "Building")
+            {
+                col = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.55f);
+                sprite.color = col;
+            }
+
+        }
+        else
+        {
+            col = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1);
+            sprite.color = col;
+        }
+        
     }
+
+
 
     void Wake(float mnozhitel_speed)
     {
@@ -402,9 +427,6 @@ public class PlayerScript : MonoBehaviour
         IsDash = true;
     }
 
-    private void FixedUpdate()
-    {
-    }
 }
 
 public enum GGState
