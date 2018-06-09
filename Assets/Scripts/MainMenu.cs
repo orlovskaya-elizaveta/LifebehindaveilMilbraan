@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
     public Canvas thisMenu;
@@ -43,13 +44,15 @@ public class MainMenu : MonoBehaviour {
     public void StartGame()
     {
         PlayerPrefs.SetInt("loading", 0);
-        Application.LoadLevel(1);
+        //Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
     }
 
     public void LoadGame()
     {
         PlayerPrefs.SetInt("loading", 1);
-        Application.LoadLevel(1);
+        //Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
     }
 
     public void SettingGame()

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SceneManagement;
 
 //TODO:
 // В сохранения добавить Лист с квестами 
@@ -389,7 +390,8 @@ public class PauseGame : MonoBehaviour {
     {
         //Возвращаем скорость игре, а потом выходим в главное меню
         ResumeButton();
-        Application.LoadLevel(0);
+        //Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 
     //Кнопка выйти из игры, находиться на Панеле паузы

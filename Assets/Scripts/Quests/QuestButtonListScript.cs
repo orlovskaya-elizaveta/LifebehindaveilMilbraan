@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class QuestButtonListScript : MonoBehaviour {
 
-    private GameObject buttonQuest; //Шаблон для создания кнопок, взятый из Префабов.
+    //private GameObject buttonQuest; //Шаблон для создания кнопок, взятый из Префабов.
     private GameObject LineImage; //Линия между активными и уже сделанными квестами
     private Text QuestTitle; //Заголовок квеста. Справа наверху
     private Text QuestDescription; //Описание квеста.
@@ -20,7 +20,7 @@ public class QuestButtonListScript : MonoBehaviour {
 
     private void Awake()
     {
-        buttonQuest = Resources.Load("Quests/QuestButton") as GameObject;
+        //buttonQuest = Resources.Load("Quests/QuestButton") as GameObject;
         LineImage = Resources.Load("Quests/QuestSeparator") as GameObject;
     }
 

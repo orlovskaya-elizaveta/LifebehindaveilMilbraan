@@ -188,12 +188,12 @@ public class PlayerScript : MonoBehaviour
                 //Останавливаем анимацию ГГ, он будет лежать на земле
                 GetComponent<Animator>().speed = 0;
                 //Если еще не был открыт канвас "Вы погибли", то обнуляем таймер, чтобы сыграть анимацию на канвасе
-                if (!YouDied.active) timer = 0;
+                if (!YouDied.activeSelf) timer = 0;
                 //Открываем канвас "Вы погибли" и тем самым проигрывается анимация 
                 YouDied.SetActive(true);
                 //Если анимация подходит к концу, то останавливаем игровой таймер, тем самым анимация на канвасе тоже закончится и 
                 //делаем активными кнопки на этом канвасе
-                if (YouDied.active && timer > 2)
+                if (YouDied.activeSelf && timer > 2)
                 {
                     Time.timeScale = 0.0F;
                     YouDied.GetComponent<YouDiedScript>().SetActiveAllButtons();
