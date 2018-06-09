@@ -9,11 +9,11 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private Animator animator; //работа с анимацией
 
-    float stayTime = 1;
+    //float stayTime = 1;
 
     private bool IsDeath;
 
-    private Rigidbody2D rigidbody;
+    //private Rigidbody2D rigidbody;
     private SpriteRenderer sprite;
     private Vector3 direction;
     private bool isGGNear;
@@ -44,7 +44,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
         animator = GetComponent<Animator>();
         //получаем всякие ссылки
-        rigidbody = GetComponent<Rigidbody2D>();
+        //rigidbody = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         userData = GameObject.Find("UserData").GetComponent<UserData>();
 
