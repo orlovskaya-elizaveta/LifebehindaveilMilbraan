@@ -18,7 +18,7 @@ public class InvField : MonoBehaviour {
         
         
         for (int i = 0; i < itemList.Count; i++)
-            {
+        {
             Debug.Log(itemList[i]);
             //по списку создаем префабы для каждого объекта
             GameObject item = Instantiate(Resources.Load("Inv/ItemCell"), transform.position, Quaternion.identity) as GameObject;
@@ -26,6 +26,10 @@ public class InvField : MonoBehaviour {
             item.transform.SetParent(this.transform, false);
             //и отдаем каждому их itemData
             item.GetComponent<ItemOnInv>().itemData = itemList[i];
+            //Артем1101: начало дополнения
+            //Смена картинки у предмета в инвентаре
+            item.transform.GetChild(1).GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(itemList[i].pathIcon);
+            //Артем1101: конец дополнения
         }
 
     }

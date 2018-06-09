@@ -73,6 +73,11 @@ public class ItemOnScene : MonoBehaviour {
         //найдем всплывающую панель как дочерний объект и поместим на нее текст описания
         TextPanel = DescriptionPanel.transform.GetChild(1);
         TextPanel.GetComponent<UnityEngine.UI.Text>().text = itemData.name + "\n\n" + itemData.descriptionItem;
+
+        //Артем1101: начало дополнения
+        //Смена картинки у предмета на сцене
+        transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(itemData.pathIcon);
+        //Артем1101: конец дополнения
     }
 
     //наводим - появляется описание
