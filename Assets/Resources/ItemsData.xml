@@ -4,30 +4,30 @@
     <id>1</id>
     <name>Предмет 1</name>
     <descriptionItem>Описание предмета 1</descriptionItem>
-    <pathIcon>/Inv/sword.png</pathIcon>
+    <pathIcon>Inv/sword</pathIcon>
   </item>
   <item>
     <id>2</id>
     <name>Предмет 2</name>
     <descriptionItem>Описание предмета 2</descriptionItem>
-    <pathIcon>/Inv/money.png</pathIcon>
+    <pathIcon>Inv/knife</pathIcon>
   </item>
   <item>
     <id>3</id>
     <name>Предмет 3</name>
     <descriptionItem>Описание предмета 3</descriptionItem>
-    <pathIcon>/Inv/money.png</pathIcon>
+    <pathIcon>Inv/kartinki-photoshop-27</pathIcon>
   </item>
   <item>
     <id>4</id>
     <name>Предмет 4</name>
     <descriptionItem>Описание предмета 4</descriptionItem>
-    <pathIcon>/Inv/money.png</pathIcon>
+    <pathIcon>Inv/money</pathIcon>
   </item>
   <item>
     <id>5</id>
     <name>Предмет 5</name>
     <descriptionItem>Описание предмета 5</descriptionItem>
-    <pathIcon>/Inv/money.png</pathIcon>
+    <pathIcon>Inv/money</pathIcon>
   </item>
 </items>
