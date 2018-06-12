@@ -171,10 +171,10 @@ public class PlayerScript : MonoBehaviour
             if (IsDash)
             {
                 //В зависимости от того, куда кувырок, то производим смещение.
-                if (State == GGState.DashFront) transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0, 0.4f), 0.005f);
-                else if (State == GGState.DashBack) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0.4f), 0.005f);
-                else if (State == GGState.DashSide && sprite.flipX == false) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0.4f, 0), 0.005f);
-                else transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0.4f, 0), 0.005f);
+                if (State == GGState.DashFront) transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0, 0.8f), 2*Time.deltaTime);
+                else if (State == GGState.DashBack) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0.8f), 2*Time.deltaTime);
+                else if (State == GGState.DashSide && sprite.flipX == false) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0.8f, 0), 2*Time.deltaTime);
+                else transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0.8f, 0), 2*Time.deltaTime);
             }
         }
         else
@@ -380,21 +380,18 @@ public class PlayerScript : MonoBehaviour
         IsDeath = true;
         timer = 0;
         //Установка нужной анимации
-        if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
+        if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15 || State == GGState.DashSide)
         {
             State = GGState.DeathSide;
-            //animator.Play("DeathSide");
             if (State == (GGState)14) sprite.flipX = true;
         }
-        else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12)
+        else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12 || State == GGState.DashFront)
         {
             State = GGState.DeathFront;
-            //animator.Play("DeathFront");
         }
-        else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13)
+        else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13 || State == GGState.DashBack)
         {
             State = GGState.DeathBack;
-            //animator.Play("DeathBack");
         }
     }
 
@@ -403,25 +400,18 @@ public class PlayerScript : MonoBehaviour
         if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
         {
             State = GGState.DashSide;
-            if (State == (GGState)14 || sprite.flipX == true)
+            if (State == (GGState)14)
             {
                 sprite.flipX = true;
-                //transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0.1f, 0), 0.1f/4.0f);
-            }
-            else
-            {
-                //transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0.1f, 0), 0.1f / 4.0f);
             }
         }
         else if (State == (GGState)2 || State == (GGState)4 || State == (GGState)6 || State == (GGState)12)
         {
             State = GGState.DashFront;
-            //transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0, 0.1f), 0.1f / 4.0f);
         }
         else if (State == (GGState)1 || State == (GGState)5 || State == (GGState)7 || State == (GGState)13)
         {
             State = GGState.DashBack;
-            //transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0.1f), 0.1f / 4.0f);
         }
         timer = 0;
         IsDash = true;
