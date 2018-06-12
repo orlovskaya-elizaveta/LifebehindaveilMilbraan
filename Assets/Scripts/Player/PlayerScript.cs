@@ -123,11 +123,12 @@ public class PlayerScript : MonoBehaviour
         //ВОПРОС!? А нормально каждый кадр проверять userData.ggData.stats.Get(Stats.Key.HP) > 0
         if (userData.ggData.stats.Get(Stats.Key.HP) > 0)
         {
-            
+            //Таймер для анимации кувырок
+            timer += 1 * Time.deltaTime;
             //Если нажата ЛКМ, то анимация удара
             if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
             //Если нажат пробел - по анимцию Dash
-            else if (Input.GetKey(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.Space))
             {
                 Dash();
             }
@@ -149,27 +150,26 @@ public class PlayerScript : MonoBehaviour
                 currentEnergy += restoringEnergy;
                 currentEnergy = currentEnergy > 100.0F ? 100.0F : currentEnergy;
                 userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
-                if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15 || (State == (GGState)11 && timer > 0.5f))
+                if (State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15 || (State == (GGState)11 && timer >= 0.5f))
                 {
                     State = GGState.IdleRight;
                     if (State == (GGState)14) sprite.flipX = true;
                     IsDash = false;
                 }
-                else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12 || (State == (GGState)9 && timer > 0.5f))
+                else if (State == (GGState)4 || State == (GGState)6 || State == (GGState)12 || (State == (GGState)9 && timer >= 0.5f))
                 {
                     State = GGState.IdleUp;
                     IsDash = false;
                 }
-                else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13 || (State == (GGState)10 && timer > 0.5f))
+                else if (State == (GGState)5 || State == (GGState)7 || State == (GGState)13 || (State == (GGState)10 && timer >= 0.5f))
                 {
                     State = GGState.IdleDown;
                     IsDash = false;
                 }
             }
-            //Таймер для анимации кувырок
-            timer += 1 * Time.deltaTime;
             if (IsDash)
             {
+                Debug.Log(timer);
                 //В зависимости от того, куда кувырок, то производим смещение.
                 if (State == GGState.DashFront) transform.position = Vector3.MoveTowards(transform.position, transform.position - new Vector3(0, 0.8f), 2*Time.deltaTime);
                 else if (State == GGState.DashBack) transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0.8f), 2*Time.deltaTime);
@@ -413,8 +413,8 @@ public class PlayerScript : MonoBehaviour
         {
             State = GGState.DashBack;
         }
-        timer = 0;
         IsDash = true;
+        timer = 0 + Time.deltaTime;
     }
 
 }
