@@ -128,23 +128,23 @@ public class PlayerScript : MonoBehaviour
             //Если нажата ЛКМ, то анимация удара
             if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
             //Если нажат пробел - по анимцию Dash
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.Space) && currentEnergy > 50)
             {
                 Dash();
             }
 
             //Если Shift + направление - бег (LeftShift)
-            else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunDiag();
-            else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && (currentEnergy > 10.0F)) RunUp(2 * 1.0F);
-            else if (Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunSide(2 * 1.0F);
+            else if (!IsDash && Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunDiag();
+            else if (!IsDash && Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Vertical") && (currentEnergy > 10.0F)) RunUp(2 * 1.0F);
+            else if (!IsDash && Input.GetKey(KeyCode.LeftShift) && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) RunSide(2 * 1.0F);
 
             //ХОДЬБА
             //Если нажаты две кнопки - происходит движение по диагонали и отображается анимация ходьбы в сторону.
             //Если ходьба в какую-либо сторону, то происходит движение именно туда.
             //Если нажатия кнопок нет, то происходит анимация "стоит". 
-            else if (Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) WakeDiag();
-            else if (Input.GetButton("Vertical") && (currentEnergy > 10.0F)) WakeUp(1.0F);
-            else if (Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) Wake(1.0F);
+            else if (!IsDash && Input.GetButton("Vertical") && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) WakeDiag();
+            else if (!IsDash && Input.GetButton("Vertical") && (currentEnergy > 10.0F)) WakeUp(1.0F);
+            else if (!IsDash && Input.GetButton("Horizontal") && (currentEnergy > 10.0F)) Wake(1.0F);
             else
             {
                 currentEnergy += restoringEnergy;
@@ -397,6 +397,8 @@ public class PlayerScript : MonoBehaviour
 
     void Dash()
     {
+        currentEnergy -= 50;
+        userData.ggData.stats.Set(Stats.Key.ENERGY, currentEnergy);
         if (State == (GGState)0 || State == (GGState)3 || State == (GGState)8 || State == (GGState)14 || State == (GGState)15)
         {
             State = GGState.DashSide;
