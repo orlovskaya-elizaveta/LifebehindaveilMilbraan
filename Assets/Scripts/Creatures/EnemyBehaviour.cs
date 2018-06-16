@@ -91,11 +91,11 @@ public class EnemyBehaviour : MonoBehaviour {
         else
         {
             timer += 1 * Time.deltaTime;
-            if (timer > 1)
+            if (timer > 2)
             {
                 Vector3 transfornForItem = transform.position;
                 Destroy(gameObject, 0);
-                GameObject item = Instantiate(Item, transfornForItem, Quaternion.identity) as GameObject;
+                Instantiate(Item, transfornForItem, Quaternion.identity);
             }
         }
         transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y / 1000);
