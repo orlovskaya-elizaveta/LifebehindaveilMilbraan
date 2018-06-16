@@ -126,7 +126,7 @@ public class PlayerScript : MonoBehaviour
             //Таймер для анимации кувырок
             timer += 1 * Time.deltaTime;
             //Если нажата ЛКМ, то анимация удара
-            if (Input.GetMouseButtonUp(0)) Attack(Input.mousePosition);
+            if (Input.GetMouseButtonUp(0) && (State == GGState.IdleDown || State == GGState.IdleRight || State == GGState.IdleUp)) Attack(Input.mousePosition);
             //Если нажат пробел - по анимцию Dash
             else if (Input.GetKeyDown(KeyCode.Space) && currentEnergy > 50)
             {
