@@ -2,32 +2,26 @@
 <items>
   <item>
     <id>1</id>
-    <name>Предмет 1</name>
-    <descriptionItem>Описание предмета 1</descriptionItem>
-    <pathIcon>Inv/sword</pathIcon>
+    <name>Яблоко</name>
+    <descriptionItem>Сочное, зеленое.</descriptionItem>
+    <pathIcon>Inv/Food/Apple_1</pathIcon>
   </item>
   <item>
     <id>2</id>
-    <name>Предмет 2</name>
-    <descriptionItem>Описание предмета 2</descriptionItem>
-    <pathIcon>Inv/knife</pathIcon>
+    <name>Хлебушек</name>
+    <descriptionItem>Покорми курочку</descriptionItem>
+    <pathIcon>Inv/Food/Bread_1</pathIcon>
   </item>
   <item>
     <id>3</id>
-    <name>Предмет 3</name>
-    <descriptionItem>Описание предмета 3</descriptionItem>
-    <pathIcon>Inv/kartinki-photoshop-27</pathIcon>
+    <name>Хлебушек, но другой</name>
+    <descriptionItem>Зачем платить больше, если нет разницы?</descriptionItem>
+    <pathIcon>Inv/Food/Bread_2</pathIcon>
   </item>
   <item>
     <id>4</id>
-    <name>Предмет 4</name>
-    <descriptionItem>Описание предмета 4</descriptionItem>
-    <pathIcon>Inv/money</pathIcon>
-  </item>
-  <item>
-    <id>5</id>
-    <name>Предмет 5</name>
-    <descriptionItem>Описание предмета 5</descriptionItem>
-    <pathIcon>Inv/money</pathIcon>
+    <name>Морковка</name>
+    <descriptionItem>Вставь ее в нос своему врагу</descriptionItem>
+    <pathIcon>Inv/Food/Carrot_1</pathIcon>
   </item>
 </items>

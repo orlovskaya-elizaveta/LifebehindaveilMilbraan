@@ -84,19 +84,16 @@ public class NPCBehaviour : MonoBehaviour
 
     private void Update()
     {
-
-
         if (!isDialog)
             Walking();
         else
         {
-            timer += 1 * Time.deltaTime;
-            if (timer >= 2)
-            {
-                Destroy(dialogPanel);
-                isDialog = false;
-                timer = 0;
-            }
+            //timer += 1 * Time.deltaTime;
+            //if (timer >= 2 && !isDialog)
+            //{
+            //    Destroy(dialogPanel);
+            //    timer = 0;
+            //}
         }
         transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y / 1000);
     }
@@ -193,14 +190,14 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (data.questID == -1)//если не дает квест - выводим панельку
         {
-            Vector3 offset = new Vector3(0, 0.5f, 0);
+            /*Vector3 offset = new Vector3(0, 0.5f, 0);
             Vector3 pos = new Vector3(0, 0, 0);
             isDialog = true;
             dialogPanel = Instantiate(Resources.Load("DialogPanel"), pos, Quaternion.identity) as GameObject;
             dialogPanel.transform.SetParent(this.transform, false);
             dialogPanel.transform.position += offset;
             Transform TextPanel = dialogPanel.transform.GetChild(1);
-            TextPanel.GetComponent<UnityEngine.UI.Text>().text = data.dialog;
+            TextPanel.GetComponent<UnityEngine.UI.Text>().text = data.dialog;*/
         }
         else // если есть квест выводим диалог
         {
@@ -232,6 +229,29 @@ public class NPCBehaviour : MonoBehaviour
     {
         Dialog.gameObject.SetActive(false);
         Time.timeScale = 1.0F; //Возвращает скорость в мир наш как было до этого.
+    }
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.tag == "GG" && (data.questID == -1) && !isDialog)
+        {
+            Vector3 offset = new Vector3(0, 0.5f, 0);
+            Vector3 pos = new Vector3(0, 0, 0);
+            isDialog = true;
+            dialogPanel = Instantiate(Resources.Load("DialogPanel"), pos, Quaternion.identity) as GameObject;
+            dialogPanel.transform.SetParent(this.transform, false);
+            dialogPanel.transform.position += offset;
+            Transform TextPanel = dialogPanel.transform.GetChild(1);
+            TextPanel.GetComponent<UnityEngine.UI.Text>().text = data.dialog;
+        }
+    }
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "GG" && (data.questID == -1))
+        {
+            Destroy(dialogPanel);
+            isDialog = false;
+        }
     }
 }
 
