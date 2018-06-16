@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour {
 
+    public GameObject Item;
+
     private EnemyData enemyData;
     private UserData userData;
 
@@ -91,7 +93,9 @@ public class EnemyBehaviour : MonoBehaviour {
             timer += 1 * Time.deltaTime;
             if (timer > 1)
             {
+                Vector3 transfornForItem = transform.position;
                 Destroy(gameObject, 0);
+                GameObject item = Instantiate(Item, transfornForItem, Quaternion.identity) as GameObject;
             }
         }
         transform.position = new Vector3(transform.position.x, transform.position.y, -2 + transform.position.y / 1000);
